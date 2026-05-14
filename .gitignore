@@ -53,3 +53,11 @@ WebDriverAgentRunner-Runner.app/
 
 # Ruby
 Gemfile.lock
+
+
+selfIdentity.plist
+tmp
+.github
+.pi
+.agents
+
