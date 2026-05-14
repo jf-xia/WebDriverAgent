@@ -19,7 +19,7 @@
 |------|------|------|
 | `POST` | `/session` | 创建会话 |
 | `DELETE` | `/session` | 结束会话 |
-| `GET` | `/session` | 查询活动会话 |
+| `GET` | `/session` | 读取当前活动 session |
 | `GET` | `/status` | 服务状态，无需 session |
 | `GET` | `/wda/healthcheck` | 轻量健康检查 |
 
@@ -61,7 +61,7 @@ curl -X POST http://localhost:8100/session/$SESSION_ID/wda/pickerwheel/$ELEMENT_
 | 方法 | 路径 | 关键参数 | 说明 |
 |------|------|----------|------|
 | `POST` | `/wda/tap` | `x`, `y` | 点击坐标（无元素时为屏幕绝对坐标） |
-| `POST` | `/wda/tap/:uuid` | `x`, `y` | 点击元素，x/y 是相对元素**左上角**的偏移 |
+| `POST` | `/wda/element/:uuid/tap` | `x`, `y` | 点击元素，x/y 是相对元素**左上角**的偏移 |
 | `POST` | `/wda/doubleTap` | `x`, `y` | 双击 |
 | `POST` | `/wda/twoFingerTap` | 元素或坐标 | 双指点击 |
 | `POST` | `/wda/tapWithNumberOfTaps` | `numberOfTaps`, `numberOfTouches` | 自定义点击次数 |
@@ -83,7 +83,7 @@ curl -X POST http://localhost:8100/session/$SESSION_ID/wda/scroll \
   -H "Content-Type: application/json" -d '{"predicateString": "label BEGINSWITH \"Item\""}'
 
 # 元素偏移点击（偏移基准是元素左上角）
-curl -X POST http://localhost:8100/session/$SESSION_ID/wda/tap/$ELEMENT_ID \
+curl -X POST http://localhost:8100/session/$SESSION_ID/wda/element/$ELEMENT_ID/tap \
   -H "Content-Type: application/json" -d '{"x": 50, "y": 20}'
 ```
 
@@ -117,7 +117,7 @@ curl -X POST http://localhost:8100/session/$SESSION_ID/actions \
     "type": "pointer", "id": "f1",
     "parameters": {"pointerType": "touch"},
     "actions": [
-      {"type": "pointerMove", "duration": 0, "origin": "$ELEMENT_ID", "x": 0, "y": 0},
+      {"type": "pointerMove", "duration": 0, "origin": {"element-6066-11e4-a52e-4f735466cecf": "$ELEMENT_ID"}, "x": 0, "y": 0},
       {"type": "pointerDown", "button": 0},
       {"type": "pause", "duration": 100},
       {"type": "pointerUp", "button": 0}
@@ -132,7 +132,7 @@ curl -X POST http://localhost:8100/session/$SESSION_ID/actions \
 |------|------|------|
 | `GET` | `/source` | 页面树，支持 `format=xml\|json\|description` |
 | `GET` | `/wda/accessibleSource` | 精简可访问元素树 |
-| `GET` | `/screenshot` | Base64 截图，可在无 session 时使用 |
+| `GET` | `/screenshot` | Base64 截图，可带/不带 session |
 
 ```bash
 curl "http://localhost:8100/session/$SESSION_ID/source?format=json"

@@ -32,6 +32,12 @@ done
 
 ios_wda_require_tools jq curl
 
+get_active_session_id() {
+  local base_url="$1"
+  curl --max-time 5 -sf "${base_url}/session" 2>/dev/null \
+    | jq -r '.sessionId // .value.sessionId // empty' 2>/dev/null || true
+}
+
 # 获取设备 IP
 get_device_ip() {
   local device_ip=""
@@ -68,14 +74,11 @@ validate_session() {
     return 0
   fi
   
-  # 检查 session 是否在 WDA 中存在
-  local sessions_response
-  if sessions_response="$(curl --max-time 5 -sf "${base_url}/session" 2>/dev/null)"; then
-    local existing_sessions
-    existing_sessions="$(printf '%s\n' "${sessions_response}" | jq -r '.value[].id // empty' 2>/dev/null)"
-    if echo "${existing_sessions}" | grep -q "${sid}"; then
-      return 0
-    fi
+  # 检查 session 是否仍是当前活动 session
+  local active_session_id
+  active_session_id="$(get_active_session_id "${base_url}")"
+  if [[ -n "${active_session_id}" && "${active_session_id}" == "${sid}" ]]; then
+    return 0
   fi
   
   return 1
@@ -84,7 +87,7 @@ validate_session() {
 # 获取所有活跃 session
 get_active_sessions() {
   local base_url="$1"
-  curl --max-time 5 -sf "${base_url}/session" 2>/dev/null | jq -r '.value[].id // empty' 2>/dev/null || true
+  get_active_session_id "${base_url}"
 }
 
 # 删除指定 session
@@ -137,9 +140,6 @@ create_session() {
             platformName: $platformName,
             deviceName: $deviceName,
             udid: $udid,
-            useNewWDA: false,
-            wdaLaunchTimeout: 180000,
-            wdaConnectionTimeout: 240000,
             shouldTerminateApp: false
           }
           + (if $bundleId == "" then {} else {bundleId: $bundleId} end)

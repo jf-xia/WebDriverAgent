@@ -31,7 +31,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # 检查工具
-ios_wda_require_tools jq curl xcrun lsof ps
+ios_wda_require_tools jq curl xcrun lsof ps tmux iproxy
 ios_wda_init_cache_file
 
 # 创建本次运行目录
@@ -66,6 +66,7 @@ echo "   设备: ${device_name} (${device_os}) - ${device_udid}" >&2
 echo "2. 检查 iproxy..." >&2
 iproxy_session="iproxy-${device_udid}-${port}"
 iproxy_log="${IOS_WDA_TMP_DIR}/iproxy-${device_udid}-${port}.log"
+forward_restarted="false"
 
 # 检查 tmux 会话是否已存在
 iproxy_running="false"
@@ -84,7 +85,6 @@ if [[ "${iproxy_running}" != "true" ]]; then
   echo "   启动 iproxy (tmux)..." >&2
   tmux new-session -d -s "${iproxy_session}" "iproxy -u '${device_udid}' '${port}:${port}' 2>&1 | tee '${iproxy_log}'"
   sleep 1
-  listener_reusable="true"
   forward_restarted="true"
   echo "   iproxy 已启动 (tmux session: ${iproxy_session})" >&2
 fi

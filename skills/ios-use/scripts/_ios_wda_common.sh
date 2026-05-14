@@ -369,7 +369,7 @@ ios_wda_list_bundle_ids() {
     | sort -u || true
 }
 
-# WDA session keep-alive：定时 ping /status 防止 session 被系统冻结
+# WDA keep-alive：优先 ping 当前 session；没有 session 时退回 /status
 # 作为 tmux 后台进程运行，由 init/cleanup 统一管理
 # 用法：ios_wda_keep_alive <host> <port> <interval_seconds>
 # 前台运行（tmux 内部用）
@@ -378,13 +378,24 @@ ios_wda_keep_alive() {
   local port="${2:-${IOS_WDA_DEFAULT_PORT}}"
   local interval="${3:-60}"
   local device_ip
-
-  device_ip="$(ios_wda_cache_get '.connection.deviceIp')"
+  local session_id
 
   while true; do
-    curl --max-time 3 -sf "http://${host}:${port}/status" >/dev/null 2>&1 || true
+    device_ip="$(ios_wda_cache_get '.connection.deviceIp')"
+    session_id="$(ios_wda_cache_get '.session.id')"
+
+    if [[ -n "${session_id}" ]]; then
+      ios_wda_session_source "${session_id}" "${host}" "${port}" >/dev/null 2>&1 || true
+    else
+      curl --max-time 3 -sf "http://${host}:${port}/status" >/dev/null 2>&1 || true
+    fi
+
     if [[ -n "${device_ip}" && "${device_ip}" != "${host}" ]]; then
-      curl --max-time 3 -sf "http://${device_ip}:${port}/status" >/dev/null 2>&1 || true
+      if [[ -n "${session_id}" ]]; then
+        curl --max-time 3 -sf "http://${device_ip}:${port}/session/${session_id}/source" >/dev/null 2>&1 || true
+      else
+        curl --max-time 3 -sf "http://${device_ip}:${port}/status" >/dev/null 2>&1 || true
+      fi
     fi
     sleep "${interval}"
   done

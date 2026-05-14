@@ -11,7 +11,7 @@
 | `element` | `/element/:uuid/click` | WDA 内部中点 | 低 | 最快 |
 | `center` | `/wda/tap` + rect 中心 | 屏幕绝对坐标 | 中 | 快 |
 | `w3c` | `/session/:sid/actions` | viewport 或 element 中心 | 高 | 略慢 |
-| `offset` | `/wda/tap/:uuid` + 偏移 | 元素**左上角**偏移 | 高 | 快 |
+| `offset` | `/wda/element/:uuid/tap` + 偏移 | 元素**左上角**偏移 | 高 | 快 |
 
 ## 策略选择决策树
 
@@ -39,10 +39,10 @@ center_y = y + height/2  # 200 + 25 = 225
 ```bash
 # 偏移基准是元素左上角 (0,0)
 # 不传 x/y 时自动使用 (width/2, height/2)
-POST /wda/tap/$ELEMENT_ID { x: 150, y: 25 }  # width/2, height/2
+POST /wda/element/$ELEMENT_ID/tap { x: 150, y: 25 }  # width/2, height/2
 ```
 
-> ⚠️ `/wda/tap/:uuid` 的偏移基准是**左上角**，不是中心。如果要偏移到中心，需传 `(width/2, height/2)`。
+> ⚠️ `/wda/element/:uuid/tap` 的偏移基准是**左上角**，不是中心。如果要偏移到中心，需传 `(width/2, height/2)`。
 
 ### w3c 策略
 

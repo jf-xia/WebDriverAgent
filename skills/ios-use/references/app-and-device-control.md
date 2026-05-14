@@ -77,7 +77,7 @@
 
 ```bash
 # 读取剪贴板（需确认 WDA 版本支持）
-curl -X GET http://localhost:8100/wda/getPasteboard
+curl -X POST http://localhost:8100/wda/getPasteboard
 ```
 
 接口可能不在所有版本暴露。没有时退回 UI 读取或上层驱动 API。

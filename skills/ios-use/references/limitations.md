@@ -4,6 +4,7 @@
 
 - 大多数接口要求活动 session；`/status`、`/wda/healthcheck`、`/screenshot` 可无 session 使用
 - `/screenshot` 无 session 可用但不能证明 session 存活
+- keep-alive 只能降低空闲断连概率；有 session 时会 ping 当前 session，没有 session 时只会 ping `/status`
 - 收到 `No Such Driver` → 重建 session，不复用旧元素 ID
 
 ## 平台差异

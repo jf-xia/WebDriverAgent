@@ -196,7 +196,7 @@ click_offset() {
 
   local result
   result="$(curl --max-time 10 -sf -X POST \
-    "${BASE_URL}/session/${SESSION_ID}/wda/tap/${ELEMENT_ID}" \
+    "${BASE_URL}/session/${SESSION_ID}/wda/element/${ELEMENT_ID}/tap" \
     -H "Content-Type: application/json" \
     -d "{\"x\": ${x_off}, \"y\": ${y_off}}")"
   printf '%s\n' "${result:-{}}"
@@ -216,7 +216,8 @@ esac
 # ── 验证（可选）──
 if [[ "${VERIFY}" == "true" ]]; then
   echo "--- verify: re-fetching element state ---" >&2
-  local enabled displayed
+  enabled=""
+  displayed=""
   enabled="$(curl --max-time 5 -sf "${BASE_URL}/session/${SESSION_ID}/element/${ELEMENT_ID}/enabled" | jq -r '.value')"
   displayed="$(curl --max-time 5 -sf "${BASE_URL}/session/${SESSION_ID}/element/${ELEMENT_ID}/displayed" | jq -r '.value')"
   echo "element enabled=${enabled} displayed=${displayed}" >&2

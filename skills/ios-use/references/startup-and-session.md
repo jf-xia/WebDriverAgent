@@ -67,20 +67,20 @@ xcrun devicectl device info apps --device <UDID> | grep -i "preferences"
 - 不需要签名和 `iproxy`
 - 冷启动/重置用 `simctl` 管理器状态
 
-## Session 超时参数
+## Session 能力
 
-创建 session 时自动注入以下 capabilities：
+这些脚本直连 WDA `POST /session`。当前会传的有效能力很少：
 
 | 参数 | 默认值 | 说明 |
 |------|--------|------|
-| `useNewWDA` | `false` | 复用已有 WDA 实例，避免重装/重启 |
-| `wdaLaunchTimeout` | `180000` ms | WDA 启动超时，真机建议 >= 120s |
-| `wdaConnectionTimeout` | `240000` ms | 建立连接超时 |
-| `shouldTerminateApp` | `false` | 不自动杀 App，防止 session 失效 |
+| `bundleId` | 按需传入 | 创建 session 时拉起/激活目标 App |
+| `shouldTerminateApp` | `false` | 结束 session 时不自动杀 App |
+
+`useNewWDA`、`wdaLaunchTimeout`、`wdaConnectionTimeout` 是 Appium driver 侧能力，不是裸 WDA session 能力。WDA 启动等待时间由 `ios_wda_init.sh --max-wait` 控制。
 
 ### Keep-alive
 
-WDA 空闲过久会被系统冻结。`ios_wda_init.sh` 自动启动 tmux 会话管理 keep-alive，幂等不重复。
+`ios_wda_init.sh` 自动启动 tmux keep-alive。存在 session 时优先 ping `/session/<ID>/source`；没有 session 时退回 `/status`。它能降低空闲断连概率，但不保证 session 永不过期。
 
 ```bash
 # init 时自动启动，无需手动操作

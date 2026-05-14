@@ -91,7 +91,7 @@ curl -s http://<HOST>:8100/screenshot | jq -r '.value' | base64 --decode > scree
 | `element` | `/element/:uuid/click`，WDA 内部选中点 | 默认，元素小且居中时 |
 | `center` | 获取 rect → 计算 `(x+w/2, y+h/2)` → `/wda/tap` 绝对坐标 | 元素大或中点偏移时 |
 | `w3c` | W3C Actions pointerDown/pointerUp，最底层模拟 | element/center 都失败时 |
-| `offset` | 获取 rect → `/wda/tap/:uuid` + 左上角偏移 | 需要精确偏移点击时 |
+| `offset` | 获取 rect → `/wda/element/:uuid/tap` + 左上角偏移 | 需要精确偏移点击时 |
 
 ```bash
 # 默认点击
@@ -133,18 +133,18 @@ bash ios_wda_click.sh --element-id <ID> --strategy offset --x-offset 30 --y-offs
 
 当脚本多次出错或多次无法完成任务的时候进行优化建议, 如果改动小，直接优化，如果复杂，需要用户确认后再优化。
 
-## Session 超时与 Keep-alive
+## Session 与 Keep-alive
 
-WDA 有内置超时机制，长时间空闲会自动关闭 Session。脚本创建 session 时已注入以下参数：
+这些脚本直接调用 WDA 的 `POST /session`，不是走 Appium driver。当前创建 session 只依赖原生 WDA 能识别的能力：
 
 | 参数 | 值 | 作用 |
 |------|-----|------|
-| `useNewWDA` | `false` | 复用已有 WDA，避免重装/重启 |
-| `wdaLaunchTimeout` | `180000` ms | WDA 启动超时 3 分钟 |
-| `wdaConnectionTimeout` | `240000` ms | 连接建立超时 4 分钟 |
-| `shouldTerminateApp` | `false` | 不自动杀应用，防止 session 失效 |
+| `bundleId` | 按需传入 | 创建 session 时拉起或激活目标 App |
+| `shouldTerminateApp` | `false` | 结束 session 时不自动杀 App |
 
-keep-alive 由 `ios_wda_init.sh` 自动启动（tmux 会话），`cleanup_ios_wda.sh` 自动停止，幂等不重复创建。
+`useNewWDA`、`wdaLaunchTimeout`、`wdaConnectionTimeout` 属于 Appium wrapper capability，不是裸 WDA `POST /session` 能力。WDA 启动等待时间由 `ios_wda_init.sh --max-wait` 控制。
+
+keep-alive 由 `ios_wda_init.sh` 自动启动（tmux 会话），有缓存 session 时优先 ping 当前 session；没有 session 时退回 `/status`。`cleanup_ios_wda.sh` 自动停止，幂等不重复创建。
 
 ```bash
 # init 时自动启动，无需手动操作
