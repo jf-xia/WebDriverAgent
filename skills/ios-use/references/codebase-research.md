@@ -8,7 +8,7 @@
 
 优先顺序：
 
-1. `rg` / VS Code 搜索：先找路由、handler、错误文本、capability 常量
+1. `rg` 搜索：先找路由、handler、错误文本、capability 常量
 2. 读实现文件：确认 handler 真正调用的 Objective-C / TypeScript 逻辑
 3. 必要时看测试：优先 IntegrationTests、UnitTests、`test/` 下已有用例
 4. 仍不清楚再看 `git log` / `git blame`

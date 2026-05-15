@@ -1,88 +1,94 @@
 # 应用与设备控制
 
-## 应用生命周期
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| `POST` | `/wda/apps/launch` | 启动应用，可带参数和环境变量 |
-| `POST` | `/wda/apps/activate` | 切到前台 |
-| `POST` | `/wda/apps/terminate` | 终止应用 |
-| `POST` | `/wda/apps/state` | 查询状态 |
-| `POST` | `/wda/homescreen` | 返回主屏 |
-| `POST` | `/wda/pressButton` | 系统按键（home、音量等） |
-
-获取已安装应用：`xcrun devicectl device info apps --device <UDID>`
-
-### 应用状态枚举
-
-| 值 | 常量 | 含义 |
-|----|------|------|
-| 1 | `XCUIApplicationStateNotRunning` | 未运行 |
-| 2 | `XCUIApplicationStateRunningBackgroundSuspended` | 后台挂起 |
-| 3 | `XCUIApplicationStateRunningBackground` | 后台运行 |
-| 4 | `XCUIApplicationStateRunningForeground` | 前台运行 |
-
-### 使用要点
-
-- `activate` 适合已运行应用切回前台
-- 回主屏优先 `/wda/homescreen`；`activate com.apple.springboard` 不可靠
-- 激活后用 `/wda/activeAppInfo` 确认前台是否真正切换
-- 系统 App 或首次拉起 → `/wda/activeAppInfo` 判断是否仍停在 SpringBoard
-- WDA 激活未切前台 → 系统级 CLI 直接启动（如 `ios launch <bundleId>`）
-- 截图出现 shield/blocked → 系统策略拦截，非点击失败
-
-## 系统弹窗
-
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| `GET` | `/alert/text` | 读取弹窗文本 |
-| `POST` | `/alert/text` | 向弹窗输入文本 |
-| `POST` | `/alert/accept` | 接受弹窗 |
-| `POST` | `/alert/dismiss` | 关闭弹窗 |
-| `GET` | `/wda/alert/buttons` | 列出弹窗按钮 |
-
-优先读按钮列表再决定 accept/dismiss，不要仅凭截图猜测。
+```bash
+# 启动应用
+curl -s -X POST  http://127.0.0.1:8100/session/F3B0C081-640C-4CB6-A0D7-A6C0BCA55E20/wda/apps/launch  -d '{"bundleId": "com.apple.Preferences"}'
+# 系统按键 "home", "volumeUp", "volumeDown", "action", "camera"
+curl -s -X POST   http://127.0.0.1:8100/session/F3B0C081-640C-4CB6-A0D7-A6C0BCA55E20/wda/pressButton  -H "Content-Type: application/json" -d '{"name": "volumeUp"}' 
+# 获取已安装应用
+xcrun devicectl device info apps --device <UDID>
+```
 
 ## 锁屏与方向
 
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| `POST` | `/wda/lock` | 锁屏 |
-| `POST` | `/wda/unlock` | 解锁 |
-| `GET` | `/wda/locked` | 查询锁定状态 |
-| `GET/POST` | `/orientation` | 读取/设置方向 |
-| `GET/POST` | `/rotation` | 三轴旋转 |
+```bash
+SESSION="5D9997FB-6E62-4697-9BF2-AF73851B601E"
+HOST="127.0.0.1:8100"
+
+# 查询锁定状态（全局，无需 session）
+curl -s http://$HOST/wda/locked | jq .
+# → { "value": false, "sessionId": "..." }
+
+# 锁屏（必须带 Content-Type: application/json + 空 body，否则 400）
+curl -s -X POST -H "Content-Type: application/json" -d '{}' http://$HOST/wda/lock | jq .
+# → { "value": null, "sessionId": "..." }
+
+# 解锁
+curl -s -X POST -H "Content-Type: application/json" -d '{}' http://$HOST/wda/unlock | jq .
+# → { "value": null, "sessionId": "..." }
+
+# 读取方向（需 session）
+curl -s http://$HOST/session/$SESSION/orientation | jq .
+# → { "value": "PORTRAIT" }
+
+# 设置方向（需 session，真机可能不支持横屏）
+curl -s -X POST -H "Content-Type: application/json" \
+  -d '{"orientation": "LANDSCAPE"}' \
+  http://$HOST/session/$SESSION/orientation | jq .
+# 真机不支持横屏时: { "value": { "error": "unknown error", "message": "Unable To Rotate Device" } }
+
+# 读取三轴旋转（需 session）
+curl -s http://$HOST/session/$SESSION/rotation | jq .
+# → { "value": { "x": 0, "y": 0, "z": 0 } }  # 竖屏
+
+# 设置三轴旋转（需 session，真机可能不支持）
+curl -s -X POST -H "Content-Type: application/json" \
+  -d '{"x": 0, "y": 0, "z": 90}' \
+  http://$HOST/session/$SESSION/rotation | jq .
+# 真机不支持时: { "value": { "error": "invalid element state", "message": "The current rotation cannot be set to ..." } }
+```
 
 ## 模拟位置
 
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| `POST` | `/wda/simulatedLocation` | 设置经纬度 |
-| `GET` | `/wda/simulatedLocation` | 读取当前模拟位置 |
-| `DELETE` | `/wda/simulatedLocation` | 清除模拟位置 |
+```bash
+# 读取当前模拟位置
+curl -s http://127.0.0.1:8100/wda/simulatedLocation | jq .
+# → { "value": { "altitude": null, "longitude": null, "latitude": null }, "sessionId": "..." }
 
-限制：仅 iOS，需 iOS 16.4+ 与 Xcode 14.3+。
+# 设置经纬度（北京坐标）
+curl -s -X POST http://127.0.0.1:8100/wda/simulatedLocation \
+  -H "Content-Type: application/json" \
+  -d '{"latitude": 39.9042, "longitude": 116.4074}' | jq .
+# → { "value": null, "sessionId": "..." }
+
+# 验证设置生效
+curl -s http://127.0.0.1:8100/wda/simulatedLocation | jq .
+# → { "value": { "altitude": 0, "longitude": 116.4074, "latitude": 39.9042 }, ... }
+
+# 清除模拟位置
+curl -s -X DELETE http://127.0.0.1:8100/wda/simulatedLocation | jq .
+# → { "value": null, "sessionId": "..." }
+```
+
+| 场景 | 请求 | 结果 | 备注 |
+|------|------|------|------|
+| 设置有效坐标 | `{"latitude": 39.9042, "longitude": 116.4074}` | ✅ 成功 | GET 返回设置的坐标 |
+| 设置无效坐标 | `{"latitude": 999, "longitude": 116.4074}` | ✅ 接受 | WDA 不验证范围 |
+| 字符串坐标 | `{"latitude": "39.9", "longitude": "116.4"}` | ✅ 转换 | 自动转为数字 |
+| 提供 altitude | `{"latitude": 39.9, "longitude": 116.4, "altitude": 50}` | 无效 | altitude 被忽略，返回 0 |
 
 ## 屏幕与设备信息
 
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| `GET` | `/wda/screen` | 屏幕尺寸、状态栏尺寸、缩放比例 |
-| `GET` | `/wda/device/info` | locale、时区、型号、UUID、UI 风格 |
-| `GET` | `/wda/activeAppInfo` | 前台应用信息 |
-| `GET` | `/wda/batteryInfo` | 电量与电池状态 |
-| `GET` | `/wda/device/location` | 设备地理位置 |
-
-## 剪贴板
-
 ```bash
-# 读取剪贴板（需确认 WDA 版本支持）
-curl -X POST http://localhost:8100/wda/getPasteboard
+#返回屏幕尺寸、状态栏尺寸、缩放比例。
+curl -s http://127.0.0.1:8100/wda/screen
+
+# 返回 locale、时区、型号、UUID、UI 风格等设备元数据。
+curl -s http://127.0.0.1:8100/wda/device/info | jq .value
+
+# 返回前台应用信息。
+curl -s http://127.0.0.1:8100/wda/activeAppInfo | jq .value
+
+# 返回设备地理位置。需在 **Settings → Privacy → Location Services → WebDriverAgent-Runner → Always** 授权，否则经纬度始终为 0。
+curl -s http://127.0.0.1:8100/wda/device/location | jq .value
 ```
-
-接口可能不在所有版本暴露。没有时退回 UI 读取或上层驱动 API。
-
-## 使用建议
-
-- 切应用后立即校验前台状态
-- 设备/屏幕/应用状态适合做动作后确认，不要只依赖视觉结果

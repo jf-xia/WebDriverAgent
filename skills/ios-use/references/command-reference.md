@@ -126,45 +126,62 @@ curl -X POST http://localhost:8100/session/$SESSION_ID/actions \
 }'
 ```
 
-## 页面与调试
+## 入口选择
 
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| `GET` | `/source` | 页面树，支持 `format=xml\|json\|description` |
-| `GET` | `/wda/accessibleSource` | 精简可访问元素树 |
-| `GET` | `/screenshot` | Base64 截图，可带/不带 session |
+| 场景 | 接口 |
+|------|------|
+| 对具体元素输入 | `POST /element/:uuid/value` |
+| 清空文本 | `POST /element/:uuid/clear` |
+| 已聚焦、只发键盘字符 | `POST /wda/keys` |
+
+## 元素输入
 
 ```bash
-curl "http://localhost:8100/session/$SESSION_ID/source?format=json"
+curl -X POST http://localhost:8100/session/$SESSION_ID/element/$ELEMENT_ID/value \
+  -H "Content-Type: application/json" \
+  -d '{"value": ["text"], "frequency": 60}'
 ```
 
-## 应用与设备控制
+- `value` 接受字符串数组，WDA 拼接成最终内容
+- `frequency` 可选，控制字符输入频率
+- 元素级输入会先处理焦点管理
 
-| 类别 | 方法 | 路径 | 说明 |
-|------|------|------|------|
-| 应用 | `POST` | `/wda/apps/launch` | 启动应用 |
-| 应用 | `POST` | `/wda/apps/activate` | 切到前台 |
-| 应用 | `POST` | `/wda/apps/terminate` | 终止应用 |
-| 应用 | `POST` | `/wda/apps/state` | 查询状态（1=未运行,4=前台） |
-| 应用 | `POST` | `/wda/homescreen` | 返回主屏（**全局端点**，不要加 session 前缀） |
-| 应用 | `POST` | `/wda/pressButton` | 系统按键（home、音量等） |
-| 弹窗 | `GET` | `/alert/text` | 读取弹窗文本 |
-| 弹窗 | `POST` | `/alert/accept` | 接受弹窗 |
-| 弹窗 | `POST` | `/alert/dismiss` | 关闭弹窗 |
-| 弹窗 | `GET` | `/wda/alert/buttons` | 列出弹窗按钮 |
-| 设备 | `POST` | `/wda/lock` | 锁屏 |
-| 设备 | `POST` | `/wda/unlock` | 解锁 |
-| 设备 | `GET/POST` | `/orientation` | 读取/设置方向 |
-| 设备 | `POST` | `/wda/simulatedLocation` | 模拟位置（iOS 16.4+） |
-| 设备 | `GET` | `/wda/screen` | 屏幕尺寸 |
-| 设备 | `GET` | `/wda/device/info` | 设备信息 |
-| 设备 | `GET` | `/wda/activeAppInfo` | 前台应用信息 |
-| 设备 | `GET` | `/wda/batteryInfo` | 电量信息 |
-| 设备 | `GET` | `/wda/device/location` | 设备地理位置 |
+## 清空文本
 
-### 应用控制要点
+```bash
+curl -X POST http://localhost:8100/session/$SESSION_ID/element/$ELEMENT_ID/clear
+```
 
-- `/wda/apps/activate` 适合把已运行应用切回前台
-- 回主屏优先 `/wda/homescreen`；`activate com.apple.springboard` 不可靠
-- 激活后用 `/wda/activeAppInfo` 确认前台是否真正切换
-- 截图出现 shield/blocked 覆盖层 → 系统策略拦截，非点击失败
+清空失败时不要盲目循环；先判断控件类型。
+
+## 向当前焦点发送按键
+
+```bash
+curl -X POST http://localhost:8100/session/$SESSION_ID/wda/keys \
+  -H "Content-Type: application/json" \
+  -d '{"value": ["hello"], "frequency": 30}'
+```
+
+适用：元素已聚焦但定位不稳定、需发送连续文本、需绕开焦点管理。
+
+## PickerWheel
+
+```bash
+curl -X POST http://localhost:8100/session/$SESSION_ID/wda/pickerwheel/$ELEMENT_ID/select \
+  -H "Content-Type: application/json" \
+  -d '{"order": "next", "value": "58 minutes", "maxAttempts": 30}'
+```
+
+- `order` 只能 `next` 或 `previous`
+- 每次调用先移动一格再检查是否达到目标值
+- 已在目标值时继续调用可能拨离目标
+- 多轮控件一次只改一个 wheel，关闭弹层后重新读取
+- `/element/:uuid/value` 返回成功但 UI 没变 → 优先怀疑控件类型错误
+
+## `/wda/keys` 特殊键名称
+
+| 键类别 | 键名 |
+|--------|------|
+| 编辑键 | `Delete` `Return` `Enter` `Tab` `Space` `Escape` |
+| 方向键 | `UpArrow` `DownArrow` `LeftArrow` `RightArrow` |
+| 功能键 | `F1`~`F19` |
