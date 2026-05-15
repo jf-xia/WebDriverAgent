@@ -9,15 +9,17 @@ user-invocable: true
 
 ## 快速开始
 ```bash
-# 一条命令：创建 session + 启动应用（自动处理设备检查、iproxy、WDA）
-bash skills/ios-use/scripts/ios_wda_session.sh --bundle-id com.apple.Preferences
-# 获取页面源码
-curl -s http://<HOST>:8100/wda/accessibleSource | jq '.value'
-# 获取截图
-curl -s http://<HOST>:8100/screenshot | jq -r '.value' | base64 --decode > screenshot.png
+# 一条命令自动处理设备检查、iproxy USB or WIFI、安装启动 WDA, log 输出到./tmp/wda-<UDID>.log
+
+# 获取页面源码 和 截图
+# todo 制作一个脚本，这个脚本专门用于获取页面源码（精简格式）和截图(压缩80%Quality&分辨率768px, 图片格式JPEG / WebP)的，不需要 session。
+curl -s http://<HOST>:8100/wda/accessibleSource
+curl -s http://<HOST>:8100/screenshot | jq -r '.value' | base64 --decode > 1.{think_action}.png
 ```
 
-
+# 测试 iPhone 上的 WDA
+# 自动检查 WDA 状态、验证工具、清理旧 tmux session、启动 xcodebuild 测试，输出状态 JSON 到 ./tmp/wda-<UDID>.json，日志到 ./tmp/wda-<UDID>.log
+bash ios_wda_test_on_iphone.sh
 
 ## 工作流（ReAct 循环）
 
@@ -34,33 +36,6 @@ curl -s http://<HOST>:8100/screenshot | jq -r '.value' | base64 --decode > scree
 3. **Act**：执行单个操作（点击/输入/滑动等）
 4. **Verify**：再次截屏，确认操作生效
 5. **Repeat**：回到步骤 1，直到任务完成
-
-> ⚠️ 禁止跳过截屏直接执行多个操作。每步操作后必须截图确认结果。
-
-### 标准启动流程
-1. `ios_wda_init.sh` — 检查设备、启动 iproxy、启动 WDA、等待 ready
-2. `ios_wda_session.sh --bundle-id <BUNDLE_ID>` — 创建 session、激活应用
-3. `ios_wda_snapshot.sh` — **截屏确认启动成功**
-
-### 元素交互流程
-1. **Observe**：`ios_wda_snapshot.sh` 获取 source + screenshot
-2. **Think**：从 source 定位元素（优先 accessibility id / predicate / class chain，避免 XPath）
-3. **Act**：`ios_wda_click.sh --element-id <ID>` 或 `ios_wda_type.sh`；点击失败时换策略（center → w3c）
-4. **Verify**：再次 `ios_wda_snapshot.sh` 截屏确认操作生效
-
-### 输入文本流程
-1. **Observe**：截屏确认输入框状态
-2. **Act**：`ios_wda_type.sh --element-id <ID> --text "内容"`
-3. **Verify**：截屏确认输入内容正确
-4. 长文本用 `--text-file` 避免 shell 转义问题
-
-### 关闭应用流程
-1. **Observe**：截屏确认当前应用状态
-2. **Act**：`POST /wda/apps/terminate`（推荐）或 `POST /wda/homescreen`
-3. **Verify**：截屏确认回到主屏
-
-> ⚠️ `/wda/homescreen` 是全局端点，但某些设备可能不支持。推荐使用 `/wda/apps/terminate`。
-> 错误写法 `/session/<ID>/wda/homescreen` 会报 `unknown command`。
 
 ## WDA API 端点说明
 
@@ -110,11 +85,7 @@ bash ios_wda_click.sh --element-id <ID> --strategy offset --x-offset 30 --y-offs
 
 | 脚本 | 关键参数 |
 |------|----------|
-| `ios_wda_init.sh` | `--udid` `--host` `--port` `--project-path` `--scheme` `--max-wait` |
-| `ios_wda_session.sh` | `--bundle-id` `--udid` `--host` `--port` `--force-new` `--delete` `--session-id` |
-| `ios_wda_snapshot.sh` | `--session-id` `--output-dir` `--only-source` `--only-accessible` `--only-screenshot` |
-| `ios_wda_click.sh` | `--element-id` `--strategy element|center|w3c|offset` `--x-offset` `--y-offset` `--verify` |
-| `ios_wda_type.sh` | `--element-id` `--using` `--locator` `--text` `--text-file` `--frequency` `--clear` `--no-click` `--no-verify` |
+| `ios_wda_test_on_iphone.sh` | `--udid` `--host` `--port` `--project-path` `--scheme` |
 
 ## WDA API 核心速查
 
@@ -129,71 +100,10 @@ bash ios_wda_click.sh --element-id <ID> --strategy offset --x-offset 30 --y-offs
 | 弹窗 | `GET /alert/text`、`POST /alert/{accept,dismiss}`、`GET /wda/alert/buttons` |
 | 设备 | `POST /wda/lock`、`/orientation`、`GET /wda/screen`、`/wda/device/info` |
 
-## 性能优化
-
-当脚本多次出错或多次无法完成任务的时候进行优化建议, 如果改动小，直接优化，如果复杂，需要用户确认后再优化。
-
-## Session 与 Keep-alive
-
-这些脚本直接调用 WDA 的 `POST /session`，不是走 Appium driver。当前创建 session 只依赖原生 WDA 能识别的能力：
-
-| 参数 | 值 | 作用 |
-|------|-----|------|
-| `bundleId` | 按需传入 | 创建 session 时拉起或激活目标 App |
-| `shouldTerminateApp` | `false` | 结束 session 时不自动杀 App |
-
-`useNewWDA`、`wdaLaunchTimeout`、`wdaConnectionTimeout` 属于 Appium wrapper capability，不是裸 WDA `POST /session` 能力。WDA 启动等待时间由 `ios_wda_init.sh --max-wait` 控制。
-
-keep-alive 由 `ios_wda_init.sh` 自动启动（tmux 会话），有缓存 session 时优先 ping 当前 session；没有 session 时退回 `/status`。`cleanup_ios_wda.sh` 自动停止，幂等不重复创建。
-
-```bash
-# init 时自动启动，无需手动操作
-bash skills/ios-use/scripts/ios_wda_init.sh
-
-# 手动管理（通常不需要）
-source skills/ios-use/scripts/_ios_wda_common.sh
-ios_wda_keepalive_start 127.0.0.1 8100 60   # 启动
-ios_wda_keepalive_is_running 8100           # 检查
-ios_wda_keepalive_stop 8100                 # 停止
-```
-
 ## 详细文档
 
 | 主题 | 路径 |
 |------|------|
-| 启动与 Session | [startup-and-session.md](references/startup-and-session.md) |
 | 命令参考 | [command-reference.md](references/command-reference.md) |
-| 输入与键盘 | [input-and-keyboard.md](references/input-and-keyboard.md) |
 | 应用与设备控制 | [app-and-device-control.md](references/app-and-device-control.md) |
-| 视觉与性能 | [visual-and-performance.md](references/visual-and-performance.md) |
-| 点击策略 | [click-strategies.md](references/click-strategies.md) |
-| 故障排查 | [troubleshooting.md](references/troubleshooting.md) |
-| 限制与取舍 | [limitations.md](references/limitations.md) |
 | 多次操作失败请使用代码库研究 | [codebase-research.md](references/codebase-research.md) |
-
-## tmux 会话管理
-
-WDA 和 iproxy 使用 tmux 会话运行，便于监控和调试：
-
-```bash
-# 查看所有 tmux 会话
-tmux list-sessions
-
-# 查看 WDA 日志
-tmux attach -t wda-<DEVICE_UDID>
-
-# 查看 iproxy 日志
-tmux attach -t iproxy-<DEVICE_UDID>-<PORT>
-
-# 分离会话（保持后台运行）
-Ctrl+B 然后按 D
-```
-
-**会话命名规则：**
-- WDA: `wda-<DEVICE_UDID>`
-- iproxy: `iproxy-<DEVICE_UDID>-<PORT>`
-
-## 清理
-```bash
-bash skills/ios-use/scripts/cleanup_ios_wda.sh
-```
