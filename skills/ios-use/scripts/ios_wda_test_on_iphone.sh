@@ -81,22 +81,49 @@ get_device_ip() {
     local udid="$1"
     local device_ip=""
     
+    # 1. 从当前日志文件中提取 IP
     local log_file="${LOG_DIR}/wda-${udid}.log"
     if [[ -f "$log_file" ]]; then
-        device_ip=$(grep -oE 'ServerURLHere->http://[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' "$log_file" 2>/dev/null | sed 's/ServerURLHere->//' | head -1 || true)
+        # 提取 IP 地址（去掉 http:// 前缀）
+        device_ip=$(grep -oE 'ServerURLHere->http://[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' "$log_file" 2>/dev/null | sed 's/ServerURLHere->http:\/\///' | head -1 || true)
         if [[ -n "$device_ip" ]]; then
             echo "$device_ip"
             return 0
         fi
     fi
     
-    echo "$device_ip"
+    # 2. 从之前的日志中提取 IP（按时间排序，取最新的）
+    local previous_ip
+    previous_ip=$(find "$LOG_DIR" -name "wda-*.log" -type f 2>/dev/null | \
+        xargs grep -l "ServerURLHere" 2>/dev/null | \
+        xargs grep -oE 'ServerURLHere->http://[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null | \
+        sed 's/ServerURLHere->http:\/\///' | \
+        sort -u | tail -1 || true)
+    if [[ -n "$previous_ip" ]]; then
+        echo "$previous_ip"
+        return 0
+    fi
+    
+    # 3. 尝试从 ideviceinfo 获取 IP
+    if command -v ideviceinfo &> /dev/null; then
+        local wifi_ip
+        wifi_ip=$(ideviceinfo -u "$udid" -k WiFiAddress 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' || true)
+        if [[ -n "$wifi_ip" ]]; then
+            echo "$wifi_ip"
+            return 0
+        fi
+    fi
+    
+    echo ""
 }
 
 # 检查网络连通性
 check_network_reachability() {
     local ip="$1"
     local port="$2"
+    
+    # 移除可能的 http:// 前缀
+    ip=$(echo "$ip" | sed 's|^http://||')
     
     # 优先 HTTP 检测（最可靠，直接验证目标服务可达性）
     if curl -s --connect-timeout 3 "http://${ip}:${port}/status" > /dev/null 2>&1; then
@@ -153,34 +180,36 @@ auto_detect_iproxy() {
         return 0
     fi
     
-    # 3. 检测设备连接方式
-    local connection_type
-    connection_type=$(detect_connection_type "$udid")
-    echo -e "${BLUE}设备连接方式: $connection_type${NC}"
-    
-    # 4. 尝试获取设备 IP 并测试连通性
+    # 3. 尝试获取设备 IP 并测试连通性（优先 WiFi 直连）
     local device_ip
     device_ip=$(get_device_ip "$udid")
     
     if [[ -n "$device_ip" ]]; then
         echo -e "${BLUE}检测到设备 IP: $device_ip${NC}"
         if check_network_reachability "$device_ip" "$PORT"; then
-            echo -e "${GREEN}设备 IP 可达，使用直接连接${NC}"
+            echo -e "${GREEN}设备 IP 可达，使用 WiFi 直连${NC}"
             USE_IPROXY="false"
             HOST="$device_ip"
             return 0
         else
             echo -e "${YELLOW}设备 IP 不可达，可能不在同一网络${NC}"
         fi
+    else
+        echo -e "${YELLOW}未检测到设备 IP${NC}"
     fi
     
-    # 5. 默认使用 USB + iproxy（最可靠的方式）
-    if [[ "$connection_type" == "USB" ]] || [[ "$connection_type" == "unknown" ]]; then
+    # 4. 检测设备连接方式，决定是否使用 iproxy
+    local connection_type
+    connection_type=$(detect_connection_type "$udid")
+    echo -e "${BLUE}设备连接方式: $connection_type${NC}"
+    
+    # 5. 根据连接方式决定是否使用 iproxy
+    if [[ "$connection_type" == "USB" ]]; then
         echo -e "${BLUE}使用 USB 连接 + iproxy 端口转发${NC}"
         USE_IPROXY="true"
         HOST="127.0.0.1"
     else
-        # WiFi 连接但 IP 不可达，也可能需要 iproxy
+        # WiFi 连接或未知连接方式，尝试使用 iproxy
         echo -e "${YELLOW}WiFi 连接但设备不可达，尝试使用 iproxy${NC}"
         USE_IPROXY="true"
         HOST="127.0.0.1"
