@@ -1,0 +1,181 @@
+#!/usr/bin/env bash
+# ios_wda_snapshot.sh
+# 获取 WDA 页面源码和截图，用于 ReAct 循环的 observe 阶段
+set -euo pipefail
+
+# 默认值
+HOST=""
+PORT=""
+CONFIG_FILE="./tmp/wda.json"
+OUTPUT_DIR=""
+
+# 颜色输出
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+usage() {
+    echo "Usage: $0 [--host <HOST>] [--port <PORT>]"
+    echo "  --host    WDA 主机地址（默认从 wda.json 读取）"
+    echo "  --port    WDA 端口（默认从 wda.json 读取）"
+    exit 1
+}
+
+# 解析参数
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --host)
+            HOST="$2"
+            shift 2
+            ;;
+        --port)
+            PORT="$2"
+            shift 2
+            ;;
+        -h|--help)
+            usage
+            ;;
+        *)
+            echo -e "${RED}未知参数: $1${NC}" >&2
+            usage
+            ;;
+    esac
+done
+
+# 从 wda.json 读取配置
+load_config() {
+    if [[ ! -f "$CONFIG_FILE" ]]; then
+        echo -e "${RED}配置文件不存在: $CONFIG_FILE${NC}" >&2
+        echo "请先运行 ios_wda_test_on_iphone.sh 启动 WDA" >&2
+        exit 1
+    fi
+
+    local udid endpoint
+    udid=$(jq -r '.udid // empty' "$CONFIG_FILE" 2>/dev/null)
+    endpoint=$(jq -r '.wda_endpoint // empty' "$CONFIG_FILE" 2>/dev/null)
+
+    if [[ -z "$udid" ]]; then
+        echo -e "${RED}wda.json 中缺少 udid 字段${NC}" >&2
+        exit 1
+    fi
+
+    # 使用命令行参数覆盖，否则从配置读取
+    if [[ -z "$HOST" ]] && [[ -z "$PORT" ]]; then
+        if [[ -z "$endpoint" ]]; then
+            echo -e "${RED}wda.json 中缺少 wda_endpoint 字段${NC}" >&2
+            exit 1
+        fi
+        HOST=$(echo "$endpoint" | sed -n 's|http://\([^:]*\):.*|\1|p')
+        PORT=$(echo "$endpoint" | sed -n 's|.*:\([0-9]*\)$|\1|p')
+    elif [[ -z "$PORT" ]]; then
+        PORT=$(echo "$endpoint" | sed -n 's|.*:\([0-9]*\)$|\1|p')
+    elif [[ -z "$HOST" ]]; then
+        HOST=$(echo "$endpoint" | sed -n 's|http://\([^:]*\):.*|\1|p')
+    fi
+
+    # HOST/PORT 已在全局设置
+}
+
+# 获取下一个序号
+get_next_number() {
+    local dir="$1"
+    local max=0
+
+    if [[ -d "$dir" ]]; then
+        local nums
+        nums=$(find "$dir" -name "???-source.json" -type f 2>/dev/null | \
+            xargs -I{} basename {} -source.json | \
+            grep -E '^[0-9]{3}$' | \
+            sort -n | tail -1 || true)
+        if [[ -n "$nums" ]]; then
+            max=$((10#$nums))
+        fi
+    fi
+
+    # 超过 999 清空目录重新开始
+    if [[ $max -ge 999 ]]; then
+        rm -rf "${dir:?}"/*
+        max=0
+    fi
+
+    printf "%03d" $((max + 1))
+}
+
+# 获取页面源码
+fetch_source() {
+    local output_file="$1"
+    local url="http://${HOST}:${PORT}/wda/accessibleSource"
+
+    local response
+    response=$(curl -s --connect-timeout 5 "$url" 2>/dev/null) || {
+        echo -e "${RED}获取 source 失败: $url${NC}" >&2
+        return 1
+    }
+
+    echo "$response" > "$output_file"
+}
+
+# 获取截图并转换为 JPEG
+fetch_screenshot() {
+    local output_file="$1"
+    local url="http://${HOST}:${PORT}/screenshot"
+    local tmp_png
+    tmp_png=$(mktemp /tmp/wda-screenshot-XXXXXX.png)
+
+    # 获取截图
+    local response
+    response=$(curl -s --connect-timeout 5 "$url" 2>/dev/null) || {
+        echo -e "${RED}获取截图失败: $url${NC}" >&2
+        rm -f "$tmp_png"
+        return 1
+    }
+
+    # 解码 base64 并保存为 PNG
+    echo "$response" | jq -r '.value' | base64 --decode > "$tmp_png" 2>/dev/null || {
+        echo -e "${RED}解码截图失败${NC}" >&2
+        rm -f "$tmp_png"
+        return 1
+    }
+
+    # 转换为 JPEG 并 resize 到 1200px
+    sips -Z 1200 -s format jpeg "$tmp_png" --out "$output_file" >/dev/null 2>&1 || {
+        echo -e "${RED}转换截图失败${NC}" >&2
+        rm -f "$tmp_png"
+        return 1
+    }
+
+    rm -f "$tmp_png"
+}
+
+# 主流程
+main() {
+    # 加载配置（会设置全局变量 HOST, PORT）
+    load_config >/dev/null
+    local udid
+    udid=$(jq -r '.udid // empty' "$CONFIG_FILE" 2>/dev/null)
+
+    # 构建输出目录
+    local date_str
+    date_str=$(date +%Y%m%d)
+    OUTPUT_DIR="./tmp/wda-snapshot-${udid}/${date_str}"
+    mkdir -p "$OUTPUT_DIR"
+
+    # 获取序号
+    local num
+    num=$(get_next_number "$OUTPUT_DIR")
+
+    # 获取 source
+    local source_file="${OUTPUT_DIR}/${num}-source.json"
+    fetch_source "$source_file"
+
+    # 获取截图
+    local screenshot_file="${OUTPUT_DIR}/${num}-screenshot.jpg"
+    fetch_screenshot "$screenshot_file"
+
+    # 输出文件路径
+    echo "$source_file"
+    echo "$screenshot_file"
+}
+
+main "$@"

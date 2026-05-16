@@ -9,12 +9,13 @@ user-invocable: true
 
 ## 快速开始
 ```bash
-# 安装启动 WDA, log 输出到./tmp/wda-<UDID>.log
+# 安装启动 WDA, log 输出到./tmp/wda.log
 bash ios_wda_test_on_iphone.sh
-# 获取页面源码 和 截图
-# todo 制作一个脚本，这个脚本专门用于获取页面源码（精简格式）和截图(压缩80%Quality&分辨率768px, 图片格式JPEG / WebP)的，不需要 session。
-curl -s http://<HOST>:8100/wda/accessibleSource
-curl -s http://<HOST>:8100/screenshot | jq -r '.value' | base64 --decode > 1.{think_action}.png
+# 获取页面源码 + 截图（自动递增序号）
+bash ios_wda_snapshot.sh
+# 输出示例：
+# ./tmp/wda-snapshot-<UDID>/20260516/001-source.json
+# ./tmp/wda-snapshot-<UDID>/20260516/001-screenshot.jpg
 ```
 
 ## 工作流（ReAct 循环）
@@ -38,6 +39,7 @@ curl -s http://<HOST>:8100/screenshot | jq -r '.value' | base64 --decode > 1.{th
 | 脚本 | 关键参数 |
 |------|----------|
 | `ios_wda_test_on_iphone.sh` | `--udid` `--host` `--port` `--project-path` `--scheme` |
+| `ios_wda_snapshot.sh` | `--host` `--port` |
 
 ## WDA API 核心速查
 

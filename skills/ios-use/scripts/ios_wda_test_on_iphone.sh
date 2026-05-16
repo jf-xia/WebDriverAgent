@@ -82,7 +82,7 @@ get_device_ip() {
     local device_ip=""
     
     # 1. 从当前日志文件中提取 IP
-    local log_file="${LOG_DIR}/wda-${udid}.log"
+    local log_file="${LOG_DIR}/wda.log"
     if [[ -f "$log_file" ]]; then
         # 提取 IP 地址（去掉 http:// 前缀）
         device_ip=$(grep -oE 'ServerURLHere->http://[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' "$log_file" 2>/dev/null | sed 's/ServerURLHere->http:\/\///' | head -1 || true)
@@ -94,7 +94,7 @@ get_device_ip() {
     
     # 2. 从之前的日志中提取 IP（按时间排序，取最新的）
     local previous_ip
-    previous_ip=$(find "$LOG_DIR" -name "wda-*.log" -type f 2>/dev/null | \
+    previous_ip=$(find "$LOG_DIR" -name "wda.log" -type f 2>/dev/null | \
         xargs grep -l "ServerURLHere" 2>/dev/null | \
         xargs grep -oE 'ServerURLHere->http://[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' 2>/dev/null | \
         sed 's/ServerURLHere->http:\/\///' | \
@@ -277,7 +277,7 @@ validate_tools() {
 # 清理旧的 tmux session
 cleanup_old_tmux_sessions() {
     local sessions
-    sessions=$(tmux list-sessions 2>/dev/null | grep -E '^wda-|^iproxy-' || true)
+    sessions=$(tmux list-sessions 2>/dev/null | grep -E '^(wda|iproxy)[^a-zA-Z]' || true)
     if [[ -n "$sessions" ]]; then
         echo -e "${YELLOW}发现旧的 tmux 会话，正在清理...${NC}"
         echo "$sessions" | while read -r line; do
@@ -331,8 +331,8 @@ start_iproxy() {
     fi
     
     # 启动 iproxy
-    tmux new-session -d -s "iproxy-${udid}" \
-        "iproxy $local_port $remote_port -u $udid 2>&1 | tee ${LOG_DIR}/iproxy-${udid}.log"
+    tmux new-session -d -s "iproxy" \
+        "iproxy $local_port $remote_port -u $udid 2>&1 | tee ${LOG_DIR}/iproxy.log"
     
     echo -e "${GREEN}已启动 iproxy: localhost:$local_port -> device:$remote_port${NC}"
     
@@ -368,8 +368,8 @@ extract_wda_url_from_log() {
 # 启动 WDA 测试
 start_wda_test() {
     local udid="$1"
-    local log_file="${LOG_DIR}/wda-${udid}.log"
-    local cache_file="${CACHE_DIR}/wda-${udid}.json"
+    local log_file="${LOG_DIR}/wda.log"
+    local cache_file="${CACHE_DIR}/wda.json"
     
     echo -e "${GREEN}启动 WDA 测试，设备 UDID: $udid${NC}"
     echo "日志文件: $log_file"
@@ -381,11 +381,11 @@ start_wda_test() {
     fi
     
     # 启动 tmux 会话运行 xcodebuild
-    tmux new-session -d -s "wda-test" \
+    tmux new-session -d -s "wda" \
         "USE_PORT=$PORT xcodebuild -project \"$PROJECT_PATH\" -scheme \"$SCHEME\" -destination \"id=$udid\" test 2>&1 | tee \"$log_file\"; echo '测试完成，按任意键退出...'; read -n 1 -s"
     
-    echo -e "${GREEN}已在 tmux 会话 'wda-test' 中启动 xcodebuild${NC}"
-    echo "查看日志: tmux attach -t wda-test"
+    echo -e "${GREEN}已在 tmux 会话 'wda' 中启动 xcodebuild${NC}"
+    echo "查看日志: tmux attach -t wda"
     
     # 从日志中提取实际的 WDA URL
     echo "等待 WDA 启动并获取服务器地址..."
@@ -542,7 +542,7 @@ main() {
         echo -e "${GREEN}WDA 已启动，直接返回状态${NC}"
         echo "$status_response" | jq '.'
         
-        local cache_file="${CACHE_DIR}/wda-${udid}.json"
+        local cache_file="${CACHE_DIR}/wda.json"
         local pid
         pid=$(echo "$status_response" | jq -r '.value.os.pid // "unknown"' 2>/dev/null) || pid="unknown"
         local session_id
