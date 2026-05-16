@@ -59,7 +59,7 @@ while [[ $# -gt 0 ]]; do
             USE_IPROXY="true"
             shift
             ;;
-        --no-iproxy)
+        --wifi)
             USE_IPROXY="false"
             shift
             ;;
@@ -98,9 +98,12 @@ check_network_reachability() {
     local ip="$1"
     local port="$2"
     
-    # 检查 IP 是否可达
+    # 优先 HTTP 检测（最可靠，直接验证目标服务可达性）
+    if curl -s --connect-timeout 3 "http://${ip}:${port}/status" > /dev/null 2>&1; then
+        return 0
+    fi
+    # 回退到 ping + nc
     if ping -c 1 -W 2 "$ip" &> /dev/null; then
-        # 检查端口是否开放
         if nc -z -w 2 "$ip" "$port" 2>/dev/null; then
             return 0
         fi
@@ -377,20 +380,54 @@ start_wda_test() {
                 fi
             fi
         fi
+        # 尝试直接访问提取到的 WDA URL（设备可能已通过 WiFi 可达）
+        if [[ "$USE_IPROXY" == "true" ]]; then
+            local test_ip test_port
+            test_ip=$(echo "$actual_wda_url" | sed -n 's|http://\([^:]*\):.*|\1|p')
+            test_port=$(echo "$actual_wda_url" | sed -n 's|.*:\([0-9]*\)$|\1|p')
+            if [[ -n "$test_ip" ]] && curl -s --connect-timeout 3 "${actual_wda_url}/status" > /dev/null 2>&1; then
+                echo -e "${GREEN}WDA URL 直接可达，切换到直接连接${NC}"
+                HOST="$test_ip"
+                PORT="${test_port:-$PORT}"
+                USE_IPROXY="false"
+            fi
+        fi
     else
         echo -e "${YELLOW}未能从日志中提取 WDA URL，使用默认配置${NC}"
     fi
     
     # 等待 WDA 完全启动
     echo "等待 WDA 完全就绪..."
+    echo -e "${BLUE}检查 URL: http://${HOST}:${PORT}/status${NC}"
     local max_wait=60
     local wait_time=0
+    local checked_url="http://${HOST}:${PORT}/status"
     while [[ $wait_time -lt $max_wait ]]; do
         sleep 2
         wait_time=$((wait_time + 2))
         if check_wda_status > /dev/null 2>&1; then
             echo -e "${GREEN}WDA 已就绪（等待时间: ${wait_time}s）${NC}"
             break
+        fi
+        # 首次失败时输出诊断信息
+        if [[ $wait_time -eq 4 ]]; then
+            local debug_resp
+            debug_resp=$(curl -s --connect-timeout 3 -w '\nHTTP_CODE:%{http_code}' "${checked_url}" 2>&1) || true
+            echo -e "${YELLOW}首次检查失败，诊断: ${debug_resp:0:300}${NC}"
+        fi
+        # iproxy 连续失败 ~15s 后尝试直接连接
+        if [[ $wait_time -eq 15 ]] && [[ "$USE_IPROXY" == "true" ]] && [[ -n "${actual_wda_url:-}" ]]; then
+            echo -e "${YELLOW}iproxy 连接超时，尝试直接连接 ${actual_wda_url}...${NC}"
+            local fb_ip fb_port
+            fb_ip=$(echo "$actual_wda_url" | sed -n 's|http://\([^:]*\):.*|\1|p')
+            fb_port=$(echo "$actual_wda_url" | sed -n 's|.*:\([0-9]*\)$|\1|p')
+            if [[ -n "$fb_ip" ]]; then
+                HOST="$fb_ip"
+                PORT="${fb_port:-$PORT}"
+                USE_IPROXY="false"
+                checked_url="http://${HOST}:${PORT}/status"
+                echo -e "${GREEN}已切换到直接连接: ${checked_url}${NC}"
+            fi
         fi
         echo "等待中... ($wait_time/$max_wait)"
     done
