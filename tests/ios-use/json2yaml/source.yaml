@@ -1,0 +1,1579 @@
+type: Application
+name: ' '
+rect:
+  w: 402
+  h: 874
+children:
+- type: Window
+  rect:
+    w: 402
+    h: 874
+  children:
+  - rect:
+      w: 402
+      h: 874
+    children:
+    - rect:
+        w: 402
+        h: 100
+    - name: Home screen icons
+      rect:
+        w: 402
+        h: 874
+      children:
+      - rect:
+          w: 402
+          h: 874
+        children:
+        - rect:
+            x: 402
+            y: 0
+            w: 402
+            h: 874
+        - type: Icon
+          children:
+          - type: Icon
+            name: Weather
+          - type: Icon
+            name: Photos
+          - type: Icon
+            name: FaceTime
+          - type: Icon
+            name: Calendar
+            value: Saturday, May 16
+          - type: Icon
+            name: Photos
+          - type: Icon
+            name: Camera
+          - type: Icon
+            name: Mail
+            value: No unread emails
+          - type: Icon
+            name: Notes
+          - type: Icon
+            name: Reminders
+          - type: Icon
+            name: Clock
+            value: 10:43 PM
+          - type: Icon
+            name: News
+          - type: Icon
+            name: TV
+          - type: Icon
+            name: Games
+          - type: Icon
+            name: App Store
+          - type: Icon
+            name: Maps
+          - type: Icon
+            name: Health
+          - type: Icon
+            name: Wallet
+          - type: Icon
+            name: Settings
+        - type: Icon
+          children:
+          - type: Icon
+            name: Weather
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 27
+              y: 88
+              w: 70
+              h: 91
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 30
+                y: 90
+                w: 65
+                h: 78
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 30
+                  y: 90
+                  w: 65
+                  h: 64
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 29
+                  y: 157
+                  w: 66
+                  h: 20
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 29
+                    y: 157
+                    w: 66
+                    h: 20
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 21
+                      y: 146
+                      w: 83
+                      h: 41
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 29
+                      y: 157
+                      w: 66
+                      h: 20
+          - type: Icon
+            name: Stocks
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 120
+              y: 88
+              w: 69
+              h: 91
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 122
+                y: 90
+                w: 65
+                h: 78
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 122
+                  y: 90
+                  w: 65
+                  h: 64
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 126
+                  y: 157
+                  w: 57
+                  h: 20
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 126
+                    y: 157
+                    w: 57
+                    h: 20
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 117
+                      y: 146
+                      w: 75
+                      h: 41
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 126
+                      y: 157
+                      w: 57
+                      h: 20
+          - type: Icon
+            name: Find My
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 213
+              y: 88
+              w: 69
+              h: 91
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 215
+                y: 90
+                w: 65
+                h: 78
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 215
+                  y: 90
+                  w: 65
+                  h: 64
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 216
+                  y: 157
+                  w: 62
+                  h: 20
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 216
+                    y: 157
+                    w: 62
+                    h: 20
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 207
+                      y: 146
+                      w: 81
+                      h: 41
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 216
+                      y: 157
+                      w: 62
+                      h: 20
+          - type: Icon
+            name: Home
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 306
+              y: 88
+              w: 68
+              h: 91
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 308
+                y: 90
+                w: 64
+                h: 78
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 308
+                  y: 90
+                  w: 64
+                  h: 64
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 314
+                  y: 157
+                  w: 51
+                  h: 20
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 314
+                    y: 157
+                    w: 51
+                    h: 20
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 306
+                      y: 146
+                      w: 69
+                      h: 41
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 314
+                      y: 157
+                      w: 51
+                      h: 20
+          - type: Icon
+            name: Podcasts
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 25
+              y: 188
+              w: 74
+              h: 92
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 30
+                y: 190
+                w: 65
+                h: 79
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 30
+                  y: 190
+                  w: 65
+                  h: 65
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 27
+                  y: 257
+                  w: 70
+                  h: 21
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 27
+                    y: 257
+                    w: 70
+                    h: 21
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 18
+                      y: 246
+                      w: 89
+                      h: 41
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 27
+                      y: 257
+                      w: 70
+                      h: 21
+          - type: Icon
+            name: Books
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 120
+              y: 188
+              w: 69
+              h: 92
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 122
+                y: 190
+                w: 65
+                h: 79
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 122
+                  y: 190
+                  w: 65
+                  h: 65
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 128
+                  y: 257
+                  w: 53
+                  h: 21
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 128
+                    y: 257
+                    w: 53
+                    h: 21
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 119
+                      y: 246
+                      w: 71
+                      h: 41
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 128
+                      y: 257
+                      w: 53
+                      h: 21
+          - type: Icon
+            name: Fitness
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 213
+              y: 188
+              w: 69
+              h: 92
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 215
+                y: 190
+                w: 65
+                h: 79
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 215
+                  y: 190
+                  w: 65
+                  h: 65
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 218
+                  y: 257
+                  w: 59
+                  h: 21
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 218
+                    y: 257
+                    w: 59
+                    h: 21
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 210
+                      y: 246
+                      w: 76
+                      h: 41
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 218
+                      y: 257
+                      w: 59
+                      h: 21
+          - type: Icon
+            name: Watch
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 306
+              y: 188
+              w: 68
+              h: 92
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 308
+                y: 190
+                w: 64
+                h: 79
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 308
+                  y: 190
+                  w: 64
+                  h: 65
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 313
+                  y: 257
+                  w: 53
+                  h: 21
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 313
+                    y: 257
+                    w: 53
+                    h: 21
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 304
+                      y: 246
+                      w: 72
+                      h: 41
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 313
+                      y: 257
+                      w: 53
+                      h: 21
+          - type: Icon
+            name: Contacts
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 26
+              y: 288
+              w: 73
+              h: 92
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 30
+                y: 290
+                w: 65
+                h: 79
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 30
+                  y: 290
+                  w: 65
+                  h: 65
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 28
+                  y: 357
+                  w: 69
+                  h: 21
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 28
+                    y: 357
+                    w: 69
+                    h: 21
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 19
+                      y: 347
+                      w: 87
+                      h: 40
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 28
+                      y: 357
+                      w: 69
+                      h: 21
+          - type: Icon
+            name: Files
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 120
+              y: 288
+              w: 69
+              h: 92
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 122
+                y: 290
+                w: 65
+                h: 79
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 122
+                  y: 290
+                  w: 65
+                  h: 65
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 133
+                  y: 357
+                  w: 43
+                  h: 21
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 133
+                    y: 357
+                    w: 43
+                    h: 21
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 124
+                      y: 347
+                      w: 62
+                      h: 40
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 133
+                      y: 357
+                      w: 43
+                      h: 21
+          - type: Icon
+            name: Preview
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 213
+              y: 288
+              w: 69
+              h: 92
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 215
+                y: 290
+                w: 65
+                h: 79
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 215
+                  y: 290
+                  w: 65
+                  h: 65
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 216
+                  y: 357
+                  w: 63
+                  h: 21
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 216
+                    y: 357
+                    w: 63
+                    h: 21
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 208
+                      y: 347
+                      w: 80
+                      h: 40
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 216
+                      y: 357
+                      w: 63
+                      h: 21
+          - type: Icon
+            name: Utilities
+            label: Utilities folder
+            value: 7 apps
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 306
+              y: 288
+              w: 68
+              h: 92
+            children:
+            - type: Icon
+              name: Compass
+            - type: Icon
+              name: Shortcuts
+            - type: Icon
+              name: Passwords
+            - type: Icon
+              name: Voice Memos
+            - type: Icon
+              name: Calculator
+            - type: Icon
+              name: Magnifier
+            - type: Icon
+              name: Measure
+          - type: Icon
+            name: iTunes Store
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 16
+              y: 389
+              w: 93
+              h: 91
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 30
+                y: 391
+                w: 65
+                h: 78
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 30
+                  y: 391
+                  w: 65
+                  h: 64
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 18
+                  y: 458
+                  w: 89
+                  h: 20
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 18
+                    y: 458
+                    w: 89
+                    h: 20
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 9
+                      y: 447
+                      w: 107
+                      h: 41
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 18
+                      y: 458
+                      w: 89
+                      h: 20
+          - type: Icon
+            name: Translate
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 117
+              y: 389
+              w: 75
+              h: 91
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 122
+                y: 391
+                w: 65
+                h: 78
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 122
+                  y: 391
+                  w: 65
+                  h: 64
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 119
+                  y: 458
+                  w: 71
+                  h: 20
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 119
+                    y: 458
+                    w: 71
+                    h: 20
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 111
+                      y: 447
+                      w: 88
+                      h: 41
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 119
+                      y: 458
+                      w: 71
+                      h: 20
+          - type: Icon
+            name: Freeform
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 211
+              y: 389
+              w: 73
+              h: 91
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 215
+                y: 391
+                w: 65
+                h: 78
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 215
+                  y: 391
+                  w: 65
+                  h: 64
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 213
+                  y: 458
+                  w: 69
+                  h: 20
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 213
+                    y: 458
+                    w: 69
+                    h: 20
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 204
+                      y: 447
+                      w: 88
+                      h: 41
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 213
+                      y: 458
+                      w: 69
+                      h: 20
+          - type: Icon
+            name: Journal
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 306
+              y: 389
+              w: 68
+              h: 91
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 308
+                y: 391
+                w: 64
+                h: 78
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 308
+                  y: 391
+                  w: 64
+                  h: 64
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 310
+                  y: 458
+                  w: 60
+                  h: 20
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 310
+                    y: 458
+                    w: 60
+                    h: 20
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 301
+                      y: 447
+                      w: 78
+                      h: 41
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 310
+                      y: 458
+                      w: 60
+                      h: 20
+          - type: Icon
+            name: Tips
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 28
+              y: 489
+              w: 69
+              h: 91
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 30
+                y: 491
+                w: 65
+                h: 79
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 30
+                  y: 491
+                  w: 65
+                  h: 65
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 41
+                  y: 558
+                  w: 42
+                  h: 20
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 41
+                    y: 558
+                    w: 42
+                    h: 20
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 33
+                      y: 547
+                      w: 59
+                      h: 41
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 41
+                      y: 558
+                      w: 42
+                      h: 20
+          - type: Icon
+            name: ZenBound
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 114
+              y: 489
+              w: 81
+              h: 91
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 122
+                y: 491
+                w: 65
+                h: 79
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 122
+                  y: 491
+                  w: 65
+                  h: 65
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 116
+                  y: 558
+                  w: 77
+                  h: 20
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 116
+                    y: 558
+                    w: 77
+                    h: 20
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 108
+                      y: 547
+                      w: 94
+                      h: 41
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 116
+                      y: 558
+                      w: 77
+                      h: 20
+          - type: Icon
+            name: WebDriverAgentRunner-Runner
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 195
+              y: 489
+              w: 106
+              h: 95
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 215
+                y: 491
+                w: 65
+                h: 79
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 215
+                  y: 491
+                  w: 65
+                  h: 65
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 197
+                  y: 555
+                  w: 102
+                  h: 27
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 197
+                    y: 555
+                    w: 102
+                    h: 27
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 188
+                      y: 544
+                      w: 120
+                      h: 47
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 197
+                      y: 555
+                      w: 102
+                      h: 27
+          - type: Icon
+            name: IntegrationApp
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 287
+              y: 489
+              w: 106
+              h: 95
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 308
+                y: 491
+                w: 64
+                h: 79
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 308
+                  y: 491
+                  w: 64
+                  h: 65
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 289
+                  y: 555
+                  w: 102
+                  h: 27
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 289
+                    y: 555
+                    w: 102
+                    h: 27
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 280
+                      y: 544
+                      w: 120
+                      h: 47
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 289
+                      y: 555
+                      w: 102
+                      h: 27
+          - type: Icon
+            name: IOSClickDemo
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 10
+              y: 589
+              w: 104
+              h: 92
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 30
+                y: 591
+                w: 65
+                h: 79
+              children:
+              - actions: Edit mode,Today,App Library
+                rect:
+                  x: 30
+                  y: 591
+                  w: 65
+                  h: 65
+              - name: label-view
+                actions: Edit mode,Today,App Library
+                rect:
+                  x: 12
+                  y: 658
+                  w: 100
+                  h: 21
+                children:
+                - actions: Edit mode,Today,App Library
+                  rect:
+                    x: 12
+                    y: 658
+                    w: 100
+                    h: 21
+                  children:
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 4
+                      y: 648
+                      w: 118
+                      h: 40
+                  - type: Image
+                    traits: Image
+                    actions: Edit mode,Today,App Library
+                    rect:
+                      x: 12
+                      y: 658
+                      w: 100
+                      h: 21
+        - name: spotlight-pill
+          label: Search
+          value: Page 2 of 2
+          traits: Adjustable
+          rect:
+            x: 162
+            y: 703
+            w: 78
+            h: 31
+          children:
+          - type: PageIndicator
+            name: Page control
+            value: Page 2 of 2
+            traits: Adjustable
+            rect:
+              x: 162
+              y: 703
+              w: 78
+              h: 36
+          - name: spotlight-pill
+            rect:
+              x: 162
+              y: 703
+              w: 78
+              h: 31
+            children:
+            - rect:
+                x: 162
+                y: 703
+                w: 78
+                h: 31
+              children:
+              - type: Image
+                name: magnifyingglass
+                label: Search
+                traits: Image
+                rect:
+                  x: 173
+                  y: 713
+                  w: 12
+                  h: 11
+              - type: StaticText
+                name: Search
+                value: Search
+                traits: StaticText
+                rect:
+                  x: 188
+                  y: 711
+                  w: 41
+                  h: 15
+        - name: Dock
+          rect:
+            x: 0
+            y: 753
+            w: 402
+            h: 104
+          children:
+          - rect:
+              x: 0
+              y: 753
+              w: 402
+              h: 104
+          - type: Icon
+            name: Phone
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 34
+              y: 771
+              w: 69
+              h: 69
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 36
+                y: 773
+                w: 65
+                h: 65
+          - type: Icon
+            name: Safari
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 122
+              y: 771
+              w: 69
+              h: 69
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 124
+                y: 773
+                w: 65
+                h: 65
+          - type: Icon
+            name: Messages
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 211
+              y: 771
+              w: 69
+              h: 69
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 213
+                y: 773
+                w: 65
+                h: 65
+          - type: Icon
+            name: Music
+            traits: UpdatesFrequently
+            actions: Edit mode,Today,App Library
+            rect:
+              x: 299
+              y: 771
+              w: 69
+              h: 69
+            children:
+            - actions: Edit mode,Today,App Library
+              rect:
+                x: 301
+                y: 773
+                w: 65
+                h: 65
+      - rect:
+          w: 402
+          h: 874
+        children:
+        - rect:
+            w: 402
+            h: 874
+          children:
+          - rect:
+              w: 402
+              h: 874
+          - rect:
+              w: 402
+              h: 874
+        - rect:
+            w: 402
+            h: 874
+          children:
+          - rect:
+              w: 402
+              h: 874
+          - rect:
+              w: 402
+              h: 874
+        - rect:
+            w: 402
+            h: 874
+          children:
+          - rect:
+              w: 402
+              h: 874
+          - rect:
+              w: 402
+              h: 874
+    - rect:
+        w: 402
+        h: 874
+- type: Window
+  rect:
+    w: 402
+    h: 874
+  children:
+  - rect:
+      w: 402
+      h: 874
+- type: Window
+  rect:
+    w: 402
+    h: 874
+  children:
+  - rect:
+      x: 138
+      y: 14
+      w: 126
+      h: 37
+- type: Window
+  rect:
+    w: 402
+    h: 874
+  children:
+  - rect:
+      w: 402
+      h: 874
+    children:
+    - rect:
+        x: 138
+        y: 13
+        w: 126
+        h: 38
+    - rect:
+        w: 402
+        h: 874
+      children:
+      - rect:
+          x: 138
+          y: 13
+          w: 126
+          h: 38
+      - rect:
+          x: 138
+          y: 13
+          w: 126
+          h: 38
+    - name: jindo-container-view:1
+      rect:
+        x: 138
+        y: 13
+        w: 126
+        h: 38
+      children:
+      - rect:
+          x: 128
+          y: 10
+          w: 146
+          h: 52
+    - rect:
+        x: 218
+        y: 28
+        w: 9
+        h: 9
+- type: Window
+  rect:
+    w: 1206
+    h: 2622
+  children:
+  - rect:
+      w: 1206
+      h: 2622
+    children:
+    - rect:
+        w: 1206
+        h: 2622
+      children:
+      - rect:
+          w: 1206
+          h: 2622
+      - rect:
+          w: 1206
+          h: 2622
+      - rect:
+          w: 1206
+          h: 2622
+      - rect:
+          w: 1206
+          h: 2622
+      - rect:
+          w: 1206
+          h: 2622
+      - rect:
+          w: 1206
+          h: 2622
+      - rect:
+          w: 1206
+          h: 2622
+    - rect:
+        w: 1206
+        h: 2622
+      children:
+      - rect:
+          w: 1206
+          h: 2622
+      - rect:
+          w: 1206
+          h: 2622
+    - rect:
+        w: 1206
+        h: 2622
+      children:
+      - rect:
+          w: 1206
+          h: 2622
+      - rect:
+          w: 1206
+          h: 2622
+- type: Window
+  rect:
+    w: 1206
+    h: 2622
+  children:
+  - rect:
+      w: 1206
+      h: 2622
+- type: Window
+  rect:
+    w: 402
+    h: 874
+  children:
+  - rect:
+      w: 402
+      h: 874
+- type: Window
+  rect:
+    w: 402
+    h: 874
+  children:
+  - rect:
+      w: 402
+      h: 874
+- type: Window
+  rect:
+    w: 402
+    h: 874
+  children:
+  - rect:
+      w: 402
+      h: 874
+- type: Window
+  rect:
+    w: 402
+    h: 874
+  children:
+  - rect:
+      w: 402
+      h: 874
+- type: Window
+  rect:
+    w: 402
+    h: 874
+  children:
+  - type: StatusBar
+    rect:
+      w: 402
+      h: 54
+    children:
+    - rect:
+        w: 402
+        h: 54
+      children:
+      - type: StaticText
+        name: 10:43 PM
+        value: 10:43 PM
+        traits: StaticText, UpdatesFrequently
+        rect:
+          x: 42
+          y: 22
+          w: 46
+          h: 21
+      - type: Image
+        name: bell.slash.fill
+        label: Silent Mode
+        traits: Image
+        rect:
+          x: 90
+          y: 23
+          w: 16
+          h: 19
+      - name: Cellular
+        value: No signal
+        rect:
+          x: 288
+          y: 26
+          w: 20
+          h: 13
+      - name: 3 of 3 Wi-Fi bars
+        value: SSID, 3 of 3 Wi-Fi bars
+        rect:
+          x: 315
+          y: 26
+          w: 17
+          h: 13
+      - name: 90% battery power
+        value: Not charging
+        traits: UpdatesFrequently
+        rect:
+          x: 339
+          y: 26
+          w: 28
+          h: 13
+- type: Window
+  rect:
+    w: 402
+    h: 874
+  children:
+  - rect:
+      w: 402
+      h: 874
+- type: Window
+  rect:
+    w: 402
+    h: 874
+  children:
+  - rect:
+      w: 402
+      h: 874
+- type: Window
+  rect:
+    w: 402
+    h: 874
+  children:
+  - rect:
+      w: 402
+      h: 874

@@ -1,0 +1,478 @@
+type: Application
+name: ' '
+rect: 402x874
+children:
+- type: Window
+  rect: 402x874
+  children:
+  - name: Home screen icons
+    rect: 402x874
+    children:
+    - rect: 402x874
+      children:
+      - type: Icon
+        children:
+        - type: Icon
+          name: Weather
+        - type: Icon
+          name: Photos
+        - type: Icon
+          name: FaceTime
+        - type: Icon
+          name: Calendar
+          value: Saturday, May 16
+        - type: Icon
+          name: Photos
+        - type: Icon
+          name: Camera
+        - type: Icon
+          name: Mail
+          value: No unread emails
+        - type: Icon
+          name: Notes
+        - type: Icon
+          name: Reminders
+        - type: Icon
+          name: Clock
+          value: 10:43 PM
+        - type: Icon
+          name: News
+        - type: Icon
+          name: TV
+        - type: Icon
+          name: Games
+        - type: Icon
+          name: App Store
+        - type: Icon
+          name: Maps
+        - type: Icon
+          name: Health
+        - type: Icon
+          name: Wallet
+        - type: Icon
+          name: Settings
+      - type: Icon
+        children:
+        - type: Icon
+          name: Weather
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 27,88 70x91
+          children:
+          - name: label-view
+            rect: 29,157 66x20
+            children:
+            - rect: 29,157 66x20
+              children:
+              - type: Image
+                rect: 21,146 83x41
+              - type: Image
+                rect: 29,157 66x20
+        - type: Icon
+          name: Stocks
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 120,88 69x91
+          children:
+          - name: label-view
+            rect: 126,157 57x20
+            children:
+            - rect: 126,157 57x20
+              children:
+              - type: Image
+                rect: 117,146 75x41
+              - type: Image
+                rect: 126,157 57x20
+        - type: Icon
+          name: Find My
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 213,88 69x91
+          children:
+          - name: label-view
+            rect: 216,157 62x20
+            children:
+            - rect: 216,157 62x20
+              children:
+              - type: Image
+                rect: 207,146 81x41
+              - type: Image
+                rect: 216,157 62x20
+        - type: Icon
+          name: Home
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 306,88 68x91
+          children:
+          - name: label-view
+            rect: 314,157 51x20
+            children:
+            - rect: 314,157 51x20
+              children:
+              - type: Image
+                rect: 306,146 69x41
+              - type: Image
+                rect: 314,157 51x20
+        - type: Icon
+          name: Podcasts
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 25,188 74x92
+          children:
+          - name: label-view
+            rect: 27,257 70x21
+            children:
+            - rect: 27,257 70x21
+              children:
+              - type: Image
+                rect: 18,246 89x41
+              - type: Image
+                rect: 27,257 70x21
+        - type: Icon
+          name: Books
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 120,188 69x92
+          children:
+          - name: label-view
+            rect: 128,257 53x21
+            children:
+            - rect: 128,257 53x21
+              children:
+              - type: Image
+                rect: 119,246 71x41
+              - type: Image
+                rect: 128,257 53x21
+        - type: Icon
+          name: Fitness
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 213,188 69x92
+          children:
+          - name: label-view
+            rect: 218,257 59x21
+            children:
+            - rect: 218,257 59x21
+              children:
+              - type: Image
+                rect: 210,246 76x41
+              - type: Image
+                rect: 218,257 59x21
+        - type: Icon
+          name: Watch
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 306,188 68x92
+          children:
+          - name: label-view
+            rect: 313,257 53x21
+            children:
+            - rect: 313,257 53x21
+              children:
+              - type: Image
+                rect: 304,246 72x41
+              - type: Image
+                rect: 313,257 53x21
+        - type: Icon
+          name: Contacts
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 26,288 73x92
+          children:
+          - name: label-view
+            rect: 28,357 69x21
+            children:
+            - rect: 28,357 69x21
+              children:
+              - type: Image
+                rect: 19,347 87x40
+              - type: Image
+                rect: 28,357 69x21
+        - type: Icon
+          name: Files
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 120,288 69x92
+          children:
+          - name: label-view
+            rect: 133,357 43x21
+            children:
+            - rect: 133,357 43x21
+              children:
+              - type: Image
+                rect: 124,347 62x40
+              - type: Image
+                rect: 133,357 43x21
+        - type: Icon
+          name: Preview
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 213,288 69x92
+          children:
+          - name: label-view
+            rect: 216,357 63x21
+            children:
+            - rect: 216,357 63x21
+              children:
+              - type: Image
+                rect: 208,347 80x40
+              - type: Image
+                rect: 216,357 63x21
+        - type: Icon
+          name: Utilities
+          label: Utilities folder
+          value: 7 apps
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 306,288 68x92
+          children:
+          - type: Icon
+            name: Compass
+          - type: Icon
+            name: Shortcuts
+          - type: Icon
+            name: Passwords
+          - type: Icon
+            name: Voice Memos
+          - type: Icon
+            name: Calculator
+          - type: Icon
+            name: Magnifier
+          - type: Icon
+            name: Measure
+        - type: Icon
+          name: iTunes Store
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 16,389 93x91
+          children:
+          - name: label-view
+            rect: 18,458 89x20
+            children:
+            - rect: 18,458 89x20
+              children:
+              - type: Image
+                rect: 9,447 107x41
+              - type: Image
+                rect: 18,458 89x20
+        - type: Icon
+          name: Translate
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 117,389 75x91
+          children:
+          - name: label-view
+            rect: 119,458 71x20
+            children:
+            - rect: 119,458 71x20
+              children:
+              - type: Image
+                rect: 111,447 88x41
+              - type: Image
+                rect: 119,458 71x20
+        - type: Icon
+          name: Freeform
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 211,389 73x91
+          children:
+          - name: label-view
+            rect: 213,458 69x20
+            children:
+            - rect: 213,458 69x20
+              children:
+              - type: Image
+                rect: 204,447 88x41
+              - type: Image
+                rect: 213,458 69x20
+        - type: Icon
+          name: Journal
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 306,389 68x91
+          children:
+          - name: label-view
+            rect: 310,458 60x20
+            children:
+            - rect: 310,458 60x20
+              children:
+              - type: Image
+                rect: 301,447 78x41
+              - type: Image
+                rect: 310,458 60x20
+        - type: Icon
+          name: Tips
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 28,489 69x91
+          children:
+          - name: label-view
+            rect: 41,558 42x20
+            children:
+            - rect: 41,558 42x20
+              children:
+              - type: Image
+                rect: 33,547 59x41
+              - type: Image
+                rect: 41,558 42x20
+        - type: Icon
+          name: ZenBound
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 114,489 81x91
+          children:
+          - name: label-view
+            rect: 116,558 77x20
+            children:
+            - rect: 116,558 77x20
+              children:
+              - type: Image
+                rect: 108,547 94x41
+              - type: Image
+                rect: 116,558 77x20
+        - type: Icon
+          name: WebDriverAgentRunner-Runner
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 195,489 106x95
+          children:
+          - name: label-view
+            rect: 197,555 102x27
+            children:
+            - rect: 197,555 102x27
+              children:
+              - type: Image
+                rect: 188,544 120x47
+              - type: Image
+                rect: 197,555 102x27
+        - type: Icon
+          name: IntegrationApp
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 287,489 106x95
+          children:
+          - name: label-view
+            rect: 289,555 102x27
+            children:
+            - rect: 289,555 102x27
+              children:
+              - type: Image
+                rect: 280,544 120x47
+              - type: Image
+                rect: 289,555 102x27
+        - type: Icon
+          name: IOSClickDemo
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 10,589 104x92
+          children:
+          - name: label-view
+            rect: 12,658 100x21
+            children:
+            - rect: 12,658 100x21
+              children:
+              - type: Image
+                rect: 4,648 118x40
+              - type: Image
+                rect: 12,658 100x21
+      - name: spotlight-pill
+        label: Search
+        value: Page 2 of 2
+        traits: Adjustable
+        rect: 162,703 78x31
+        children:
+        - type: PageIndicator
+          name: Page control
+          value: Page 2 of 2
+          traits: Adjustable
+          rect: 162,703 78x36
+        - name: spotlight-pill
+          rect: 162,703 78x31
+          children:
+          - rect: 162,703 78x31
+            children:
+            - type: Image
+              name: magnifyingglass
+              label: Search
+              rect: 173,713 12x11
+            - type: StaticText
+              name: Search
+              value: Search
+              rect: 188,711 41x15
+      - name: Dock
+        rect: 0,753 402x104
+        children:
+        - type: Icon
+          name: Phone
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 34,771 69x69
+        - type: Icon
+          name: Safari
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 122,771 69x69
+        - type: Icon
+          name: Messages
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 211,771 69x69
+        - type: Icon
+          name: Music
+          traits: UpdatesFrequently
+          actions: Edit mode,Today,App Library
+          rect: 299,771 69x69
+- type: Window
+  rect: 402x874
+- type: Window
+  rect: 402x874
+- type: Window
+  rect: 402x874
+  children:
+  - name: jindo-container-view:1
+    rect: 138,13 126x38
+- type: Window
+  rect: 1206x2622
+- type: Window
+  rect: 1206x2622
+- type: Window
+  rect: 402x874
+- type: Window
+  rect: 402x874
+- type: Window
+  rect: 402x874
+- type: Window
+  rect: 402x874
+- type: Window
+  rect: 402x874
+  children:
+  - type: StatusBar
+    rect: 402x54
+    children:
+    - rect: 402x54
+      children:
+      - type: StaticText
+        name: 10:43 PM
+        value: 10:43 PM
+        traits: StaticText, UpdatesFrequently
+        rect: 42,22 46x21
+      - type: Image
+        name: bell.slash.fill
+        label: Silent Mode
+        rect: 90,23 16x19
+      - name: Cellular
+        value: No signal
+        rect: 288,26 20x13
+      - name: 3 of 3 Wi-Fi bars
+        value: SSID, 3 of 3 Wi-Fi bars
+        rect: 315,26 17x13
+      - name: 90% battery power
+        value: Not charging
+        traits: UpdatesFrequently
+        rect: 339,26 28x13
+- type: Window
+  rect: 402x874
+- type: Window
+  rect: 402x874
+- type: Window
+  rect: 402x874

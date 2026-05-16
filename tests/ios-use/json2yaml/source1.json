@@ -1,0 +1,2023 @@
+{
+  "value" : {
+    "rawIdentifier" : null,
+    "traits" : "",
+    "children" : [
+      {
+        "rawIdentifier" : null,
+        "traits" : "",
+        "children" : [
+          {
+            "rawIdentifier" : null,
+            "traits" : "",
+            "children" : [
+              {
+                "rawIdentifier" : null,
+                "traits" : "",
+                "children" : [
+                  {
+                    "rawIdentifier" : null,
+                    "traits" : "",
+                    "children" : [
+                      {
+                        "rawIdentifier" : null,
+                        "traits" : "",
+                        "children" : [
+                          {
+                            "rawIdentifier" : null,
+                            "traits" : "",
+                            "children" : [
+                              {
+                                "rawIdentifier" : "Sleepytime",
+                                "traits" : "",
+                                "children" : [
+                                  {
+                                    "rawIdentifier" : null,
+                                    "traits" : "Header",
+                                    "rect" : {
+                                      "y" : 119,
+                                      "x" : 16,
+                                      "width" : 178,
+                                      "height" : 42
+                                    },
+                                    "value" : "Sleepytime",
+                                    "label" : "Sleepytime",
+                                    "customActions" : null,
+                                    "type" : "StaticText",
+                                    "name" : "Sleepytime"
+                                  }
+                                ],
+                                "rect" : {
+                                  "y" : 62,
+                                  "x" : 0,
+                                  "width" : 402,
+                                  "height" : 106
+                                },
+                                "value" : null,
+                                "label" : null,
+                                "customActions" : null,
+                                "type" : "NavigationBar",
+                                "name" : "Sleepytime"
+                              },
+                              {
+                                "rawIdentifier" : null,
+                                "traits" : "",
+                                "children" : [
+                                  {
+                                    "rawIdentifier" : null,
+                                    "traits" : "",
+                                    "children" : [
+                                      {
+                                        "rawIdentifier" : null,
+                                        "traits" : "",
+                                        "children" : [
+                                          {
+                                            "rawIdentifier" : null,
+                                            "traits" : "",
+                                            "children" : [
+                                              {
+                                                "rawIdentifier" : "screen.sleepytime",
+                                                "traits" : "",
+                                                "children" : [
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "rect" : {
+                                                      "y" : -1580,
+                                                      "x" : -16,
+                                                      "width" : 434,
+                                                      "height" : 1858
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Other",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "rect" : {
+                                                      "y" : 0,
+                                                      "x" : 0,
+                                                      "width" : 402,
+                                                      "height" : 874
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Other",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "rect" : {
+                                                      "y" : 0,
+                                                      "x" : 0,
+                                                      "width" : 402,
+                                                      "height" : 874
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Other",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "Header",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "rect" : {
+                                                          "y" : 168,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 41
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      },
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "children" : [
+                                                              {
+                                                                "rawIdentifier" : null,
+                                                                "traits" : "",
+                                                                "children" : [
+                                                                  {
+                                                                    "rawIdentifier" : null,
+                                                                    "traits" : "Header, StaticText",
+                                                                    "rect" : {
+                                                                      "y" : 168,
+                                                                      "x" : 16,
+                                                                      "width" : 370,
+                                                                      "height" : 41
+                                                                    },
+                                                                    "value" : "Status",
+                                                                    "label" : "Status",
+                                                                    "customActions" : null,
+                                                                    "type" : "StaticText",
+                                                                    "name" : "Status"
+                                                                  }
+                                                                ],
+                                                                "rect" : {
+                                                                  "y" : 168,
+                                                                  "x" : 16,
+                                                                  "width" : 370,
+                                                                  "height" : 41
+                                                                },
+                                                                "value" : null,
+                                                                "label" : null,
+                                                                "customActions" : null,
+                                                                "type" : "Other",
+                                                                "name" : null
+                                                              }
+                                                            ],
+                                                            "rect" : {
+                                                              "y" : 168,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 41
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 168,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 41
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 168,
+                                                      "x" : 16,
+                                                      "width" : 370,
+                                                      "height" : 41
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Cell",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "rect" : {
+                                                              "y" : 208,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 53
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 208,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 53
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      },
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "children" : [
+                                                              {
+                                                                "rawIdentifier" : null,
+                                                                "traits" : "",
+                                                                "children" : [
+                                                                  {
+                                                                    "rawIdentifier" : "toggle.sleepytimeEnabled",
+                                                                    "traits" : "ToggleButton, Button",
+                                                                    "children" : [
+                                                                      {
+                                                                        "rawIdentifier" : null,
+                                                                        "traits" : "StaticText",
+                                                                        "rect" : {
+                                                                          "y" : 224,
+                                                                          "x" : 32,
+                                                                          "width" : 141,
+                                                                          "height" : 21
+                                                                        },
+                                                                        "value" : "Enable Sleepytime",
+                                                                        "label" : "Enable Sleepytime",
+                                                                        "customActions" : null,
+                                                                        "type" : "StaticText",
+                                                                        "name" : "Enable Sleepytime"
+                                                                      },
+                                                                      {
+                                                                        "rawIdentifier" : null,
+                                                                        "traits" : "ToggleButton, Button",
+                                                                        "rect" : {
+                                                                          "y" : 220,
+                                                                          "x" : 309,
+                                                                          "width" : 63,
+                                                                          "height" : 29
+                                                                        },
+                                                                        "value" : "1",
+                                                                        "label" : null,
+                                                                        "customActions" : null,
+                                                                        "type" : "Switch",
+                                                                        "name" : null
+                                                                      }
+                                                                    ],
+                                                                    "rect" : {
+                                                                      "y" : 208,
+                                                                      "x" : 16,
+                                                                      "width" : 370,
+                                                                      "height" : 53
+                                                                    },
+                                                                    "value" : "1",
+                                                                    "label" : "Enable Sleepytime",
+                                                                    "customActions" : null,
+                                                                    "type" : "Switch",
+                                                                    "name" : "toggle.sleepytimeEnabled"
+                                                                  }
+                                                                ],
+                                                                "rect" : {
+                                                                  "y" : 208,
+                                                                  "x" : 16,
+                                                                  "width" : 370,
+                                                                  "height" : 53
+                                                                },
+                                                                "value" : null,
+                                                                "label" : null,
+                                                                "customActions" : null,
+                                                                "type" : "Other",
+                                                                "name" : null
+                                                              }
+                                                            ],
+                                                            "rect" : {
+                                                              "y" : 208,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 53
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 208,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 53
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 208,
+                                                      "x" : 16,
+                                                      "width" : 370,
+                                                      "height" : 53
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Cell",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "rect" : {
+                                                      "y" : 278,
+                                                      "x" : -16,
+                                                      "width" : 434,
+                                                      "height" : 190
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Other",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "Header",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "rect" : {
+                                                          "y" : 278,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 41
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      },
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "children" : [
+                                                              {
+                                                                "rawIdentifier" : null,
+                                                                "traits" : "",
+                                                                "children" : [
+                                                                  {
+                                                                    "rawIdentifier" : null,
+                                                                    "traits" : "Header, StaticText",
+                                                                    "rect" : {
+                                                                      "y" : 278,
+                                                                      "x" : 16,
+                                                                      "width" : 370,
+                                                                      "height" : 41
+                                                                    },
+                                                                    "value" : "Schedule",
+                                                                    "label" : "Schedule",
+                                                                    "customActions" : null,
+                                                                    "type" : "StaticText",
+                                                                    "name" : "Schedule"
+                                                                  }
+                                                                ],
+                                                                "rect" : {
+                                                                  "y" : 278,
+                                                                  "x" : 16,
+                                                                  "width" : 370,
+                                                                  "height" : 41
+                                                                },
+                                                                "value" : null,
+                                                                "label" : null,
+                                                                "customActions" : null,
+                                                                "type" : "Other",
+                                                                "name" : null
+                                                              }
+                                                            ],
+                                                            "rect" : {
+                                                              "y" : 278,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 41
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 278,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 41
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 278,
+                                                      "x" : 16,
+                                                      "width" : 370,
+                                                      "height" : 41
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Cell",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "rect" : {
+                                                              "y" : 318,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 67
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 318,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 67
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      },
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "children" : [
+                                                              {
+                                                                "rawIdentifier" : null,
+                                                                "traits" : "",
+                                                                "children" : [
+                                                                  {
+                                                                    "rawIdentifier" : null,
+                                                                    "traits" : "StaticText",
+                                                                    "rect" : {
+                                                                      "y" : 341,
+                                                                      "x" : 32,
+                                                                      "width" : 38,
+                                                                      "height" : 21
+                                                                    },
+                                                                    "value" : "Start",
+                                                                    "label" : "Start",
+                                                                    "customActions" : null,
+                                                                    "type" : "StaticText",
+                                                                    "name" : "Start"
+                                                                  },
+                                                                  {
+                                                                    "rawIdentifier" : "field.sleepytimeStart",
+                                                                    "traits" : "",
+                                                                    "children" : [
+                                                                      {
+                                                                        "rawIdentifier" : null,
+                                                                        "traits" : "Button",
+                                                                        "rect" : {
+                                                                          "y" : 333,
+                                                                          "x" : 273,
+                                                                          "width" : 97,
+                                                                          "height" : 37
+                                                                        },
+                                                                        "value" : "11:34 PM",
+                                                                        "label" : "Time Picker",
+                                                                        "customActions" : null,
+                                                                        "type" : "Button",
+                                                                        "name" : "Time Picker"
+                                                                      }
+                                                                    ],
+                                                                    "rect" : {
+                                                                      "y" : 333,
+                                                                      "x" : 273,
+                                                                      "width" : 97,
+                                                                      "height" : 37
+                                                                    },
+                                                                    "value" : null,
+                                                                    "label" : null,
+                                                                    "customActions" : null,
+                                                                    "type" : "DatePicker",
+                                                                    "name" : "field.sleepytimeStart"
+                                                                  }
+                                                                ],
+                                                                "rect" : {
+                                                                  "y" : 318,
+                                                                  "x" : 16,
+                                                                  "width" : 370,
+                                                                  "height" : 67
+                                                                },
+                                                                "value" : null,
+                                                                "label" : null,
+                                                                "customActions" : null,
+                                                                "type" : "Other",
+                                                                "name" : null
+                                                              }
+                                                            ],
+                                                            "rect" : {
+                                                              "y" : 318,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 67
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 318,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 67
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 318,
+                                                      "x" : 16,
+                                                      "width" : 370,
+                                                      "height" : 67
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Cell",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "rect" : {
+                                                              "y" : 384,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 67
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 384,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 67
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      },
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "children" : [
+                                                              {
+                                                                "rawIdentifier" : null,
+                                                                "traits" : "",
+                                                                "children" : [
+                                                                  {
+                                                                    "rawIdentifier" : null,
+                                                                    "traits" : "StaticText",
+                                                                    "rect" : {
+                                                                      "y" : 407,
+                                                                      "x" : 32,
+                                                                      "width" : 30,
+                                                                      "height" : 21
+                                                                    },
+                                                                    "value" : "End",
+                                                                    "label" : "End",
+                                                                    "customActions" : null,
+                                                                    "type" : "StaticText",
+                                                                    "name" : "End"
+                                                                  },
+                                                                  {
+                                                                    "rawIdentifier" : "field.sleepytimeEnd",
+                                                                    "traits" : "",
+                                                                    "children" : [
+                                                                      {
+                                                                        "rawIdentifier" : null,
+                                                                        "traits" : "Button",
+                                                                        "rect" : {
+                                                                          "y" : 399,
+                                                                          "x" : 273,
+                                                                          "width" : 97,
+                                                                          "height" : 37
+                                                                        },
+                                                                        "value" : "11:58 PM",
+                                                                        "label" : "Time Picker",
+                                                                        "customActions" : null,
+                                                                        "type" : "Button",
+                                                                        "name" : "Time Picker"
+                                                                      }
+                                                                    ],
+                                                                    "rect" : {
+                                                                      "y" : 399,
+                                                                      "x" : 273,
+                                                                      "width" : 97,
+                                                                      "height" : 37
+                                                                    },
+                                                                    "value" : null,
+                                                                    "label" : null,
+                                                                    "customActions" : null,
+                                                                    "type" : "DatePicker",
+                                                                    "name" : "field.sleepytimeEnd"
+                                                                  }
+                                                                ],
+                                                                "rect" : {
+                                                                  "y" : 384,
+                                                                  "x" : 16,
+                                                                  "width" : 370,
+                                                                  "height" : 67
+                                                                },
+                                                                "value" : null,
+                                                                "label" : null,
+                                                                "customActions" : null,
+                                                                "type" : "Other",
+                                                                "name" : null
+                                                              }
+                                                            ],
+                                                            "rect" : {
+                                                              "y" : 384,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 67
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 384,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 67
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 384,
+                                                      "x" : 16,
+                                                      "width" : 370,
+                                                      "height" : 67
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Cell",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "rect" : {
+                                                      "y" : 383,
+                                                      "x" : 32,
+                                                      "width" : 338,
+                                                      "height" : 2
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Other",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "rect" : {
+                                                      "y" : 467,
+                                                      "x" : -16,
+                                                      "width" : 434,
+                                                      "height" : 111
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Other",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "Header",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "rect" : {
+                                                          "y" : 467,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 41
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      },
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "children" : [
+                                                              {
+                                                                "rawIdentifier" : null,
+                                                                "traits" : "",
+                                                                "children" : [
+                                                                  {
+                                                                    "rawIdentifier" : null,
+                                                                    "traits" : "Header, StaticText",
+                                                                    "rect" : {
+                                                                      "y" : 467,
+                                                                      "x" : 16,
+                                                                      "width" : 370,
+                                                                      "height" : 41
+                                                                    },
+                                                                    "value" : "Shield Message",
+                                                                    "label" : "Shield Message",
+                                                                    "customActions" : null,
+                                                                    "type" : "StaticText",
+                                                                    "name" : "Shield Message"
+                                                                  }
+                                                                ],
+                                                                "rect" : {
+                                                                  "y" : 467,
+                                                                  "x" : 16,
+                                                                  "width" : 370,
+                                                                  "height" : 41
+                                                                },
+                                                                "value" : null,
+                                                                "label" : null,
+                                                                "customActions" : null,
+                                                                "type" : "Other",
+                                                                "name" : null
+                                                              }
+                                                            ],
+                                                            "rect" : {
+                                                              "y" : 467,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 41
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 467,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 41
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 467,
+                                                      "x" : 16,
+                                                      "width" : 370,
+                                                      "height" : 41
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Cell",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "rect" : {
+                                                              "y" : 508,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 52
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 508,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 52
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      },
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "children" : [
+                                                              {
+                                                                "rawIdentifier" : null,
+                                                                "traits" : "",
+                                                                "children" : [
+                                                                  {
+                                                                    "rawIdentifier" : "field.sleepytimeShieldMessage",
+                                                                    "traits" : "",
+                                                                    "rect" : {
+                                                                      "y" : 523,
+                                                                      "x" : 32,
+                                                                      "width" : 338,
+                                                                      "height" : 22
+                                                                    },
+                                                                    "value" : "It's sleepytime. Rest Rest well.Rest well.Rest well.Rest well.well.",
+                                                                    "label" : "",
+                                                                    "customActions" : null,
+                                                                    "type" : "TextField",
+                                                                    "name" : "field.sleepytimeShieldMessage"
+                                                                  }
+                                                                ],
+                                                                "rect" : {
+                                                                  "y" : 508,
+                                                                  "x" : 16,
+                                                                  "width" : 370,
+                                                                  "height" : 52
+                                                                },
+                                                                "value" : null,
+                                                                "label" : null,
+                                                                "customActions" : null,
+                                                                "type" : "Other",
+                                                                "name" : null
+                                                              }
+                                                            ],
+                                                            "rect" : {
+                                                              "y" : 508,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 52
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 508,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 52
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 508,
+                                                      "x" : 16,
+                                                      "width" : 370,
+                                                      "height" : 52
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Cell",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "rect" : {
+                                                      "y" : 577,
+                                                      "x" : -16,
+                                                      "width" : 434,
+                                                      "height" : 88
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Other",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "rect" : {
+                                                              "y" : 595,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 52
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 595,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 52
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      },
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "children" : [
+                                                              {
+                                                                "rawIdentifier" : null,
+                                                                "traits" : "",
+                                                                "children" : [
+                                                                  {
+                                                                    "rawIdentifier" : "button.save",
+                                                                    "traits" : "Button",
+                                                                    "rect" : {
+                                                                      "y" : 595,
+                                                                      "x" : 16,
+                                                                      "width" : 370,
+                                                                      "height" : 52
+                                                                    },
+                                                                    "value" : null,
+                                                                    "label" : "Save",
+                                                                    "customActions" : null,
+                                                                    "type" : "Button",
+                                                                    "name" : "button.save"
+                                                                  }
+                                                                ],
+                                                                "rect" : {
+                                                                  "y" : 595,
+                                                                  "x" : 16,
+                                                                  "width" : 370,
+                                                                  "height" : 52
+                                                                },
+                                                                "value" : null,
+                                                                "label" : null,
+                                                                "customActions" : null,
+                                                                "type" : "Other",
+                                                                "name" : null
+                                                              }
+                                                            ],
+                                                            "rect" : {
+                                                              "y" : 595,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 52
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 595,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 52
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 595,
+                                                      "x" : 16,
+                                                      "width" : 370,
+                                                      "height" : 52
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Cell",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "rect" : {
+                                                      "y" : 664,
+                                                      "x" : -16,
+                                                      "width" : 434,
+                                                      "height" : 2101
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Other",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "Header",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "rect" : {
+                                                          "y" : 664,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 42
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      },
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "children" : [
+                                                              {
+                                                                "rawIdentifier" : null,
+                                                                "traits" : "",
+                                                                "children" : [
+                                                                  {
+                                                                    "rawIdentifier" : null,
+                                                                    "traits" : "Header, StaticText",
+                                                                    "rect" : {
+                                                                      "y" : 664,
+                                                                      "x" : 16,
+                                                                      "width" : 370,
+                                                                      "height" : 42
+                                                                    },
+                                                                    "value" : "Runtime Diagnostics",
+                                                                    "label" : "Runtime Diagnostics",
+                                                                    "customActions" : null,
+                                                                    "type" : "StaticText",
+                                                                    "name" : "Runtime Diagnostics"
+                                                                  }
+                                                                ],
+                                                                "rect" : {
+                                                                  "y" : 664,
+                                                                  "x" : 16,
+                                                                  "width" : 370,
+                                                                  "height" : 42
+                                                                },
+                                                                "value" : null,
+                                                                "label" : null,
+                                                                "customActions" : null,
+                                                                "type" : "Other",
+                                                                "name" : null
+                                                              }
+                                                            ],
+                                                            "rect" : {
+                                                              "y" : 664,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 42
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 664,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 42
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 664,
+                                                      "x" : 16,
+                                                      "width" : 370,
+                                                      "height" : 42
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Cell",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "rect" : {
+                                                              "y" : 705,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 52
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 705,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 52
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      },
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "children" : [
+                                                              {
+                                                                "rawIdentifier" : null,
+                                                                "traits" : "",
+                                                                "children" : [
+                                                                  {
+                                                                    "rawIdentifier" : "button.replayIntervalStart",
+                                                                    "traits" : "Button",
+                                                                    "rect" : {
+                                                                      "y" : 705,
+                                                                      "x" : 16,
+                                                                      "width" : 370,
+                                                                      "height" : 52
+                                                                    },
+                                                                    "value" : null,
+                                                                    "label" : "Replay Start",
+                                                                    "customActions" : null,
+                                                                    "type" : "Button",
+                                                                    "name" : "button.replayIntervalStart"
+                                                                  }
+                                                                ],
+                                                                "rect" : {
+                                                                  "y" : 705,
+                                                                  "x" : 16,
+                                                                  "width" : 370,
+                                                                  "height" : 52
+                                                                },
+                                                                "value" : null,
+                                                                "label" : null,
+                                                                "customActions" : null,
+                                                                "type" : "Other",
+                                                                "name" : null
+                                                              }
+                                                            ],
+                                                            "rect" : {
+                                                              "y" : 705,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 52
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 705,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 52
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 705,
+                                                      "x" : 16,
+                                                      "width" : 370,
+                                                      "height" : 52
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Cell",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "rect" : {
+                                                              "y" : 757,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 52
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 757,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 52
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      },
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "children" : [
+                                                              {
+                                                                "rawIdentifier" : null,
+                                                                "traits" : "",
+                                                                "children" : [
+                                                                  {
+                                                                    "rawIdentifier" : "button.replayIntervalEnd",
+                                                                    "traits" : "Button",
+                                                                    "rect" : {
+                                                                      "y" : 757,
+                                                                      "x" : 16,
+                                                                      "width" : 370,
+                                                                      "height" : 52
+                                                                    },
+                                                                    "value" : null,
+                                                                    "label" : "Replay End",
+                                                                    "customActions" : null,
+                                                                    "type" : "Button",
+                                                                    "name" : "button.replayIntervalEnd"
+                                                                  }
+                                                                ],
+                                                                "rect" : {
+                                                                  "y" : 757,
+                                                                  "x" : 16,
+                                                                  "width" : 370,
+                                                                  "height" : 52
+                                                                },
+                                                                "value" : null,
+                                                                "label" : null,
+                                                                "customActions" : null,
+                                                                "type" : "Other",
+                                                                "name" : null
+                                                              }
+                                                            ],
+                                                            "rect" : {
+                                                              "y" : 757,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 52
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 757,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 52
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 757,
+                                                      "x" : 16,
+                                                      "width" : 370,
+                                                      "height" : 52
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Cell",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "rect" : {
+                                                      "y" : 756,
+                                                      "x" : 32,
+                                                      "width" : 338,
+                                                      "height" : 1
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Other",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "rect" : {
+                                                              "y" : 809,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 52
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 809,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 52
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      },
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "children" : [
+                                                              {
+                                                                "rawIdentifier" : null,
+                                                                "traits" : "",
+                                                                "children" : [
+                                                                  {
+                                                                    "rawIdentifier" : "button.refreshDiagnostics",
+                                                                    "traits" : "Button",
+                                                                    "rect" : {
+                                                                      "y" : 809,
+                                                                      "x" : 16,
+                                                                      "width" : 370,
+                                                                      "height" : 52
+                                                                    },
+                                                                    "value" : null,
+                                                                    "label" : "Refresh Diagnostics",
+                                                                    "customActions" : null,
+                                                                    "type" : "Button",
+                                                                    "name" : "button.refreshDiagnostics"
+                                                                  }
+                                                                ],
+                                                                "rect" : {
+                                                                  "y" : 809,
+                                                                  "x" : 16,
+                                                                  "width" : 370,
+                                                                  "height" : 52
+                                                                },
+                                                                "value" : null,
+                                                                "label" : null,
+                                                                "customActions" : null,
+                                                                "type" : "Other",
+                                                                "name" : null
+                                                              }
+                                                            ],
+                                                            "rect" : {
+                                                              "y" : 809,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 52
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 809,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 52
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 809,
+                                                      "x" : 16,
+                                                      "width" : 370,
+                                                      "height" : 52
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Cell",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "rect" : {
+                                                      "y" : 808,
+                                                      "x" : 32,
+                                                      "width" : 338,
+                                                      "height" : 1
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Other",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "rect" : {
+                                                              "y" : 861,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 136
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 861,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 136
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      },
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "children" : [
+                                                          {
+                                                            "rawIdentifier" : null,
+                                                            "traits" : "",
+                                                            "children" : [
+                                                              {
+                                                                "rawIdentifier" : null,
+                                                                "traits" : "",
+                                                                "children" : [
+                                                                  {
+                                                                    "rawIdentifier" : "text.runtimeDiagnostics",
+                                                                    "traits" : "StaticText",
+                                                                    "rect" : {
+                                                                      "y" : 861,
+                                                                      "x" : 16,
+                                                                      "width" : 370,
+                                                                      "height" : 136
+                                                                    },
+                                                                    "value" : "descriptors=sleepytime.schedule\nruntimeInstances=sleepytime\/default\nactiveSources=none\nshield=none\nlatestFeedback=scheduleEnded\/sleepytime\/default\/sleepytime.schedule",
+                                                                    "label" : "descriptors=sleepytime.schedule\nruntimeInstances=sleepytime\/default\nactiveSources=none\nshield=none\nlatestFeedback=scheduleEnded\/sleepytime\/default\/sleepytime.schedule",
+                                                                    "customActions" : null,
+                                                                    "type" : "StaticText",
+                                                                    "name" : "text.runtimeDiagnostics"
+                                                                  }
+                                                                ],
+                                                                "rect" : {
+                                                                  "y" : 861,
+                                                                  "x" : 16,
+                                                                  "width" : 370,
+                                                                  "height" : 136
+                                                                },
+                                                                "value" : null,
+                                                                "label" : null,
+                                                                "customActions" : null,
+                                                                "type" : "Other",
+                                                                "name" : null
+                                                              }
+                                                            ],
+                                                            "rect" : {
+                                                              "y" : 861,
+                                                              "x" : 16,
+                                                              "width" : 370,
+                                                              "height" : 136
+                                                            },
+                                                            "value" : null,
+                                                            "label" : null,
+                                                            "customActions" : null,
+                                                            "type" : "Other",
+                                                            "name" : null
+                                                          }
+                                                        ],
+                                                        "rect" : {
+                                                          "y" : 861,
+                                                          "x" : 16,
+                                                          "width" : 370,
+                                                          "height" : 136
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 861,
+                                                      "x" : 16,
+                                                      "width" : 370,
+                                                      "height" : 136
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Cell",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "",
+                                                    "rect" : {
+                                                      "y" : 860,
+                                                      "x" : 32,
+                                                      "width" : 338,
+                                                      "height" : 1
+                                                    },
+                                                    "value" : null,
+                                                    "label" : null,
+                                                    "customActions" : null,
+                                                    "type" : "Other",
+                                                    "name" : null
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "Adjustable",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "rect" : {
+                                                          "y" : 119,
+                                                          "x" : 396,
+                                                          "width" : 3,
+                                                          "height" : 574
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 116,
+                                                      "x" : 369,
+                                                      "width" : 30,
+                                                      "height" : 696
+                                                    },
+                                                    "value" : "0%",
+                                                    "label" : "Vertical scroll bar, 2 pages",
+                                                    "customActions" : null,
+                                                    "type" : "Other",
+                                                    "name" : "Vertical scroll bar, 2 pages"
+                                                  },
+                                                  {
+                                                    "rawIdentifier" : null,
+                                                    "traits" : "Adjustable",
+                                                    "children" : [
+                                                      {
+                                                        "rawIdentifier" : null,
+                                                        "traits" : "",
+                                                        "rect" : {
+                                                          "y" : 119,
+                                                          "x" : 396,
+                                                          "width" : 3,
+                                                          "height" : 574
+                                                        },
+                                                        "value" : null,
+                                                        "label" : null,
+                                                        "customActions" : null,
+                                                        "type" : "Other",
+                                                        "name" : null
+                                                      }
+                                                    ],
+                                                    "rect" : {
+                                                      "y" : 116,
+                                                      "x" : 369,
+                                                      "width" : 30,
+                                                      "height" : 696
+                                                    },
+                                                    "value" : "0%",
+                                                    "label" : "Vertical scroll bar, 2 pages",
+                                                    "customActions" : null,
+                                                    "type" : "Other",
+                                                    "name" : "Vertical scroll bar, 2 pages"
+                                                  }
+                                                ],
+                                                "rect" : {
+                                                  "y" : 0,
+                                                  "x" : 0,
+                                                  "width" : 402,
+                                                  "height" : 874
+                                                },
+                                                "value" : null,
+                                                "label" : null,
+                                                "customActions" : null,
+                                                "type" : "CollectionView",
+                                                "name" : "screen.sleepytime"
+                                              }
+                                            ],
+                                            "rect" : {
+                                              "y" : 0,
+                                              "x" : 0,
+                                              "width" : 402,
+                                              "height" : 874
+                                            },
+                                            "value" : null,
+                                            "label" : null,
+                                            "customActions" : null,
+                                            "type" : "Other",
+                                            "name" : null
+                                          }
+                                        ],
+                                        "rect" : {
+                                          "y" : 0,
+                                          "x" : 0,
+                                          "width" : 402,
+                                          "height" : 874
+                                        },
+                                        "value" : null,
+                                        "label" : null,
+                                        "customActions" : null,
+                                        "type" : "Other",
+                                        "name" : null
+                                      }
+                                    ],
+                                    "rect" : {
+                                      "y" : 0,
+                                      "x" : 0,
+                                      "width" : 402,
+                                      "height" : 874
+                                    },
+                                    "value" : null,
+                                    "label" : null,
+                                    "customActions" : null,
+                                    "type" : "Other",
+                                    "name" : null
+                                  }
+                                ],
+                                "rect" : {
+                                  "y" : 0,
+                                  "x" : 0,
+                                  "width" : 402,
+                                  "height" : 874
+                                },
+                                "value" : null,
+                                "label" : null,
+                                "customActions" : null,
+                                "type" : "Other",
+                                "name" : null
+                              },
+                              {
+                                "rawIdentifier" : null,
+                                "traits" : "",
+                                "children" : [
+                                  {
+                                    "rawIdentifier" : null,
+                                    "traits" : "",
+                                    "rect" : {
+                                      "y" : 0,
+                                      "x" : 0,
+                                      "width" : 402,
+                                      "height" : 874
+                                    },
+                                    "value" : null,
+                                    "label" : null,
+                                    "customActions" : null,
+                                    "type" : "Other",
+                                    "name" : null
+                                  }
+                                ],
+                                "rect" : {
+                                  "y" : 0,
+                                  "x" : 0,
+                                  "width" : 402,
+                                  "height" : 874
+                                },
+                                "value" : null,
+                                "label" : null,
+                                "customActions" : null,
+                                "type" : "Other",
+                                "name" : null
+                              }
+                            ],
+                            "rect" : {
+                              "y" : 0,
+                              "x" : 0,
+                              "width" : 402,
+                              "height" : 874
+                            },
+                            "value" : null,
+                            "label" : null,
+                            "customActions" : null,
+                            "type" : "Other",
+                            "name" : null
+                          }
+                        ],
+                        "rect" : {
+                          "y" : 0,
+                          "x" : 0,
+                          "width" : 402,
+                          "height" : 874
+                        },
+                        "value" : null,
+                        "label" : null,
+                        "customActions" : null,
+                        "type" : "Other",
+                        "name" : null
+                      }
+                    ],
+                    "rect" : {
+                      "y" : 0,
+                      "x" : 0,
+                      "width" : 402,
+                      "height" : 874
+                    },
+                    "value" : null,
+                    "label" : null,
+                    "customActions" : null,
+                    "type" : "Other",
+                    "name" : null
+                  }
+                ],
+                "rect" : {
+                  "y" : 0,
+                  "x" : 0,
+                  "width" : 402,
+                  "height" : 874
+                },
+                "value" : null,
+                "label" : null,
+                "customActions" : null,
+                "type" : "Other",
+                "name" : null
+              }
+            ],
+            "rect" : {
+              "y" : 0,
+              "x" : 0,
+              "width" : 402,
+              "height" : 874
+            },
+            "value" : null,
+            "label" : null,
+            "customActions" : null,
+            "type" : "Other",
+            "name" : null
+          }
+        ],
+        "rect" : {
+          "y" : 0,
+          "x" : 0,
+          "width" : 402,
+          "height" : 874
+        },
+        "value" : null,
+        "label" : null,
+        "customActions" : null,
+        "type" : "Window",
+        "name" : null
+      }
+    ],
+    "rect" : {
+      "y" : 0,
+      "x" : 0,
+      "width" : 402,
+      "height" : 874
+    },
+    "value" : null,
+    "label" : "ZenBound",
+    "customActions" : null,
+    "type" : "Application",
+    "name" : "ZenBound"
+  },
+  "sessionId" : null
+}

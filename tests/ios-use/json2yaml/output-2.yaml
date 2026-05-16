@@ -1,0 +1,141 @@
+Application: ZenBound
+rect: 402x874
+children:
+- type: Window
+  rect: 402x874
+  children:
+  - rect: 402x874
+    children:
+    - NavigationBar: Sleepytime
+      rect: 0,62 402x106
+      children:
+      - StaticText: Sleepytime
+        value: Sleepytime
+        traits: Header
+        rect: 16,119 178x42
+    - CollectionView: screen.sleepytime
+      rect: 402x874
+      children:
+      - type: Cell
+        traits: Header
+        rect: 16,168 370x41
+        children:
+        - StaticText: Status
+          value: Status
+          traits: Header, StaticText
+          rect: 16,168 370x41
+      - type: Cell
+        rect: 16,208 370x53
+        children:
+        - Switch: toggle.sleepytimeEnabled
+          value: '1'
+          traits: ToggleButton, Button
+          rect: 16,208 370x53
+          children:
+          - StaticText: Enable Sleepytime
+            value: Enable Sleepytime
+            rect: 32,224 141x21
+          - type: Switch
+            value: '1'
+            traits: ToggleButton, Button
+            rect: 309,220 63x29
+      - type: Cell
+        traits: Header
+        rect: 16,278 370x41
+        children:
+        - StaticText: Schedule
+          value: Schedule
+          traits: Header, StaticText
+          rect: 16,278 370x41
+      - type: Cell
+        rect: 16,318 370x67
+        children:
+        - rect: 16,318 370x67
+          children:
+          - StaticText: Start
+            value: Start
+            rect: 32,341 38x21
+          - DatePicker: field.sleepytimeStart
+            rect: 273,333 97x37
+            children:
+            - Button: Time Picker
+              value: 11:34 PM
+              rect: 273,333 97x37
+      - type: Cell
+        rect: 16,384 370x67
+        children:
+        - rect: 16,384 370x67
+          children:
+          - StaticText: End
+            value: End
+            rect: 32,407 30x21
+          - DatePicker: field.sleepytimeEnd
+            rect: 273,399 97x37
+            children:
+            - Button: Time Picker
+              value: 11:58 PM
+              rect: 273,399 97x37
+      - type: Cell
+        traits: Header
+        rect: 16,467 370x41
+        children:
+        - StaticText: Shield Message
+          value: Shield Message
+          traits: Header, StaticText
+          rect: 16,467 370x41
+      - type: Cell
+        rect: 16,508 370x52
+        children:
+        - TextField: field.sleepytimeShieldMessage
+          value: It's sleepytime. Rest Rest well.Rest well.Rest well.Rest well.well.
+          rect: 32,523 338x22
+      - type: Cell
+        rect: 16,595 370x52
+        children:
+        - Button: button.save
+          rect: 16,595 370x52
+      - type: Cell
+        traits: Header
+        rect: 16,664 370x42
+        children:
+        - StaticText: Runtime Diagnostics
+          value: Runtime Diagnostics
+          traits: Header, StaticText
+          rect: 16,664 370x42
+      - type: Cell
+        rect: 16,705 370x52
+        children:
+        - Button: button.replayIntervalStart
+          rect: 16,705 370x52
+      - type: Cell
+        rect: 16,757 370x52
+        children:
+        - Button: button.replayIntervalEnd
+          rect: 16,757 370x52
+      - type: Cell
+        rect: 16,809 370x52
+        children:
+        - Button: button.refreshDiagnostics
+          rect: 16,809 370x52
+      - type: Cell
+        rect: 16,861 370x136
+        children:
+        - StaticText: text.runtimeDiagnostics
+          value: 'descriptors=sleepytime.schedule
+
+            runtimeInstances=sleepytime/default
+
+            activeSources=none
+
+            shield=none
+
+            latestFeedback=scheduleEnded/sleepytime/default/sleepytime.schedule'
+          rect: 16,861 370x136
+      - name: Vertical scroll bar, 2 pages
+        value: 0%
+        traits: Adjustable
+        rect: 369,116 30x696
+      - name: Vertical scroll bar, 2 pages
+        value: 0%
+        traits: Adjustable
+        rect: 369,116 30x696

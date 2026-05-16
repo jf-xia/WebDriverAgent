@@ -223,6 +223,8 @@ check_wda_status() {
     local url="http://${HOST}:${PORT}/status"
     local response
     response=$(curl -s --connect-timeout 5 -X GET "$url" 2>/dev/null) || true
+    echo "$url"
+    echo "$response"
     if [[ -n "$response" ]]; then
         local ready
         ready=$(echo "$response" | jq -r '.value.ready // empty' 2>/dev/null) || true
