@@ -222,16 +222,19 @@ auto_detect_iproxy() {
 check_wda_status() {
     local url="http://${HOST}:${PORT}/status"
     local response
+    echo "[check_wda_status] 请求: $url" >&2
     response=$(curl -s --connect-timeout 5 -X GET "$url" 2>/dev/null) || true
-    echo "$url"
-    echo "$response"
+    echo "[check_wda_status] 响应: ${response:0:200}" >&2
     if [[ -n "$response" ]]; then
         local ready
         ready=$(echo "$response" | jq -r '.value.ready // empty' 2>/dev/null) || true
+        echo "[check_wda_status] ready=$ready" >&2
         if [[ "$ready" == "true" ]]; then
             echo "$response"
             return 0
         fi
+    else
+        echo "[check_wda_status] 无响应" >&2
     fi
     return 1
 }

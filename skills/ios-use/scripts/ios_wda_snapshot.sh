@@ -3,10 +3,14 @@
 # 获取 WDA 页面源码和截图，用于 ReAct 循环的 observe 阶段
 set -euo pipefail
 
+# 获取项目根目录（脚本位于 skills/ios-use/scripts/）
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+
 # 默认值
 HOST=""
 PORT=""
-CONFIG_FILE="./tmp/wda.json"
+CONFIG_FILE="$PROJECT_ROOT/tmp/wda.json"
 OUTPUT_DIR=""
 PYTHON_SCRIPT="$(dirname "$0")/source.json_to_yaml.py"
 
@@ -112,6 +116,7 @@ get_next_number() {
 # 获取页面源码
 fetch_source() {
     local output_file="$1"
+    # /source?format=json&excluded_attributes=frame,nativeFrame,enabled,visible,accessible,focused,placeholderValue,minValue,maxValue
     local url="http://${HOST}:${PORT}/wda/accessibleSource"
 
     local response
@@ -165,7 +170,7 @@ main() {
     # 构建输出目录
     local date_str
     date_str=$(date +%Y%m%d)
-    OUTPUT_DIR="./tmp/wda-snapshot-${udid}/${date_str}"
+    OUTPUT_DIR="$PROJECT_ROOT/tmp/wda-snapshot-${udid}/${date_str}"
     mkdir -p "$OUTPUT_DIR"
 
     # 获取序号

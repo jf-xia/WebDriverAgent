@@ -219,10 +219,10 @@ def main():
     original_count = count_original(root)
     new_count = count_nodes(optimized)
     
-    print(f'Original nodes: {original_count}')
-    print(f'Optimized nodes: {new_count}')
-    print(f'Reduction: {original_count - new_count} nodes ({(1 - new_count/original_count)*100:.1f}%)')
-    print(f'Output: {output_file}')
+    # print(f'Original nodes: {original_count}')
+    # print(f'Optimized nodes: {new_count}')
+    # print(f'Reduction: {original_count - new_count} nodes ({(1 - new_count/original_count)*100:.1f}%)')
+    # print(f'Output: {output_file}')
 
 
 if __name__ == '__main__':
