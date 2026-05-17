@@ -8,6 +8,13 @@ HOST=""
 PORT=""
 CONFIG_FILE="./tmp/wda.json"
 OUTPUT_DIR=""
+PYTHON_SCRIPT="$(dirname "$0")/source.json_to_yaml.py"
+
+# 检查 Python 转换脚本是否存在
+if [[ ! -f "$PYTHON_SCRIPT" ]]; then
+    echo -e "${YELLOW}警告: Python 转换脚本不存在: $PYTHON_SCRIPT${NC}" >&2
+    PYTHON_SCRIPT=""
+fi
 
 # 颜色输出
 RED='\033[0;31m'
@@ -169,12 +176,22 @@ main() {
     local source_file="${OUTPUT_DIR}/${num}-source.json"
     fetch_source "$source_file"
 
+    # 转换为 YAML 格式
+    local yaml_file="${OUTPUT_DIR}/${num}-source.yaml"
+    if [[ -n "$PYTHON_SCRIPT" ]] && [[ -f "$PYTHON_SCRIPT" ]]; then
+        python3 "$PYTHON_SCRIPT" "$source_file" "$yaml_file" --remove-decoration 2>/dev/null || {
+            yaml_file="$source_file"
+        }
+    else
+        yaml_file="$source_file"
+    fi
+
     # 获取截图
     local screenshot_file="${OUTPUT_DIR}/${num}-screenshot.jpg"
     fetch_screenshot "$screenshot_file"
 
     # 输出文件路径
-    echo "$source_file"
+    echo "$yaml_file"
     echo "$screenshot_file"
 }
 
