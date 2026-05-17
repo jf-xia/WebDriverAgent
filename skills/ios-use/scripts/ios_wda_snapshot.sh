@@ -54,6 +54,15 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# 检查 WDA 是否可用
+check_wda() {
+    local url="http://${HOST}:${PORT}/status"
+    curl -s --connect-timeout 3 --max-time 10 "$url" >/dev/null 2>&1 || {
+        echo -e "${RED}WDA 不可达: ${HOST}:${PORT}${NC}, 执行 ios_wda_test_on_iphone.sh 重启WDA, 然后等待10~30秒后在wda.log中查看状态" >&2
+        return 1
+    }
+}
+
 # 获取下一个序号
 get_next_number() {
     local dir="$1"
@@ -128,6 +137,11 @@ fetch_screenshot() {
 
 # 主流程
 main() {
+    # 检查 WDA 连接
+    if ! check_wda; then
+        exit 1
+    fi
+
     local udid
     udid=$(jq -r '.udid // empty' "$CONFIG_FILE" 2>/dev/null)
 
