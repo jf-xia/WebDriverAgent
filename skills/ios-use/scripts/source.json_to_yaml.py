@@ -180,9 +180,34 @@ def main():
     output_file = sys.argv[2] if len(sys.argv) > 2 else 'source_optimized.yaml'
     remove_decoration = '--remove-decoration' in sys.argv
     
-    with open(input_file, 'r') as f:
-        data = json.load(f)
-    
+    # Read file with error handling
+    try:
+        with open(input_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except FileNotFoundError:
+        print(f'Error: Input file not found: {input_file}', file=sys.stderr)
+        sys.exit(1)
+    except PermissionError:
+        print(f'Error: Permission denied reading: {input_file}', file=sys.stderr)
+        sys.exit(1)
+    except UnicodeDecodeError as e:
+        print(f'Error: File encoding error: {e}', file=sys.stderr)
+        sys.exit(1)
+
+    # Try strict parsing first, then lenient
+    try:
+        data = json.loads(content)
+    except json.JSONDecodeError as e:
+        # print(f'Warning: JSON has control characters at line {e.lineno}, column {e.colno}. Using lenient parsing.', file=sys.stderr)
+        try:
+            data = json.loads(content, strict=False)
+        except json.JSONDecodeError as e2:
+            print(f'Error: Failed to parse JSON even with lenient parsing: {e2}', file=sys.stderr)
+            sys.exit(1)
+    except Exception as e:
+        print(f'Unexpected error parsing JSON: {e}', file=sys.stderr)
+        sys.exit(1)
+
     root = data['value']
     
     # Clean the structure
@@ -198,8 +223,15 @@ def main():
     # Write YAML with compact style
     yaml.add_representer(str, lambda d, s: yaml.representer.SafeRepresenter.represent_str(d, s))
     
-    with open(output_file, 'w') as f:
-        yaml.dump(optimized, f, default_flow_style=False, allow_unicode=True, sort_keys=False, width=120)
+    try:
+        with open(output_file, 'w', encoding='utf-8') as f:
+            yaml.dump(optimized, f, default_flow_style=False, allow_unicode=True, sort_keys=False, width=120)
+    except PermissionError:
+        print(f'Error: Permission denied writing: {output_file}', file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print(f'Error writing YAML file: {e}', file=sys.stderr)
+        sys.exit(1)
     
     # Stats
     def count_nodes(node):

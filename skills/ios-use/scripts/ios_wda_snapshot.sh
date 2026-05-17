@@ -8,8 +8,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 
 # 默认值
-HOST=""
-PORT=""
+HOST="127.0.0.1"
+PORT="8100"
 CONFIG_FILE="$PROJECT_ROOT/tmp/wda.json"
 OUTPUT_DIR=""
 PYTHON_SCRIPT="$(dirname "$0")/source.json_to_yaml.py"
@@ -54,40 +54,6 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# 从 wda.json 读取配置
-load_config() {
-    if [[ ! -f "$CONFIG_FILE" ]]; then
-        echo -e "${RED}配置文件不存在: $CONFIG_FILE${NC}" >&2
-        echo "请先运行 ios_wda_test_on_iphone.sh 启动 WDA" >&2
-        exit 1
-    fi
-
-    local udid endpoint
-    udid=$(jq -r '.udid // empty' "$CONFIG_FILE" 2>/dev/null)
-    endpoint=$(jq -r '.wda_endpoint // empty' "$CONFIG_FILE" 2>/dev/null)
-
-    if [[ -z "$udid" ]]; then
-        echo -e "${RED}wda.json 中缺少 udid 字段${NC}" >&2
-        exit 1
-    fi
-
-    # 使用命令行参数覆盖，否则从配置读取
-    if [[ -z "$HOST" ]] && [[ -z "$PORT" ]]; then
-        if [[ -z "$endpoint" ]]; then
-            echo -e "${RED}wda.json 中缺少 wda_endpoint 字段${NC}" >&2
-            exit 1
-        fi
-        HOST=$(echo "$endpoint" | sed -n 's|http://\([^:]*\):.*|\1|p')
-        PORT=$(echo "$endpoint" | sed -n 's|.*:\([0-9]*\)$|\1|p')
-    elif [[ -z "$PORT" ]]; then
-        PORT=$(echo "$endpoint" | sed -n 's|.*:\([0-9]*\)$|\1|p')
-    elif [[ -z "$HOST" ]]; then
-        HOST=$(echo "$endpoint" | sed -n 's|http://\([^:]*\):.*|\1|p')
-    fi
-
-    # HOST/PORT 已在全局设置
-}
-
 # 获取下一个序号
 get_next_number() {
     local dir="$1"
@@ -116,8 +82,8 @@ get_next_number() {
 # 获取页面源码
 fetch_source() {
     local output_file="$1"
-    # /source?format=json&excluded_attributes=frame,nativeFrame,enabled,visible,accessible,focused,placeholderValue,minValue,maxValue
-    local url="http://${HOST}:${PORT}/wda/accessibleSource"
+    # /wda/accessibleSource
+    local url="http://${HOST}:${PORT}/source?format=json&excluded_attributes=frame,nativeFrame,enabled,visible,accessible,focused,placeholderValue,minValue,maxValue"
 
     local response
     response=$(curl -s --connect-timeout 5 "$url" 2>/dev/null) || {
@@ -162,8 +128,6 @@ fetch_screenshot() {
 
 # 主流程
 main() {
-    # 加载配置（会设置全局变量 HOST, PORT）
-    load_config >/dev/null
     local udid
     udid=$(jq -r '.udid // empty' "$CONFIG_FILE" 2>/dev/null)
 
