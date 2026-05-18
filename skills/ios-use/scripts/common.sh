@@ -2,6 +2,10 @@
 # common.sh - WDA 脚本公共函数
 # 被 scripts/ 下的脚本 source 使用
 
+# 路径计算
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+
 # 颜色输出
 RED='\033[0;31m'
 GREEN='\033[0;32m'

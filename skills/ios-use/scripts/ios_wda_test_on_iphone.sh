@@ -2,17 +2,14 @@
 # ios_wda_test_on_iphone.sh
 set -euo pipefail
 
-# 获取项目根目录（脚本位于 skills/ios-use/scripts/）
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
 # 加载公共函数
-source "$SCRIPT_DIR/common.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
 # 脚本专属默认值
 PROJECT_PATH="$HOME/work/WebDriverAgent/WebDriverAgent.xcodeproj"
 SCHEME="WebDriverAgentRunner"
 UDID=""
-LOG_DIR="./tmp"
+LOG_DIR="$PROJECT_ROOT/tmp"
 
 usage() {
     echo "Usage: $0 [--udid <UDID>] [--port <PORT>] [--project-path <PATH>] [--scheme <SCHEME>]"

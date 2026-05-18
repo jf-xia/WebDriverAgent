@@ -3,15 +3,11 @@
 # 获取 WDA 页面源码和截图，用于 ReAct 循环的 observe 阶段
 set -euo pipefail
 
-# 获取项目根目录（脚本位于 skills/ios-use/scripts/）
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
-CONFIG_FILE="$PROJECT_ROOT/tmp/wda.json"
-
 # 加载公共函数
-source "$SCRIPT_DIR/common.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
 # 脚本专属默认值
+CONFIG_FILE="$PROJECT_ROOT/tmp/wda.json"
 OUTPUT_DIR=""
 PYTHON_SCRIPT="$(dirname "$0")/source.json_to_yaml.py"
 
