@@ -9,13 +9,12 @@ user-invocable: true
 
 ## 快速开始
 
-脚本位于技能的 [scripts/](scripts/) 子目录, 请确认 $SCRIPTS 环境变量指向该目录。
+执行 [scripts/ios_wda_test_on_iphone.sh](scripts/ios_wda_test_on_iphone.sh) - 启动 WDA（检查/安装/启动，约 1~30s+）
 
 ### 执行流程 - 重复 ReAct 循环: 截屏 → 观察 → 决策 → 执行 → 截屏验证
 
-1. $SCRIPTS/ios_wda_test_on_iphone.sh - 启动 WDA（检查/安装/启动，约 1~30s+，日志输出到 {PROJECT_ROOT}/tmp/wda.log）
-2. $SCRIPTS/ios_wda_snapshot.sh - 获取页面源码 + 截图（输出到 {PROJECT_ROOT}/tmp/wda-snapshot-{UDID}/{yymmdd}/*.jpg & *.yaml，自动递增序号）
-3. 决策 → 执行 → 验证，例：点击坐标 (100, 200) 后重新截屏 - curl -s -X POST http://127.0.0.1:8100/session/$($SCRIPTS/wda_session.sh)/wda/tap -H "Content-Type: application/json" -d '{"x": 100, "y": 200}' | sleep 2 | $SCRIPTS/ios_wda_snapshot.sh
+1. $SCRIPTS/ios_wda_snapshot.sh - 获取页面源码 + 截图（输出到 {PROJECT_ROOT}/tmp/wda-snapshot-{UDID}/{yymmdd}/*.jpg & *.yaml，自动递增序号）然后决策分析
+2. 执行决策 → 验证，例：点击坐标 (100, 200) 后重新截屏 - curl -s -X POST http://127.0.0.1:8100/session/$($SCRIPTS/wda_session.sh)/wda/tap -H "Content-Type: application/json" -d '{"x": 100, "y": 200}' | sleep 2 | $SCRIPTS/ios_wda_snapshot.sh
 
 **核心原则：每次操作前必须截屏观察当前状态，禁止预测式连续操作。**
 
@@ -34,78 +33,6 @@ curl -s -X POST  http://127.0.0.1:8100/session/$SESSION/wda/apps/launch  -d '{"b
 
 # 系统按键 "home", "volumeUp", "volumeDown", "action", "camera"
 curl -s -X POST   http://127.0.0.1:8100/session/$SESSION/wda/pressButton  -H "Content-Type: application/json" -d '{"name": "volumeUp"}' 
-```
-
-## 锁屏
-
-```bash
-# 查询锁定状态（全局，无需 session）
-curl -s http://127.0.0.1:8100/wda/locked | jq .value
-
-# 锁屏（必须带 Content-Type: application/json + 空 body，否则 400）
-curl -s -X POST -H "Content-Type: application/json" -d '{}' http://127.0.0.1:8100/wda/lock | curl -s http://127.0.0.1:8100/wda/locked | jq .value
-
-# 解锁
-curl -s -X POST -H "Content-Type: application/json" -d '{}' http://127.0.0.1:8100/wda/unlock | sleep 3 | curl -s http://127.0.0.1:8100/wda/locked | jq .value
-```
-
-## 模拟位置
-
-```bash
-# 读取当前模拟位置
-curl -s http://127.0.0.1:8100/wda/simulatedLocation | jq .
-# → { "value": { "altitude": null, "longitude": null, "latitude": null }, "sessionId": "..." }
-
-# 设置经纬度（北京坐标）
-curl -s -X POST http://127.0.0.1:8100/wda/simulatedLocation \
-  -H "Content-Type: application/json" \
-  -d '{"latitude": 39.9042, "longitude": 116.4074}' | jq .
-# → { "value": null, "sessionId": "..." }
-
-# 验证设置生效
-curl -s http://127.0.0.1:8100/wda/simulatedLocation | jq .
-# → { "value": { "altitude": 0, "longitude": 116.4074, "latitude": 39.9042 }, ... }
-
-# 清除模拟位置
-curl -s -X DELETE http://127.0.0.1:8100/wda/simulatedLocation | jq .
-# → { "value": null, "sessionId": "..." }
-```
-
-## 屏幕与设备信息
-
-```bash
-#返回屏幕尺寸、状态栏尺寸、缩放比例。
-curl -s http://127.0.0.1:8100/wda/screen
-
-# 返回 locale、时区、型号、UUID、UI 风格等设备元数据。
-curl -s http://127.0.0.1:8100/wda/device/info | jq .value
-
-# 返回前台应用信息。
-curl -s http://127.0.0.1:8100/wda/activeAppInfo | jq .value
-
-# 返回设备地理位置。需在 **Settings → Privacy → Location Services → WebDriverAgent-Runner → Always** 授权，否则经纬度始终为 0。
-curl -s http://127.0.0.1:8100/wda/device/location | jq .value
-```
-
-## 方向
-
-```bash
-# 读取方向
-curl -s http://127.0.0.1:8100/session/$SESSION/orientation | jq .
-# → { "value": "PORTRAIT" }
-
-# 设置方向
-curl -s -X POST -H "Content-Type: application/json" \
-  -d '{"orientation": "LANDSCAPE"}' \
-  http://127.0.0.1:8100/session/$SESSION/orientation | jq .
-
-# 读取三轴旋转
-curl -s http://127.0.0.1:8100/session/$SESSION/rotation | jq .
-
-# 设置三轴旋转
-curl -s -X POST -H "Content-Type: application/json" \
-  -d '{"x": 0, "y": 0, "z": 90}' \
-  http://127.0.0.1:8100/session/$SESSION/rotation | jq .
 ```
 
 ## 手势
@@ -234,3 +161,76 @@ curl -s -X POST http://127.0.0.1:8100/session/$SESSION/actions \
 # 释放所有动作源
 curl -s -X DELETE http://127.0.0.1:8100/session/$SESSION/actions
 ```
+
+## 锁屏
+
+```bash
+# 查询锁定状态（全局，无需 session）
+curl -s http://127.0.0.1:8100/wda/locked | jq .value
+
+# 锁屏（必须带 Content-Type: application/json + 空 body，否则 400）
+curl -s -X POST -H "Content-Type: application/json" -d '{}' http://127.0.0.1:8100/wda/lock | curl -s http://127.0.0.1:8100/wda/locked | jq .value
+
+# 解锁
+curl -s -X POST -H "Content-Type: application/json" -d '{}' http://127.0.0.1:8100/wda/unlock | sleep 3 | curl -s http://127.0.0.1:8100/wda/locked | jq .value
+```
+
+## 模拟位置
+
+```bash
+# 读取当前模拟位置
+curl -s http://127.0.0.1:8100/wda/simulatedLocation | jq .
+# → { "value": { "altitude": null, "longitude": null, "latitude": null }, "sessionId": "..." }
+
+# 设置经纬度（北京坐标）
+curl -s -X POST http://127.0.0.1:8100/wda/simulatedLocation \
+  -H "Content-Type: application/json" \
+  -d '{"latitude": 39.9042, "longitude": 116.4074}' | jq .
+# → { "value": null, "sessionId": "..." }
+
+# 验证设置生效
+curl -s http://127.0.0.1:8100/wda/simulatedLocation | jq .
+# → { "value": { "altitude": 0, "longitude": 116.4074, "latitude": 39.9042 }, ... }
+
+# 清除模拟位置
+curl -s -X DELETE http://127.0.0.1:8100/wda/simulatedLocation | jq .
+# → { "value": null, "sessionId": "..." }
+```
+
+## 屏幕与设备信息
+
+```bash
+#返回屏幕尺寸、状态栏尺寸、缩放比例。
+curl -s http://127.0.0.1:8100/wda/screen
+
+# 返回 locale、时区、型号、UUID、UI 风格等设备元数据。
+curl -s http://127.0.0.1:8100/wda/device/info | jq .value
+
+# 返回前台应用信息。
+curl -s http://127.0.0.1:8100/wda/activeAppInfo | jq .value
+
+# 返回设备地理位置。需在 **Settings → Privacy → Location Services → WebDriverAgent-Runner → Always** 授权，否则经纬度始终为 0。
+curl -s http://127.0.0.1:8100/wda/device/location | jq .value
+```
+
+## 方向
+
+```bash
+# 读取方向
+curl -s http://127.0.0.1:8100/session/$SESSION/orientation | jq .
+# → { "value": "PORTRAIT" }
+
+# 设置方向
+curl -s -X POST -H "Content-Type: application/json" \
+  -d '{"orientation": "LANDSCAPE"}' \
+  http://127.0.0.1:8100/session/$SESSION/orientation | jq .
+
+# 读取三轴旋转
+curl -s http://127.0.0.1:8100/session/$SESSION/rotation | jq .
+
+# 设置三轴旋转
+curl -s -X POST -H "Content-Type: application/json" \
+  -d '{"x": 0, "y": 0, "z": 90}' \
+  http://127.0.0.1:8100/session/$SESSION/rotation | jq .
+```
+
