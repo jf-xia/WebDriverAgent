@@ -173,6 +173,11 @@ start_iproxy() {
 
 # 主流程
 main() {
+    if check_wda; then
+        echo -e "${GREEN}WDA 已运行"
+        exit 1
+    fi
+
     echo -e "${GREEN}=== WDA 测试启动 ===${NC}"
 
     # 1. 获取设备 UDID
