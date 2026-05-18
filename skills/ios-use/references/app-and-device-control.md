@@ -12,39 +12,37 @@ xcrun devicectl device info apps --device <UDID>
 ## 锁屏与方向
 
 ```bash
-SESSION="5D9997FB-6E62-4697-9BF2-AF73851B601E"
-HOST="127.0.0.1:8100"
 
 # 查询锁定状态（全局，无需 session）
-curl -s http://$HOST/wda/locked | jq .
+curl -s http://127.0.0.1:8100/wda/locked | jq .
 # → { "value": false, "sessionId": "..." }
 
 # 锁屏（必须带 Content-Type: application/json + 空 body，否则 400）
-curl -s -X POST -H "Content-Type: application/json" -d '{}' http://$HOST/wda/lock | jq .
+curl -s -X POST -H "Content-Type: application/json" -d '{}' http://127.0.0.1:8100/wda/lock | jq .
 # → { "value": null, "sessionId": "..." }
 
 # 解锁
-curl -s -X POST -H "Content-Type: application/json" -d '{}' http://$HOST/wda/unlock | jq .
+curl -s -X POST -H "Content-Type: application/json" -d '{}' http://127.0.0.1:8100/wda/unlock | jq .
 # → { "value": null, "sessionId": "..." }
 
 # 读取方向（需 session）
-curl -s http://$HOST/session/$SESSION/orientation | jq .
+curl -s http://127.0.0.1:8100/session/$SESSION/orientation | jq .
 # → { "value": "PORTRAIT" }
 
 # 设置方向（需 session，真机可能不支持横屏）
 curl -s -X POST -H "Content-Type: application/json" \
   -d '{"orientation": "LANDSCAPE"}' \
-  http://$HOST/session/$SESSION/orientation | jq .
+  http://127.0.0.1:8100/session/$SESSION/orientation | jq .
 # 真机不支持横屏时: { "value": { "error": "unknown error", "message": "Unable To Rotate Device" } }
 
 # 读取三轴旋转（需 session）
-curl -s http://$HOST/session/$SESSION/rotation | jq .
+curl -s http://127.0.0.1:8100/session/$SESSION/rotation | jq .
 # → { "value": { "x": 0, "y": 0, "z": 0 } }  # 竖屏
 
 # 设置三轴旋转（需 session，真机可能不支持）
 curl -s -X POST -H "Content-Type: application/json" \
   -d '{"x": 0, "y": 0, "z": 90}' \
-  http://$HOST/session/$SESSION/rotation | jq .
+  http://127.0.0.1:8100/session/$SESSION/rotation | jq .
 # 真机不支持时: { "value": { "error": "invalid element state", "message": "The current rotation cannot be set to ..." } }
 ```
 

@@ -248,8 +248,8 @@ def main():
             count += count_original(child)
         return count
     
-    original_count = count_original(root)
-    new_count = count_nodes(optimized)
+    # original_count = count_original(root)
+    # new_count = count_nodes(optimized)
     
     # print(f'Original nodes: {original_count}')
     # print(f'Optimized nodes: {new_count}')
