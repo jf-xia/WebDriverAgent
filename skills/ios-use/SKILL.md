@@ -9,29 +9,19 @@ user-invocable: true
 
 ## 快速开始
 
+脚本位于技能的 [scripts/](scripts/) 子目录, 请确认 $SCRIPTS 环境变量指向该目录。
+
+### 执行流程 - 重复 ReAct 循环: 截屏 → 观察 → 决策 → 执行 → 截屏验证
+
+1. $SCRIPTS/ios_wda_test_on_iphone.sh - 启动 WDA（检查/安装/启动，约 1~30s+，日志输出到 {PROJECT_ROOT}/tmp/wda.log）
+2. $SCRIPTS/ios_wda_snapshot.sh - 获取页面源码 + 截图（输出到 {PROJECT_ROOT}/tmp/wda-snapshot-{UDID}/{yymmdd}/*.jpg & *.yaml，自动递增序号）
+3. 决策 → 执行 → 验证，例：点击坐标 (100, 200) 后重新截屏 - curl -s -X POST http://127.0.0.1:8100/session/$($SCRIPTS/wda_session.sh)/wda/tap -H "Content-Type: application/json" -d '{"x": 100, "y": 200}' | sleep 2 | $SCRIPTS/ios_wda_snapshot.sh
+
 **核心原则：每次操作前必须截屏观察当前状态，禁止预测式连续操作。**
 
-```bash
-# 开始前必须检查 WDA, 如未运行则安装启动 (30s+), log 输出到{PROJECT_ROOT}/tmp/wda.log
-sh ios_wda_test_on_iphone.sh
+## 多次操作失败请使用代码库研究 
 
-# 获取页面源码 + 截图, 输出到{PROJECT_ROOT}/tmp/wda-snapshot-{UDID}/{yymmdd}/*.jpg & *.yaml（自动递增序号）
-sh ios_wda_snapshot.sh
-
-# 决策下一步 → 执行操作 → 再次截屏验证, 例如：点击坐标 (100, 200), 完成后再次观察
-curl -X POST http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/wda/tap -H "Content-Type: application/json" -d '{"x": 100, "y": 200}' && sh ios_wda_snapshot.sh
-
-# 下一个 ReAct 循环: 截屏 → 观察屏幕内容 → 决策下一步 → 执行操作 → 再次截屏验证
-```
-
-## WDA API 核心速查
-
-| 类别 | 关键接口 |
-|------|----------|
-| 状态 | `GET /status` |
-| 元素 | `GET/POST /element/:uuid/{click,value,clear,text,rect,enabled,displayed}` |
-| 手势 | `POST /wda/{tap,doubleTap,touchAndHold,swipe,pinch,rotate,dragfromtoforduration,scroll}` |
-| 弹窗 | `GET /alert/text`、`POST /alert/{accept,dismiss}`、`GET /wda/alert/buttons` |
+[codebase-research.md](references/codebase-research.md) 
 
 # 应用与设备控制
 
@@ -40,62 +30,10 @@ curl -X POST http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/wda/tap -
 xcrun devicectl device info apps --device <UDID>
 
 # 启动应用
-curl -s -X POST  http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/wda/apps/launch  -d '{"bundleId": "com.apple.Preferences"}'
+curl -s -X POST  http://127.0.0.1:8100/session/$SESSION/wda/apps/launch  -d '{"bundleId": "com.apple.Preferences"}'
 
 # 系统按键 "home", "volumeUp", "volumeDown", "action", "camera"
-curl -s -X POST   http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/wda/pressButton  -H "Content-Type: application/json" -d '{"name": "volumeUp"}' 
-```
-
-## 元素属性与操作
-
-```bash
-# 前置：先 find 到元素，获取 UUID
-UUID=$(curl -s -X POST http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/element -H "Content-Type: application/json" -d '{"using": "accessibility id", "value": "BackButton"}' | jq -r '.value["ELEMENT"]')
-
-# PickerWheel
-curl -X POST http://localhost:8100/session/$SESSION_ID/wda/pickerwheel/$ELEMENT_ID/select -H "Content-Type: application/json" -d '{"order": "next", "value": "11 o'clock", "maxAttempts": 8}'
-
-# GET 文本内容
-# StaticText 返回实际文本；Switch/Button 返回空字符串
-curl -s http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/element/$UUID/text | jq .value
-
-# GET 位置与尺寸：返回 {x, y, width, height}
-curl -s http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/element/$UUID/rect | jq .value
-
-# GET 可用状态：enabled 为 true/false
-curl -s http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/element/$UUID/enabled | jq .value
-
-# GET 可见状态：visible 为 true/false
-curl -s http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/element/$UUID/displayed | jq .value
-
-# GET 选中状态：Switch/CheckBox 等可选中元素返回 true/false
-curl -s http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/element/$UUID/selected | jq .value
-
-# GET 任意属性：26 个合法属性名
-# UID, accessible, enabled, focused, frame, hittable, index,
-# label, maxValue, minValue, name, nativeFrame, placeholderValue,
-# rect, selected, traits, type, value, visible
-# 及对应 wd* 前缀版本（wdUID, wdAccessible...）
-curl -s http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/element/$UUID/attribute/name | jq .value
-
-# POST 点击操作
-curl -s -X POST http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/element/$UUID/click \
-  -H "Content-Type: application/json" | jq .
-
-# POST 清空文本（仅适用于 TextField/TextView 等输入框）
-curl -s -X POST http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/element/$UUID/clear \
-  -H "Content-Type: application/json" | jq .
-
-# POST 输入文本（仅适用于 TextField/TextView，Safari 地址栏会弹键盘导致元素 stale）
-curl -s -X POST http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/element/$UUID/value \
-  -H "Content-Type: application/json" \
-  -d '{"value": ["test"]}' | jq .
-
-# 注意：操作后元素可能失效（如 Safari 弹出键盘），需重新 find
-curl -s -X POST http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/element \
-  -H "Content-Type: application/json" \
-  -d '{"using": "accessibility id", "value": "BackButton"}' \
-  | jq -r '.value["element-6066-11e4-a52e-4f735466cecf"]'
+curl -s -X POST   http://127.0.0.1:8100/session/$SESSION/wda/pressButton  -H "Content-Type: application/json" -d '{"name": "volumeUp"}' 
 ```
 
 ## 锁屏
@@ -110,14 +48,6 @@ curl -s -X POST -H "Content-Type: application/json" -d '{}' http://127.0.0.1:810
 # 解锁
 curl -s -X POST -H "Content-Type: application/json" -d '{}' http://127.0.0.1:8100/wda/unlock | sleep 3 | curl -s http://127.0.0.1:8100/wda/locked | jq .value
 ```
-
-## 详细文档
-
-| 主题 | 路径 |
-|------|------|
-| 命令参考 | [command-reference.md](references/command-reference.md) |
-| 应用与设备控制 | [app-and-device-control.md](references/app-and-device-control.md) |
-| 多次操作失败请使用代码库研究 | [codebase-research.md](references/codebase-research.md) |
 
 ## 模拟位置
 
@@ -161,19 +91,146 @@ curl -s http://127.0.0.1:8100/wda/device/location | jq .value
 
 ```bash
 # 读取方向
-curl -s http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/orientation | jq .
+curl -s http://127.0.0.1:8100/session/$SESSION/orientation | jq .
 # → { "value": "PORTRAIT" }
 
 # 设置方向
 curl -s -X POST -H "Content-Type: application/json" \
   -d '{"orientation": "LANDSCAPE"}' \
-  http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/orientation | jq .
+  http://127.0.0.1:8100/session/$SESSION/orientation | jq .
 
 # 读取三轴旋转
-curl -s http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/rotation | jq .
+curl -s http://127.0.0.1:8100/session/$SESSION/rotation | jq .
 
 # 设置三轴旋转
 curl -s -X POST -H "Content-Type: application/json" \
   -d '{"x": 0, "y": 0, "z": 90}' \
-  http://127.0.0.1:8100/session/$(./scripts/wda_session.sh)/rotation | jq .
+  http://127.0.0.1:8100/session/$SESSION/rotation | jq .
+```
+
+## 手势
+
+### 点击
+
+```bash
+# 坐标点击（无元素时为屏幕绝对坐标）
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/tap \
+  -H "Content-Type: application/json" \
+  -d '{"x": 200, "y": 300}'
+
+# 双击
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/doubleTap \
+  -H "Content-Type: application/json" \
+  -d '{"x": 200, "y": 300}'
+
+# 双指点击
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/twoFingerTap \
+  -H "Content-Type: application/json" \
+  -d '{"element": "$ELEMENT_ID"}'
+
+# 自定义点击次数
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/tapWithNumberOfTaps \
+  -H "Content-Type: application/json" \
+  -d '{"numberOfTaps": 3, "numberOfTouches": 1, "x": 200, "y": 300}'
+
+# 元素偏移点击（偏移基准：元素左上角）
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/element/$ELEMENT_ID/tap \
+  -H "Content-Type: application/json" \
+  -d '{"x": 50, "y": 20}'
+```
+
+### 长按与拖拽
+
+```bash
+# 长按（duration 单位：秒）
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/touchAndHold \
+  -H "Content-Type: application/json" \
+  -d '{"x": 200, "y": 300, "duration": 2}'
+
+# 拖拽
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/dragfromtoforduration \
+  -H "Content-Type: application/json" \
+  -d '{"fromX": 100, "fromY": 200, "toX": 300, "toY": 400, "duration": 1}'
+```
+
+### 高级手势
+
+```bash
+# 滑动（direction: up/down/left/right）
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/swipe \
+  -H "Content-Type: application/json" \
+  -d '{"direction": "up", "velocity": 1200}'
+
+# 捏合（scale > 1 放大，< 1 缩小）
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/pinch \
+  -H "Content-Type: application/json" \
+  -d '{"scale": 0.5, "velocity": 100}'
+
+# 旋转（rotation 弧度）
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/rotate \
+  -H "Content-Type: application/json" \
+  -d '{"rotation": 3.14, "velocity": 100}'
+
+# 压感触控（pressure 0~1, duration 单位：秒）
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/forceTouch \
+  -H "Content-Type: application/json" \
+  -d '{"x": 200, "y": 300, "pressure": 0.8, "duration": 0.5}'
+```
+
+### 滚动
+
+```bash
+# 按方向滚动（direction: up/down/left/right，distance: 滚动距离）
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/scroll \
+  -H "Content-Type: application/json" \
+  -d '{"direction": "down", "distance": 50}'
+
+# 滚动到匹配的元素（name 或 predicateString）
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/scroll \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Item 5"}'
+
+# 使用 predicateString 滚动到目标
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/scroll \
+  -H "Content-Type: application/json" \
+  -d '{"predicateString": "label BEGINSWITH \"Item\""}'
+```
+
+## W3C Actions
+
+> 通过 `/session/:sid/actions` 执行动作链，`DELETE /session/:sid/actions` 释放所有动作源。
+
+```bash
+# W3C 点击（viewport 绝对坐标）
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/actions \
+  -H "Content-Type: application/json" -d '{
+  "actions": [{
+    "type": "pointer", "id": "f1",
+    "parameters": {"pointerType": "touch"},
+    "actions": [
+      {"type": "pointerMove", "duration": 0, "origin": "viewport", "x": 200, "y": 300},
+      {"type": "pointerDown", "button": 0},
+      {"type": "pause", "duration": 100},
+      {"type": "pointerUp", "button": 0}
+    ]
+  }]
+}'
+
+# W3C 点击元素（元素中心 + x/y 偏移）
+curl -s -X POST http://127.0.0.1:8100/session/$SESSION/actions \
+  -H "Content-Type: application/json" -d '{
+  "actions": [{
+    "type": "pointer", "id": "f1",
+    "parameters": {"pointerType": "touch"},
+    "actions": [
+      {"type": "pointerMove", "duration": 0, "origin": {"element-6066-11e4-a52e-4f735466cecf": "$ELEMENT_ID"}, "x": 0, "y": 0},
+      {"type": "pointerDown", "button": 0},
+      {"type": "pause", "duration": 100},
+      {"type": "pointerUp", "button": 0}
+    ]
+  }]
+}'
+
+# 释放所有动作源
+curl -s -X DELETE http://127.0.0.1:8100/session/$SESSION/actions
 ```
