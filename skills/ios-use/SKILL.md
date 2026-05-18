@@ -9,12 +9,15 @@ user-invocable: true
 
 ## 快速开始
 
-执行 [scripts/ios_wda_test_on_iphone.sh](scripts/ios_wda_test_on_iphone.sh) - 启动 WDA（检查/安装/启动，约 1~30s+）
+**必须执行**:
+- $SCRIPTS=../ios-use/scripts
+- $WDA=http://127.0.0.1:8100
+- $SCRIPTS/ios_wda_test_on_iphone.sh - 启动 WDA（检查/安装/启动，约 1~30s+）
 
 ### 执行流程 - 重复 ReAct 循环: 截屏 → 观察 → 决策 → 执行 → 截屏验证
 
 1. $SCRIPTS/ios_wda_snapshot.sh - 获取页面源码 + 截图（输出到 {PROJECT_ROOT}/tmp/wda-snapshot-{UDID}/{yymmdd}/*.jpg & *.yaml，自动递增序号）然后决策分析
-2. 执行决策 → 验证，例：点击坐标 (100, 200) 后重新截屏 - curl -s -X POST http://127.0.0.1:8100/session/$($SCRIPTS/wda_session.sh)/wda/tap -H "Content-Type: application/json" -d '{"x": 100, "y": 200}' | sleep 2 | $SCRIPTS/ios_wda_snapshot.sh
+2. 执行决策 → 验证，例：点击坐标 (100, 200) 后重新截屏 - curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/tap -H "Content-Type: application/json" -d '{"x": 100, "y": 200}' | sleep 2 | $SCRIPTS/ios_wda_snapshot.sh
 
 **核心原则：每次操作前必须截屏观察当前状态，禁止预测式连续操作。**
 
@@ -29,10 +32,10 @@ user-invocable: true
 xcrun devicectl device info apps --device <UDID>
 
 # 启动应用
-curl -s -X POST  http://127.0.0.1:8100/session/$SESSION/wda/apps/launch  -d '{"bundleId": "com.apple.Preferences"}'
+curl -s -X POST  $WDA/session/$($SCRIPTS/wda_session.sh)/wda/apps/launch  -d '{"bundleId": "com.apple.Preferences"}'
 
 # 系统按键 "home", "volumeUp", "volumeDown", "action", "camera"
-curl -s -X POST   http://127.0.0.1:8100/session/$SESSION/wda/pressButton  -H "Content-Type: application/json" -d '{"name": "volumeUp"}' 
+curl -s -X POST   $WDA/session/$($SCRIPTS/wda_session.sh)/wda/pressButton  -H "Content-Type: application/json" -d '{"name": "volumeUp"}' 
 ```
 
 ## 手势
@@ -41,27 +44,27 @@ curl -s -X POST   http://127.0.0.1:8100/session/$SESSION/wda/pressButton  -H "Co
 
 ```bash
 # 坐标点击（无元素时为屏幕绝对坐标）
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/tap \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/tap \
   -H "Content-Type: application/json" \
   -d '{"x": 200, "y": 300}'
 
 # 双击
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/doubleTap \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/doubleTap \
   -H "Content-Type: application/json" \
   -d '{"x": 200, "y": 300}'
 
 # 双指点击
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/twoFingerTap \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/twoFingerTap \
   -H "Content-Type: application/json" \
   -d '{"element": "$ELEMENT_ID"}'
 
 # 自定义点击次数
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/tapWithNumberOfTaps \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/tapWithNumberOfTaps \
   -H "Content-Type: application/json" \
   -d '{"numberOfTaps": 3, "numberOfTouches": 1, "x": 200, "y": 300}'
 
 # 元素偏移点击（偏移基准：元素左上角）
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/element/$ELEMENT_ID/tap \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/element/$ELEMENT_ID/tap \
   -H "Content-Type: application/json" \
   -d '{"x": 50, "y": 20}'
 ```
@@ -70,12 +73,12 @@ curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/element/$ELEMENT_ID/t
 
 ```bash
 # 长按（duration 单位：秒）
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/touchAndHold \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/touchAndHold \
   -H "Content-Type: application/json" \
   -d '{"x": 200, "y": 300, "duration": 2}'
 
 # 拖拽
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/dragfromtoforduration \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/dragfromtoforduration \
   -H "Content-Type: application/json" \
   -d '{"fromX": 100, "fromY": 200, "toX": 300, "toY": 400, "duration": 1}'
 ```
@@ -84,22 +87,22 @@ curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/dragfromtoforduration
 
 ```bash
 # 滑动（direction: up/down/left/right）
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/swipe \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/swipe \
   -H "Content-Type: application/json" \
   -d '{"direction": "up", "velocity": 1200}'
 
 # 捏合（scale > 1 放大，< 1 缩小）
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/pinch \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/pinch \
   -H "Content-Type: application/json" \
   -d '{"scale": 0.5, "velocity": 100}'
 
 # 旋转（rotation 弧度）
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/rotate \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/rotate \
   -H "Content-Type: application/json" \
   -d '{"rotation": 3.14, "velocity": 100}'
 
 # 压感触控（pressure 0~1, duration 单位：秒）
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/forceTouch \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/forceTouch \
   -H "Content-Type: application/json" \
   -d '{"x": 200, "y": 300, "pressure": 0.8, "duration": 0.5}'
 ```
@@ -108,17 +111,17 @@ curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/forceTouch \
 
 ```bash
 # 按方向滚动（direction: up/down/left/right，distance: 滚动距离）
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/scroll \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/scroll \
   -H "Content-Type: application/json" \
   -d '{"direction": "down", "distance": 50}'
 
 # 滚动到匹配的元素（name 或 predicateString）
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/scroll \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/scroll \
   -H "Content-Type: application/json" \
   -d '{"name": "Item 5"}'
 
 # 使用 predicateString 滚动到目标
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/scroll \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/scroll \
   -H "Content-Type: application/json" \
   -d '{"predicateString": "label BEGINSWITH \"Item\""}'
 ```
@@ -129,7 +132,7 @@ curl -s -X POST http://127.0.0.1:8100/session/$SESSION/wda/scroll \
 
 ```bash
 # W3C 点击（viewport 绝对坐标）
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/actions \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/actions \
   -H "Content-Type: application/json" -d '{
   "actions": [{
     "type": "pointer", "id": "f1",
@@ -144,7 +147,7 @@ curl -s -X POST http://127.0.0.1:8100/session/$SESSION/actions \
 }'
 
 # W3C 点击元素（元素中心 + x/y 偏移）
-curl -s -X POST http://127.0.0.1:8100/session/$SESSION/actions \
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/actions \
   -H "Content-Type: application/json" -d '{
   "actions": [{
     "type": "pointer", "id": "f1",
@@ -159,41 +162,41 @@ curl -s -X POST http://127.0.0.1:8100/session/$SESSION/actions \
 }'
 
 # 释放所有动作源
-curl -s -X DELETE http://127.0.0.1:8100/session/$SESSION/actions
+curl -s -X DELETE $WDA/session/$($SCRIPTS/wda_session.sh)/actions
 ```
 
 ## 锁屏
 
 ```bash
 # 查询锁定状态（全局，无需 session）
-curl -s http://127.0.0.1:8100/wda/locked | jq .value
+curl -s $WDA/wda/locked | jq .value
 
 # 锁屏（必须带 Content-Type: application/json + 空 body，否则 400）
-curl -s -X POST -H "Content-Type: application/json" -d '{}' http://127.0.0.1:8100/wda/lock | curl -s http://127.0.0.1:8100/wda/locked | jq .value
+curl -s -X POST -H "Content-Type: application/json" -d '{}' $WDA/wda/lock | curl -s $WDA/wda/locked | jq .value
 
 # 解锁
-curl -s -X POST -H "Content-Type: application/json" -d '{}' http://127.0.0.1:8100/wda/unlock | sleep 3 | curl -s http://127.0.0.1:8100/wda/locked | jq .value
+curl -s -X POST -H "Content-Type: application/json" -d '{}' $WDA/wda/unlock | sleep 3 | curl -s $WDA/wda/locked | jq .value
 ```
 
 ## 模拟位置
 
 ```bash
 # 读取当前模拟位置
-curl -s http://127.0.0.1:8100/wda/simulatedLocation | jq .
+curl -s $WDA/wda/simulatedLocation | jq .
 # → { "value": { "altitude": null, "longitude": null, "latitude": null }, "sessionId": "..." }
 
 # 设置经纬度（北京坐标）
-curl -s -X POST http://127.0.0.1:8100/wda/simulatedLocation \
+curl -s -X POST $WDA/wda/simulatedLocation \
   -H "Content-Type: application/json" \
   -d '{"latitude": 39.9042, "longitude": 116.4074}' | jq .
 # → { "value": null, "sessionId": "..." }
 
 # 验证设置生效
-curl -s http://127.0.0.1:8100/wda/simulatedLocation | jq .
+curl -s $WDA/wda/simulatedLocation | jq .
 # → { "value": { "altitude": 0, "longitude": 116.4074, "latitude": 39.9042 }, ... }
 
 # 清除模拟位置
-curl -s -X DELETE http://127.0.0.1:8100/wda/simulatedLocation | jq .
+curl -s -X DELETE $WDA/wda/simulatedLocation | jq .
 # → { "value": null, "sessionId": "..." }
 ```
 
@@ -201,36 +204,36 @@ curl -s -X DELETE http://127.0.0.1:8100/wda/simulatedLocation | jq .
 
 ```bash
 #返回屏幕尺寸、状态栏尺寸、缩放比例。
-curl -s http://127.0.0.1:8100/wda/screen
+curl -s $WDA/wda/screen
 
 # 返回 locale、时区、型号、UUID、UI 风格等设备元数据。
-curl -s http://127.0.0.1:8100/wda/device/info | jq .value
+curl -s $WDA/wda/device/info | jq .value
 
 # 返回前台应用信息。
-curl -s http://127.0.0.1:8100/wda/activeAppInfo | jq .value
+curl -s $WDA/wda/activeAppInfo | jq .value
 
 # 返回设备地理位置。需在 **Settings → Privacy → Location Services → WebDriverAgent-Runner → Always** 授权，否则经纬度始终为 0。
-curl -s http://127.0.0.1:8100/wda/device/location | jq .value
+curl -s $WDA/wda/device/location | jq .value
 ```
 
 ## 方向
 
 ```bash
 # 读取方向
-curl -s http://127.0.0.1:8100/session/$SESSION/orientation | jq .
+curl -s $WDA/session/$($SCRIPTS/wda_session.sh)/orientation | jq .
 # → { "value": "PORTRAIT" }
 
 # 设置方向
 curl -s -X POST -H "Content-Type: application/json" \
   -d '{"orientation": "LANDSCAPE"}' \
-  http://127.0.0.1:8100/session/$SESSION/orientation | jq .
+  $WDA/session/$($SCRIPTS/wda_session.sh)/orientation | jq .
 
 # 读取三轴旋转
-curl -s http://127.0.0.1:8100/session/$SESSION/rotation | jq .
+curl -s $WDA/session/$($SCRIPTS/wda_session.sh)/rotation | jq .
 
 # 设置三轴旋转
 curl -s -X POST -H "Content-Type: application/json" \
   -d '{"x": 0, "y": 0, "z": 90}' \
-  http://127.0.0.1:8100/session/$SESSION/rotation | jq .
+  $WDA/session/$($SCRIPTS/wda_session.sh)/rotation | jq .
 ```
 
