@@ -9,13 +9,14 @@ user-invocable: true
 
 ## 快速开始
 ```bash
-# 安装启动 WDA, log 输出到./tmp/wda.log
+# 安装启动 WDA, log 输出到{PROJECT_ROOT}/tmp/wda.log
 bash ios_wda_test_on_iphone.sh
-# 获取页面源码 + 截图（自动递增序号）
+
+# 获取页面源码 + 截图, 输出到{PROJECT_ROOT}/tmp/wda-snapshot-{UDID}/{yymmdd}/*.jpg & *.yaml（自动递增序号）
 bash ios_wda_snapshot.sh
-# 输出示例：
-# ./tmp/wda-snapshot-<UDID>/20260516/001-source.json
-# ./tmp/wda-snapshot-<UDID>/20260516/001-screenshot.jpg
+
+# 执行操作，例如点击坐标 (x,y)
+
 ```
 
 ## 工作流（ReAct 循环）

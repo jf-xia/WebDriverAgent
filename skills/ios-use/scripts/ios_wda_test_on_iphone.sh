@@ -2,19 +2,17 @@
 # ios_wda_test_on_iphone.sh
 set -euo pipefail
 
-# 默认值
-PORT=8100
+# 获取项目根目录（脚本位于 skills/ios-use/scripts/）
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# 加载公共函数
+source "$SCRIPT_DIR/common.sh"
+
+# 脚本专属默认值
 PROJECT_PATH="$HOME/work/WebDriverAgent/WebDriverAgent.xcodeproj"
 SCHEME="WebDriverAgentRunner"
 UDID=""
 LOG_DIR="./tmp"
-
-# 颜色输出
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
 
 usage() {
     echo "Usage: $0 [--udid <UDID>] [--port <PORT>] [--project-path <PATH>] [--scheme <SCHEME>]"

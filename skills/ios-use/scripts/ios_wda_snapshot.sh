@@ -6,11 +6,12 @@ set -euo pipefail
 # 获取项目根目录（脚本位于 skills/ios-use/scripts/）
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
-
-# 默认值
-HOST="127.0.0.1"
-PORT="8100"
 CONFIG_FILE="$PROJECT_ROOT/tmp/wda.json"
+
+# 加载公共函数
+source "$SCRIPT_DIR/common.sh"
+
+# 脚本专属默认值
 OUTPUT_DIR=""
 PYTHON_SCRIPT="$(dirname "$0")/source.json_to_yaml.py"
 
@@ -19,12 +20,6 @@ if [[ ! -f "$PYTHON_SCRIPT" ]]; then
     echo -e "${YELLOW}警告: Python 转换脚本不存在: $PYTHON_SCRIPT${NC}" >&2
     PYTHON_SCRIPT=""
 fi
-
-# 颜色输出
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
 
 usage() {
     echo "Usage: $0 [--host <HOST>] [--port <PORT>]"
@@ -53,15 +48,6 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
-
-# 检查 WDA 是否可用
-check_wda() {
-    local url="http://${HOST}:${PORT}/status"
-    curl -s --connect-timeout 3 --max-time 10 "$url" >/dev/null 2>&1 || {
-        echo -e "${RED}WDA 不可达: ${HOST}:${PORT}${NC}, 执行 ios_wda_test_on_iphone.sh 重启WDA, 然后等待10~30秒后在wda.log中查看状态" >&2
-        return 1
-    }
-}
 
 # 获取下一个序号
 get_next_number() {
