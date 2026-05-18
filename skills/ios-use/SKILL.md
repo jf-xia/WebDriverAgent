@@ -31,7 +31,18 @@ user-invocable: true
 # 获取已安装应用
 xcrun devicectl device info apps --device <UDID>
 
-# 启动应用
+# 启动应用 — launch API 在真机上不可靠，推荐坐标点击方式
+# 1. 先截屏找图标
+$SCRIPTS/ios_wda_snapshot.sh
+# 2. 从 YAML 找图标 rect，计算中心坐标
+# 3. 坐标点击图标
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/tap \
+  -H "Content-Type: application/json" \
+  -d '{"x": 62, "y": 635}'
+sleep 5  # 启动需等 5s（比常规 3s 更安全）
+$SCRIPTS/ios_wda_snapshot.sh  # 验证是否成功打开
+
+# launch API（备用，真机上可能不生效）
 curl -s -X POST  $WDA/session/$($SCRIPTS/wda_session.sh)/wda/apps/launch  -d '{"bundleId": "com.apple.Preferences"}'
 
 # 系统按键 "home", "volumeUp", "volumeDown", "action", "camera"
@@ -73,13 +84,24 @@ curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/element/$ELEMENT_ID/
 
 ```bash
 # 1. 通过 accessibility id 查找元素
-curl -s $WDA/session/$SESSION/elements -H "Content-Type: application/json" \
+ELEMENT_ID=$(curl -s $WDA/session/$SESSION/elements -H "Content-Type: application/json" \
   -d '{"using": "accessibility id", "value": "tap-demo.button"}' \
-  | python3 -c "import sys,json; print(json.load(sys.stdin)['value'][0]['element-6066-11e4-a52e-4f735466cecf'])"
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['value'][0]['element-6066-11e4-a52e-4f735466cecf'])")
+# 也可用 'ELEMENT' 字段
+ELEMENT_ID=$(curl -s $WDA/session/$SESSION/elements -H "Content-Type: application/json" \
+  -d '{"using": "accessibility id", "value": "tap-demo.button"}' \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['value'][0]['ELEMENT'])")
 
-# 2. 将输出保存为 ELEMENT_ID 变量，然后执行点击
-curl -s -X POST $WDA/session/$SESSION/wda/element/$ELEMENT_ID/tap \
-  -H "Content-Type: application/json" -d '{"x": 0, "y": 0}'
+# 2. W3C standard click（推荐，可靠触发点击事件）
+curl -s -X POST $WDA/session/$SESSION/element/$ELEMENT_ID/click \
+  -H "Content-Type: application/json" -d '{}'
+
+# 备选：坐标点击（对无 accessibility id 的元素）
+# 从 YAML snapshot 取元素 rect → 计算中心坐标 → /wda/tap
+curl -s -X POST $WDA/session/$SESSION/wda/tap \
+  -H "Content-Type: application/json" -d '{"x": 92, "y": 458}'
+
+# 注意：/wda/element/:eid/tap 在真机上不一定触发点击事件，避免使用
 ```
 
 ### 文本输入（完整流程）
@@ -90,18 +112,20 @@ EL_ID=$(curl -s $WDA/session/$SESSION/elements -H "Content-Type: application/jso
   -d '{"using": "accessibility id", "value": "text-demo.field"}' \
   | python3 -c "import sys,json; print(json.load(sys.stdin)['value'][0]['element-6066-11e4-a52e-4f735466cecf'])")
 
-# 2. 清空现有文本
-curl -s -X POST $WDA/session/$SESSION/element/$EL_ID/clear -H "Content-Type: application/json"
-
-# 3. 输入新文本（逐字符数组，会触发键盘）
+# 2. 输入文本（逐字符数组，会触发键盘）
+# ⚠️ clear() 在真机上不生效！setValue 永远追加文本，不会替换
+# 如需替换文本，需要先手动删除（点字段 → 全选 → 删 → 再输入）
 curl -s -X POST $WDA/session/$SESSION/element/$EL_ID/value \
   -H "Content-Type: application/json" \
   -d '{"value": ["W","D","A","T","e","s","t","2","0","2","6"]}'
 
-# 4. 等键盘弹出，点击空白处关闭
-sleep 1
+# 3. 等键盘弹出，点击空白处关闭
+sleep 2
 curl -s -X POST $WDA/session/$SESSION/wda/tap \
-  -H "Content-Type: application/json" -d '{"x": 200, "y": 200}'
+  -H "Content-Type: application/json" -d '{"x": 200, "y": 30}'
+sleep 1
+# 验证输入结果
+$SCRIPTS/ios_wda_snapshot.sh
 ```
 
 ### 长按与拖拽
@@ -144,28 +168,34 @@ curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/forceTouch \
 
 ### 滚动
 
+> ⚠️ 真机实战验证：全局 `/wda/swipe` 不作用于 ScrollView！必须对滚动容器元素执行 swipe。
+
 ```bash
-# 按方向滚动（direction: up/down/left/right），velocity 控制速度
-# 单次滚动距离有限，深层内容需多次调用
-curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/swipe \
+# 1. 先找到滚动容器元素（如 ScrollView 的 accessibility id）
+SCROLL_EL=$(curl -s $WDA/session/$SESSION/elements \
   -H "Content-Type: application/json" \
-  -d '{"direction": "down", "velocity": 1200}'
+  -d '{"using": "accessibility id", "value": "demo.scrollView"}' \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['value'][0]['ELEMENT'])")
 
-# 滚动到匹配的元素（name）
-# 注意：仅当目标元素已在 visible 范围内时有效
-# 完全不可见的元素无法通过此方式访问
-# 应先 swipe 滚动直到目标出现在页面中
-curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/scroll \
+# 2. 对元素执行 swipe — UP = 内容向下（显示更深元素），DOWN = 内容向上
+curl -s -X POST $WDA/session/$SESSION/wda/element/$SCROLL_EL/swipe \
   -H "Content-Type: application/json" \
-  -d '{"name": "Item 5"}'
+  -d '{"direction": "up", "velocity": 1200}'
 
-# 使用 predicateString 滚动到目标
-curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/scroll \
-  -H "Content-Type: application/json" \
-  -d '{"predicateString": "label BEGINSWITH \\"Item\\""}'
+# 单次 swipe 滚动距离有限，多次调用覆盖完整区域
+# 每次 swipe 后 snapshot 验证是否到达目标
+for i in $(seq 1 5); do
+  curl -s -X POST $WDA/session/$SESSION/wda/element/$SCROLL_EL/swipe \
+    -H "Content-Type: application/json" \
+    -d '{"direction": "up", "velocity": 1200}' > /dev/null
+  sleep 2
+  $SCRIPTS/ios_wda_snapshot.sh
+done
 ```
 
-> **滚动注意事项**：XCTest 只渲染 visible 区域，screen 外的元素不会被暴露。滚动前先用 swipe 多次移动内容，确保目标进入可访问范围后再尝试 scroll 或元素定位。
+> **方向含义**：WDA swipe direction 是手势方向。`up` = 手指向上滑 = 内容向下滚（看到更深内容）。`down` = 手指向下滑 = 内容向上滚。勿与视觉方向混淆。
+
+> **XCTest 可见性**：XCTest 只渲染 visible 区域，screen 外的元素不会被暴露。滚动需让目标进入可见范围后才能通过元素查找定位。
 
 ## W3C Actions
 
