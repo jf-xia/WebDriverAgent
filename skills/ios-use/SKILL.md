@@ -10,7 +10,7 @@ user-invocable: true
 ## 快速开始
 
 **必须执行**:
-- $SCRIPTS=../ios-use/scripts
+- $SCRIPTS=./agents/skills/ios-use/scripts
 - $WDA=http://127.0.0.1:8100
 - $SCRIPTS/ios_wda_test_on_iphone.sh - 启动 WDA（检查/安装/启动，约 1~30s+）
 
@@ -69,6 +69,41 @@ curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/element/$ELEMENT_ID/
   -d '{"x": 50, "y": 20}'
 ```
 
+### 查找元素并点击（完整流程）
+
+```bash
+# 1. 通过 accessibility id 查找元素
+curl -s $WDA/session/$SESSION/elements -H "Content-Type: application/json" \
+  -d '{"using": "accessibility id", "value": "tap-demo.button"}' \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['value'][0]['element-6066-11e4-a52e-4f735466cecf'])"
+
+# 2. 将输出保存为 ELEMENT_ID 变量，然后执行点击
+curl -s -X POST $WDA/session/$SESSION/wda/element/$ELEMENT_ID/tap \
+  -H "Content-Type: application/json" -d '{"x": 0, "y": 0}'
+```
+
+### 文本输入（完整流程）
+
+```bash
+# 1. 获取文本框元素 ID
+EL_ID=$(curl -s $WDA/session/$SESSION/elements -H "Content-Type: application/json" \
+  -d '{"using": "accessibility id", "value": "text-demo.field"}' \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['value'][0]['element-6066-11e4-a52e-4f735466cecf'])")
+
+# 2. 清空现有文本
+curl -s -X POST $WDA/session/$SESSION/element/$EL_ID/clear -H "Content-Type: application/json"
+
+# 3. 输入新文本（逐字符数组，会触发键盘）
+curl -s -X POST $WDA/session/$SESSION/element/$EL_ID/value \
+  -H "Content-Type: application/json" \
+  -d '{"value": ["W","D","A","T","e","s","t","2","0","2","6"]}'
+
+# 4. 等键盘弹出，点击空白处关闭
+sleep 1
+curl -s -X POST $WDA/session/$SESSION/wda/tap \
+  -H "Content-Type: application/json" -d '{"x": 200, "y": 200}'
+```
+
 ### 长按与拖拽
 
 ```bash
@@ -110,12 +145,16 @@ curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/forceTouch \
 ### 滚动
 
 ```bash
-# 按方向滚动（direction: up/down/left/right，distance: 滚动距离）
-curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/scroll \
+# 按方向滚动（direction: up/down/left/right），velocity 控制速度
+# 单次滚动距离有限，深层内容需多次调用
+curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/swipe \
   -H "Content-Type: application/json" \
-  -d '{"direction": "down", "distance": 50}'
+  -d '{"direction": "down", "velocity": 1200}'
 
-# 滚动到匹配的元素（name 或 predicateString）
+# 滚动到匹配的元素（name）
+# 注意：仅当目标元素已在 visible 范围内时有效
+# 完全不可见的元素无法通过此方式访问
+# 应先 swipe 滚动直到目标出现在页面中
 curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/scroll \
   -H "Content-Type: application/json" \
   -d '{"name": "Item 5"}'
@@ -123,8 +162,10 @@ curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/scroll \
 # 使用 predicateString 滚动到目标
 curl -s -X POST $WDA/session/$($SCRIPTS/wda_session.sh)/wda/scroll \
   -H "Content-Type: application/json" \
-  -d '{"predicateString": "label BEGINSWITH \"Item\""}'
+  -d '{"predicateString": "label BEGINSWITH \\"Item\\""}'
 ```
+
+> **滚动注意事项**：XCTest 只渲染 visible 区域，screen 外的元素不会被暴露。滚动前先用 swipe 多次移动内容，确保目标进入可访问范围后再尝试 scroll 或元素定位。
 
 ## W3C Actions
 
@@ -236,4 +277,3 @@ curl -s -X POST -H "Content-Type: application/json" \
   -d '{"x": 0, "y": 0, "z": 90}' \
   $WDA/session/$($SCRIPTS/wda_session.sh)/rotation | jq .
 ```
-
