@@ -7,6 +7,7 @@ SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../../ios-use/scripts
 source "$SCRIPTS_DIR/common.sh"
 
 WDA="http://${HOST}:${PORT}"
+APP_BUNDLE_ID="com.jianfeng.iosclickdemo"
 LOG_DIR="$PROJECT_ROOT/tmp/test-results"
 mkdir -p "$LOG_DIR"
 LOG_FILE="$LOG_DIR/test_$(date +%Y%m%d_%H%M%S).log"
@@ -16,22 +17,37 @@ log()  { echo -e "$1" | tee -a "$LOG_FILE"; }
 pass() { PASS=$((PASS+1)); log "${GREEN}[PASS]${NC} $1"; }
 fail() { FAIL=$((FAIL+1)); log "${RED}[FAIL]${NC} $1"; }
 
-do_snap() { bash "$SCRIPTS_DIR/ios_wda_snapshot.sh" > /dev/null 2>&1; sleep 1; }
+do_snap() { bash "$SCRIPTS_DIR/ios_wda_snapshot.sh" --no-screenshot > /dev/null 2>&1; sleep 1; }
 latest_yaml() {
     local sd=$(ls -dt "$PROJECT_ROOT/tmp/wda-snapshot-"*/ 2>/dev/null | head -1)
     [[ -z "$sd" ]] && { echo ""; return; }
     ls -t "$sd$(date +%Y%m%d)/"*-source.yaml 2>/dev/null | head -1
 }
-yaml_val() { grep -A1 "$1" "$2" 2>/dev/null | grep "value:" | sed 's/.*value: //' | head -1; }
-extract_num() { echo "$1" | grep -oE '[0-9]+' | head -1; }
+yaml_val() {
+    grep -F -A1 "$1" "$2" 2>/dev/null | sed -n 's/.*value: //p' | head -1 || true
+}
+yaml_rect() {
+    grep -F -A3 "$1" "$2" 2>/dev/null | sed -n 's/.*rect: //p' | head -1 || true
+}
+extract_num() {
+    printf '%s\n' "$1" | grep -oE '[0-9]+' | head -1 || true
+}
 find_el_id() {
     curl -s "$WDA/session/$SESSION/elements" \
         -H "Content-Type: application/json" \
         -d "{\"using\": \"$1\", \"value\": \"$2\"}" \
         | python3 -c "import sys,json; arr=json.load(sys.stdin).get('value',[]); print(arr[0].get('ELEMENT','') if arr else '')" 2>/dev/null
 }
+active_bundle_id() {
+    curl -s "$WDA/wda/activeAppInfo" | jq -r '.value.bundleId // empty'
+}
 el_click() { curl -s -X POST "$WDA/session/$SESSION/element/$1/click" -H "Content-Type: application/json" -d '{}' > /dev/null; }
 tap() { curl -s -X POST "$WDA/session/$SESSION/wda/tap" -H "Content-Type: application/json" -d "{\"x\": $1, \"y\": $2}" > /dev/null; }
+w3c_tap() {
+    curl -s -X POST "$WDA/session/$SESSION/actions" \
+        -H "Content-Type: application/json" \
+        -d "{\"actions\":[{\"type\":\"pointer\",\"id\":\"f1\",\"parameters\":{\"pointerType\":\"touch\"},\"actions\":[{\"type\":\"pointerMove\",\"duration\":0,\"origin\":\"viewport\",\"x\":$1,\"y\":$2},{\"type\":\"pointerDown\",\"button\":0},{\"type\":\"pause\",\"duration\":100},{\"type\":\"pointerUp\",\"button\":0}]}]}" > /dev/null
+}
 rect_center() {
     local r="$1"
     local x=$(echo "$r" | cut -d',' -f1)
@@ -39,6 +55,15 @@ rect_center() {
     local w=$(echo "$r" | cut -d' ' -f2 | cut -d'x' -f1)
     local h=$(echo "$r" | cut -d'x' -f2)
     echo "$((x + w/2)) $((y + h/2))"
+}
+rect_midpoint_y() {
+    local upper_rect="$1"
+    local lower_rect="$2"
+    local upper_y=$(echo "$upper_rect" | cut -d',' -f2 | cut -d' ' -f1)
+    local upper_h=$(echo "$upper_rect" | cut -d'x' -f2)
+    local lower_y=$(echo "$lower_rect" | cut -d',' -f2 | cut -d' ' -f1)
+    local upper_bottom=$((upper_y + upper_h))
+    echo "$((upper_bottom + (lower_y - upper_bottom)/2))"
 }
 
 # ─── main ───
@@ -63,11 +88,22 @@ log "  SESSION=$SESSION"
 pass "Session created"
 
 log ">> Setup: open IOSClickDemo..."
+# Deterministic validation needs a clean app state.
+curl -s -X POST "$WDA/session/$SESSION/wda/apps/terminate" \
+    -H "Content-Type: application/json" \
+    -d "{\"bundleId\": \"$APP_BUNDLE_ID\"}" > /dev/null 2>/dev/null || true
+sleep 1
+curl -s -X POST "$WDA/session/$SESSION/wda/apps/launch" \
+    -H "Content-Type: application/json" \
+    -d "{\"bundleId\": \"$APP_BUNDLE_ID\"}" > /dev/null
+sleep 5
 do_snap; Y=$(latest_yaml)
 if [[ "$(head -1 "$Y")" != *"IOSClickDemo"* ]]; then
     ICON=$(grep -A3 "IOSClickDemo" "$Y" | grep "rect:" | head -1 | grep -oE '[0-9]+,[0-9]+ [0-9]+x[0-9]+')
-    read CX CY <<< "$(rect_center "$ICON")"
-    tap $CX $CY; sleep 5; do_snap; Y=$(latest_yaml)
+    if [[ -n "$ICON" ]]; then
+        read CX CY <<< "$(rect_center "$ICON")"
+        tap $CX $CY; sleep 5; do_snap; Y=$(latest_yaml)
+    fi
 fi
 [[ "$(head -1 "$Y")" == *"IOSClickDemo"* ]] || { fail "failed to open app"; exit 1; }
 pass "IOSClickDemo opened"
@@ -98,11 +134,24 @@ log "${BLUE}--- Test 2: Coordinate Tap (Direct RemoteXPC) ---${NC}"
 D1=$(extract_num "$(yaml_val "Direct tap received" "$Y")"); D1=${D1:-0}
 log "  initial count: $D1"
 
-# Fixed coords inside the tap zone (below "Tap Anywhere In This Zone" label)
-CX=201; CY=250
-log "  coords: ($CX, $CY)"
-tap $CX $CY; sleep 2; do_snap; Y=$(latest_yaml)
+# Derive the hidden tap zone from nearby accessible elements.
+STATUS_RECT=$(yaml_rect "direct-tap.status" "$Y")
+ZONE_LABEL_RECT=$(yaml_rect "Tap Anywhere In This Zone" "$Y")
+read TAP_X _ <<< "$(rect_center "$ZONE_LABEL_RECT")"
+TAP_Y=$(rect_midpoint_y "$STATUS_RECT" "$ZONE_LABEL_RECT")
+TAP_X=${TAP_X:-201}
+TAP_Y=${TAP_Y:-450}
+if [[ "$TAP_Y" -lt 100 ]]; then
+    TAP_Y=450
+fi
+log "  coords: ($TAP_X, $TAP_Y)"
+tap $TAP_X $TAP_Y; sleep 2; do_snap; Y=$(latest_yaml)
 D2=$(extract_num "$(yaml_val "Direct tap received" "$Y")"); D2=${D2:-0}
+if [[ "$D2" -le "$D1" ]]; then
+    log "  /wda/tap missed; retry with W3C Actions"
+    w3c_tap $TAP_X $TAP_Y; sleep 2; do_snap; Y=$(latest_yaml)
+    D2=$(extract_num "$(yaml_val "Direct tap received" "$Y")"); D2=${D2:-0}
+fi
 log "  after tap: $D2"
 [[ "$D2" -gt "$D1" ]] && pass "Coord tap: $D1 -> $D2" || fail "Coord tap: no change ($D1)"
 

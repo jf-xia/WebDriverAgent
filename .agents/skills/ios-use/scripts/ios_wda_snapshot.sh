@@ -10,7 +10,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 CONFIG_FILE="$PROJECT_ROOT/tmp/wda.json"
 OUTPUT_DIR=""
 PYTHON_SCRIPT="$(dirname "$0")/source.json_to_yaml.py"
-CAPTURE_SCREENSHOT="${WDA_SNAPSHOT_SCREENSHOT:-0}"
+CAPTURE_SCREENSHOT="${WDA_SNAPSHOT_SCREENSHOT:-1}"
 
 # 检查 Python 转换脚本是否存在
 if [[ ! -f "$PYTHON_SCRIPT" ]]; then
@@ -19,10 +19,11 @@ if [[ ! -f "$PYTHON_SCRIPT" ]]; then
 fi
 
 usage() {
-    echo "Usage: $0 [--host <HOST>] [--port <PORT>] [--with-screenshot] [--full]"
+    echo "Usage: $0 [--host <HOST>] [--port <PORT>] [--with-screenshot] [--no-screenshot] [--full]"
     echo "  --host    WDA 主机地址（默认从 wda.json 读取）"
     echo "  --port    WDA 端口（默认从 wda.json 读取）"
-    echo "  --with-screenshot  额外抓取截图"
+    echo "  --with-screenshot  抓取截图（默认开启）"
+    echo "  --no-screenshot    只输出 source / YAML，不抓截图"
     echo "  --full    等价于 --with-screenshot"
     exit 1
 }
@@ -40,6 +41,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --with-screenshot|--full)
             CAPTURE_SCREENSHOT=1
+            shift
+            ;;
+        --no-screenshot|--yaml-only)
+            CAPTURE_SCREENSHOT=0
             shift
             ;;
         -h|--help)

@@ -17,9 +17,12 @@ user-invocable: true
 
 ### 默认流程 - YAML 观察优先
 
-1. `$SCRIPTS/ios_wda_snapshot.sh` 默认只抓 source 并转换为 YAML。需要截图时，显式加 `--with-screenshot`
-2. 观察 YAML → 决策 → 执行 → 再抓 YAML 验证。只有纯视觉问题、布局疑难、图标识别时再补截图
-3. 每轮任务默认创建新 session。若同一段命令需要固定 session，先 `SESSION=$($SCRIPTS/wda_session.sh)`，后续复用 `$SESSION`
+1. `$SCRIPTS/ios_wda_snapshot.sh` 默认同时抓 source/YAML 和 screenshot
+2. 高频轮询、测试脚本、只关心结构化信息时，显式加 `--no-screenshot`
+3. 观察 YAML + screenshot → 决策 → 执行 → 再抓 snapshot 验证。YAML 负责结构，screenshot 负责视觉交叉确认
+4. 每轮任务默认创建新 session。若同一段命令需要固定 session，先 `SESSION=$($SCRIPTS/wda_session.sh)`，后续复用 `$SESSION`
+5. 坐标类操作前，先排除阻塞层。优先运行 `$SCRIPTS/wda_guard.sh --check`
+6. 对无 accessibility id 的点击区，不要长期依赖写死坐标。优先从相邻可见元素的 `rect` 推导点击点；动作后必须验证状态变化
 
 **核心原则：每次操作前必须截屏观察当前状态，禁止预测式连续操作。**
 
@@ -51,16 +54,34 @@ curl -s -X POST $WDA/session/$SESSION/wda/apps/launch \
   -H "Content-Type: application/json" \
   -d '{"bundleId": "com.apple.mobilenotes"}'
 
+# 只有在无法通过弹窗处理、回滚滚动、关闭键盘恢复状态时，才用 terminate -> launch 做最后兜底
+# 不要把重启 App 当作默认恢复路径
+curl -s -X POST $WDA/session/$SESSION/wda/apps/terminate \
+  -H "Content-Type: application/json" \
+  -d '{"bundleId": "com.apple.mobilenotes"}'
+curl -s -X POST $WDA/session/$SESSION/wda/apps/launch \
+  -H "Content-Type: application/json" \
+  -d '{"bundleId": "com.apple.mobilenotes"}'
+
 # 验证当前前台 App（如需进一步校验，可依据返回值判断）
 curl -s $WDA/wda/activeAppInfo | jq .
 $SCRIPTS/ios_wda_snapshot.sh
+
+# 检查是否有系统弹窗/键盘挡住操作
+$SCRIPTS/wda_guard.sh --check
+
+# 保守关闭常见 Alert / Sheet（默认只点 Cancel / Close / Not Now / Dismiss / Don't Allow 一类安全按钮）
+$SCRIPTS/wda_guard.sh --dismiss
+
+# 如需顺带尝试收起键盘，再显式加参数
+$SCRIPTS/wda_guard.sh --dismiss --dismiss-keyboard
 
 # 主屏兜底（只有在 launch 未将 App 带到前台时才使用）
 # 注意：多数情况下 launch 应足以启动或激活应用；若遇到启动失败再回主屏点击图标。
 curl -s -X POST $WDA/session/$SESSION/wda/pressButton \
   -H "Content-Type: application/json" \
   -d '{"name": "home"}'
-$SCRIPTS/ios_wda_snapshot.sh --with-screenshot
+$SCRIPTS/ios_wda_snapshot.sh
 # 从 YAML / screenshot 取图标坐标后点击（仅在必须时）
 curl -s -X POST $WDA/session/$SESSION/wda/tap \
   -H "Content-Type: application/json" \
@@ -120,12 +141,27 @@ curl -s -X POST $WDA/session/$SESSION/element/$ELEMENT_ID/click \
   -H "Content-Type: application/json" -d '{}'
 
 # 备选：坐标点击（对无 accessibility id 的元素）
-# 从 YAML snapshot 取元素 rect → 计算中心坐标 → /wda/tap
+# 从 YAML snapshot 取相邻锚点 rect → 推导目标区中心/中线 → /wda/tap 或 W3C Actions
 curl -s -X POST $WDA/session/$SESSION/wda/tap \
   -H "Content-Type: application/json" -d '{"x": 92, "y": 458}'
 
 # 注意：/wda/element/:eid/tap 在真机上不一定触发点击事件，避免使用
 ```
+
+### 点击失败时的回退顺序
+
+1. 先查阻塞层：优先 `$SCRIPTS/wda_guard.sh --check`
+2. 有元素时优先 `/element/:id/click`
+3. 无元素但有稳定锚点时，用 YAML `rect` 动态推导坐标
+4. 坐标点击先试 `/wda/tap`；仍失败再试 W3C Actions
+5. 每次点击后立刻 snapshot，确认目标状态确实变化；HTTP 200 不等于命中成功
+
+### 动态坐标策略
+
+1. 先找目标区附近稳定锚点：标题、状态文案、分区标签
+2. 用锚点 `rect` 算中心点，或取两个锚点之间的中点
+3. 避免把一次调试得到的常量坐标长期写进脚本
+4. 如果页面会滚动，先确认锚点当前仍在可见区，再执行坐标动作
 
 ### 文本输入（完整流程）
 
