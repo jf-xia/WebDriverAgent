@@ -12,7 +12,8 @@ user-invocable: true
 **必须执行**:
 - $SCRIPTS=./.agents/skills/ios-use/scripts
 - $WDA=http://127.0.0.1:8100
-- $SCRIPTS/ios_wda_test_on_iphone.sh - 启动/确保 WDA 可用（已运行时返回成功）
+- 先检查 WDA 是否已启动：`curl -s --connect-timeout 3 --max-time 10 $WDA/status | jq .`
+- 未启动时，看 [wda-startup.md](references/wda-startup.md)
 - $SCRIPTS/wda_session.sh - 默认每次创建新 session；如需显式复用当前 session，使用 `ensure`
 
 ### 默认流程 - YAML 观察优先
