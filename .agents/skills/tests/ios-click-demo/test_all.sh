@@ -88,6 +88,7 @@ log "  SESSION=$SESSION"
 pass "Session created"
 
 log ">> Setup: open IOSClickDemo..."
+<<<<<<< HEAD
 # Deterministic validation needs a clean app state.
 curl -s -X POST "$WDA/session/$SESSION/wda/apps/terminate" \
     -H "Content-Type: application/json" \
@@ -104,6 +105,13 @@ if [[ "$(head -1 "$Y")" != *"IOSClickDemo"* ]]; then
         read CX CY <<< "$(rect_center "$ICON")"
         tap $CX $CY; sleep 5; do_snap; Y=$(latest_yaml)
     fi
+=======
+do_snap; Y=$(latest_yaml)
+if [[ "$(head -1 "$Y")" != *"IOSClickDemo"* ]]; then
+    ICON=$(grep -A3 "IOSClickDemo" "$Y" | grep "rect:" | head -1 | grep -oE '[0-9]+,[0-9]+ [0-9]+x[0-9]+')
+    read CX CY <<< "$(rect_center "$ICON")"
+    tap $CX $CY; sleep 5; do_snap; Y=$(latest_yaml)
+>>>>>>> cbb53c5ac36b60ed405db641990c5e279eba3c10
 fi
 [[ "$(head -1 "$Y")" == *"IOSClickDemo"* ]] || { fail "failed to open app"; exit 1; }
 pass "IOSClickDemo opened"
@@ -134,6 +142,7 @@ log "${BLUE}--- Test 2: Coordinate Tap (Direct RemoteXPC) ---${NC}"
 D1=$(extract_num "$(yaml_val "Direct tap received" "$Y")"); D1=${D1:-0}
 log "  initial count: $D1"
 
+<<<<<<< HEAD
 # Derive the hidden tap zone from nearby accessible elements.
 STATUS_RECT=$(yaml_rect "direct-tap.status" "$Y")
 ZONE_LABEL_RECT=$(yaml_rect "Tap Anywhere In This Zone" "$Y")
@@ -152,6 +161,13 @@ if [[ "$D2" -le "$D1" ]]; then
     w3c_tap $TAP_X $TAP_Y; sleep 2; do_snap; Y=$(latest_yaml)
     D2=$(extract_num "$(yaml_val "Direct tap received" "$Y")"); D2=${D2:-0}
 fi
+=======
+# Fixed coords inside the tap zone (below "Tap Anywhere In This Zone" label)
+CX=201; CY=250
+log "  coords: ($CX, $CY)"
+tap $CX $CY; sleep 2; do_snap; Y=$(latest_yaml)
+D2=$(extract_num "$(yaml_val "Direct tap received" "$Y")"); D2=${D2:-0}
+>>>>>>> cbb53c5ac36b60ed405db641990c5e279eba3c10
 log "  after tap: $D2"
 [[ "$D2" -gt "$D1" ]] && pass "Coord tap: $D1 -> $D2" || fail "Coord tap: no change ($D1)"
 
